@@ -1,0 +1,19 @@
+/* 
+ Localizable.strings
+ SaveMyEyes
+ 
+ Created by Max Omelchenko on 02/24/20.
+ Copyright © 2020 Max Omelchenko. All rights reserved.
+ */
+
+"Time to work" = "Time to work";
+"Time to break" = "Time to break";
+"Run timer" = "Run timer";
+"min" = "min";
+"Time interval" = "Time interval";
+"Break time" = "Break time";
+"Quit" = "Quit";
+"It's time for break" = "It's time for brea";
+"It's time to work" = "It's time to work";
+"Relax from your computer for %d minutes." = "Relax from your computer for %d minutes.";
+"Let's continue to do amazing things!" = "Let's continue to do amazing things!";

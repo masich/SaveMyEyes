@@ -29,7 +29,7 @@ struct PopoverContent: View {
             HStack(spacing: 20) {
                 Text(isBreakNow ? "Time to work" : "Time to break")
                 Spacer()
-                Text("\(remainingMins) min")
+                Text("\(remainingMins) \(LocalizedString("min"))")
             }.scaledToFill()
             Divider()
             HStack(spacing: 20) {
@@ -49,7 +49,7 @@ struct PopoverContent: View {
             HStack(spacing: 20) {
                 Text("Break time")
                 Spacer()
-                Picker("Break time", selection: $selectedBreakTime.onChange(applyBreakTimeValue)) {
+                Picker("Break time picker", selection: $selectedBreakTime.onChange(applyBreakTimeValue)) {
                     ForEach(breakTimes.indices, id: \.self) { index in
                         Text(String(self.breakTimes[index])).tag(index)
                     }
@@ -101,9 +101,9 @@ struct PopoverContent: View {
     func sendNotification(_ isNotificationForBreak: Bool) {
         let notification: AppNotification
         if isNotificationForBreak {
-            notification = AppNotification(title: "It's time for break!", subtitle: "Relax from your computer for \(breakTimes[selectedBreakTime]) minutes.")
+            notification = AppNotification(title: LocalizedString("It's time for break"), subtitle: String(format: LocalizedString("Relax from your computer for %d minutes."), breakTimes[selectedBreakTime]))
         } else {
-            notification = AppNotification(title: "It's time to work!", subtitle: "Let's continue to do your amazing job.")
+            notification = AppNotification(title: LocalizedString("It's time to work"), subtitle: LocalizedString("Let's continue to do amazing things!"))
         }
         notification.send()
     }
@@ -113,6 +113,10 @@ struct PopoverContent_Previews: PreviewProvider {
     static var previews: some View {
         PopoverContent()
     }
+}
+
+public func LocalizedString(_ key: String) -> String {
+    return NSLocalizedString(key, comment: "")
 }
 
 extension Binding {
