@@ -41,6 +41,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B69F2EC1240487C1003F7BD0 /* Startup */ = {
+			isa = PBXGroup;
+			children = (
+				B6FC9FB22403F089003FFC58 /* Main.storyboard */,
+				B6FC9FA92403F088003FFC58 /* AppDelegate.swift */,
+			);
+			path = Startup;
+			sourceTree = "<group>";
+		};
+		B69F2EC2240487DD003F7BD0 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B6FC9FAB2403F088003FFC58 /* PopoverContent.swift */,
+				B64FE6482404375B00A73816 /* AppNotification.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		B6FC9F9D2403F088003FFC58 = {
 			isa = PBXGroup;
 			children = (
@@ -81,10 +99,8 @@
 		B6FC9FBC2403F18D003FFC58 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				B6FC9FB22403F089003FFC58 /* Main.storyboard */,
-				B6FC9FA92403F088003FFC58 /* AppDelegate.swift */,
-				B6FC9FAB2403F088003FFC58 /* PopoverContent.swift */,
-				B64FE6482404375B00A73816 /* AppNotification.swift */,
+				B69F2EC2240487DD003F7BD0 /* Main */,
+				B69F2EC1240487C1003F7BD0 /* Startup */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -313,7 +329,7 @@
 				CODE_SIGN_ENTITLEMENTS = SaveMyEyes/SaveMyEyes.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SaveMyEyes/Info.plist;
@@ -335,7 +351,7 @@
 				CODE_SIGN_ENTITLEMENTS = SaveMyEyes/SaveMyEyes.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SaveMyEyes/Info.plist;
