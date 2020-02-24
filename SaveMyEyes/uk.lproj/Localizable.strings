@@ -1,0 +1,19 @@
+/* 
+ Localizable.strings
+ SaveMyEyes
+ 
+ Created by Max Omelchenko on 02/24/20.
+ Copyright © 2020 Max Omelchenko. All rights reserved.
+ */
+
+"Time to work" = "Час до роботи";
+"Time to break" = "Час до перерви";
+"Run timer" = "Запустити таймер";
+"min" = "хв";
+"Time interval" = "Проміжок часу";
+"Break time" = "Час перерви";
+"Quit" = "Вихід";
+"It's time for break" = "Час на перерву";
+"It's time to work" = "Час для роботи";
+"Relax from your computer for %d minutes." = "Відпочинь від компьютера на %d хвилин.";
+"Let's continue to do amazing things!" = "Давай продовжимо робити круті речі!";
