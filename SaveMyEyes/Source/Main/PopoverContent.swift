@@ -76,7 +76,7 @@ struct PopoverContent: View {
     
     // Creates timer which will be invoking handler every 60 seconds
     func createTimer(_ handler: @escaping (Timer) -> Void) -> Timer {
-        return Timer.scheduledTimer(withTimeInterval: /*60*/1, repeats: true, block: handler)
+        return Timer.scheduledTimer(withTimeInterval: 60/*1*/, repeats: true, block: handler)
     }
     
     func timerHandler(timer: Timer) {
