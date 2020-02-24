@@ -76,11 +76,10 @@ struct PopoverContent: View {
     
     // Creates timer which will be invoking handler every 60 seconds
     func createTimer(_ handler: @escaping (Timer) -> Void) -> Timer {
-        return Timer.scheduledTimer(withTimeInterval: /*60*/2, repeats: true, block: handler)
+        return Timer.scheduledTimer(withTimeInterval: /*60*/1, repeats: true, block: handler)
     }
     
     func timerHandler(timer: Timer) {
-        print("Hi")
         remainingMins -= 1;
         if remainingMins <= 0 {
             if isBreakNow {
@@ -89,6 +88,7 @@ struct PopoverContent: View {
                 remainingMins = breakTimes[selectedBreakTime]
             }
             isBreakNow = !isBreakNow
+            sendNotification(isBreakNow)
         }
     }
     
@@ -96,6 +96,16 @@ struct PopoverContent: View {
         if isBreakNow {
             remainingMins = breakTimes[breakTimeIndex]
         }
+    }
+    
+    func sendNotification(_ isNotificationForBreak: Bool) {
+        let notification: AppNotification
+        if isNotificationForBreak {
+            notification = AppNotification(title: "It's time for break!", subtitle: "Relax from your computer for \(breakTimes[selectedBreakTime]) minutes")
+        } else {
+            notification = AppNotification(title: "It's time to work!", subtitle: "Let's continue to do your amazing job.")
+        }
+        notification.send()
     }
 }
 

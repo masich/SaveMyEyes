@@ -36,6 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         NSApp.activate(ignoringOtherApps: true)
+        AppNotification.makeNotificationRequest()
     }
     
     @objc func togglePopover(_ sender: AnyObject?) {
