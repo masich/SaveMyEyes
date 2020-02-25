@@ -29,7 +29,7 @@ struct PopoverContent: View {
             HStack(spacing: 20) {
                 Text(isBreakNow ? "Time to work" : "Time to break")
                 Spacer()
-                Text("\(remainingMins) \(LocalizedString("min"))")
+                Text("\(remainingMins) \("min".localized)")
             }.scaledToFill()
             Divider()
             HStack(spacing: 20) {
@@ -76,11 +76,11 @@ struct PopoverContent: View {
     
     // Creates timer which will be invoking handler every 60 seconds
     func createTimer(_ handler: @escaping (Timer) -> Void) -> Timer {
-        return Timer.scheduledTimer(withTimeInterval: 60/*1*/, repeats: true, block: handler)
+        return Timer.scheduledTimer(withTimeInterval: 60, repeats: true, block: handler)
     }
     
     func timerHandler(timer: Timer) {
-        remainingMins -= 1;
+        remainingMins -= 1
         if remainingMins <= 0 {
             if isBreakNow {
                 remainingMins = timeIntervals[selectedTimeInterval]
@@ -101,31 +101,10 @@ struct PopoverContent: View {
     func sendNotification(_ isNotificationForBreak: Bool) {
         let notification: AppNotification
         if isNotificationForBreak {
-            notification = AppNotification(title: LocalizedString("It's time for break"), subtitle: String(format: LocalizedString("Relax from your computer for %d minutes."), breakTimes[selectedBreakTime]))
+            notification = AppNotification(title: "It's time for break".localized, subtitle: String(format: "Relax from your computer for %d minutes.".localized, breakTimes[selectedBreakTime]))
         } else {
-            notification = AppNotification(title: LocalizedString("It's time to work"), subtitle: LocalizedString("Let's continue to do amazing things!"))
+            notification = AppNotification(title: "It's time to work".localized, subtitle: "Let's continue to do amazing things!".localized)
         }
         notification.send()
-    }
-}
-
-struct PopoverContent_Previews: PreviewProvider {
-    static var previews: some View {
-        PopoverContent()
-    }
-}
-
-public func LocalizedString(_ key: String) -> String {
-    return NSLocalizedString(key, comment: "")
-}
-
-extension Binding {
-    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
-        return Binding(
-            get: { self.wrappedValue },
-            set: { selection in
-                self.wrappedValue = selection
-                handler(selection)
-        })
     }
 }
