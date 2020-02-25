@@ -14,11 +14,11 @@ struct PopoverContent: View {
     private let breakTimes = [5, 10, 15, 20, 25, 30]
     
     @State private var isBreakNow = false
-    @State private var shouldTimerRun: Bool = false
-    @State private var selectedTimeInterval: Int = 0
-    @State private var selectedBreakTime: Int = 0
     @State private var remainingMins: Int = 0
     @State private var timer: Timer?
+    @State private var shouldTimerRun: Bool = false
+    @State private var selectedTimeInterval: Int = getSelectedTimeIntervalValue() ?? 0
+    @State private var selectedBreakTime: Int = getSelectedBreakTimeValue() ?? 0
     
     init() {
         _remainingMins = State<Int>.init(initialValue: isBreakNow ? breakTimes[selectedBreakTime] : timeIntervals[selectedTimeInterval])
@@ -40,7 +40,7 @@ struct PopoverContent: View {
             HStack(spacing: 20) {
                 Text("Time interval")
                 Spacer()
-                Picker("Time interval picker", selection: $selectedTimeInterval.onChange(applyTimerSettings)) {
+                Picker("Time interval picker", selection: $selectedTimeInterval.onChange(applyTimeIntervalValue)) {
                     ForEach(timeIntervals.indices, id: \.self) { index in
                         Text(String(self.timeIntervals[index])).tag(index)
                     }
@@ -68,10 +68,11 @@ struct PopoverContent: View {
         }
     }
     
-    func applyTimerSettings(_ timeIntervalIndex: Int) {
+    func applyTimeIntervalValue(_ timeIntervalIndex: Int) {
         if !isBreakNow {
             remainingMins = timeIntervals[timeIntervalIndex]
         }
+        setSelectedTimeIntervalValue(timeIntervalIndex)
     }
     
     // Creates timer which will be invoking handler every 60 seconds
@@ -96,6 +97,7 @@ struct PopoverContent: View {
         if isBreakNow {
             remainingMins = breakTimes[breakTimeIndex]
         }
+        setSelectedBreakTimeValue(breakTimeIndex)
     }
     
     func sendNotification(_ isNotificationForBreak: Bool) {
