@@ -11,7 +11,7 @@ Break time - time in minutes to rest your eyes.
 The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
 
 ### MenuBar app
-![MenuBar app](Images/MenuAppScreenshot.png)
+![MenuBar app](Images/Readme/MenuAppScreenshot.png)
 
 ### Notifications
-![Notifications](Images/NotificationsScreenshot.png)
+![Notifications](Images/Readme/NotificationsScreenshot.png)
