@@ -10,8 +10,8 @@ import SwiftUI
 
 struct PopoverContent: View {
     // TODO: make it possible to take these values from user
-    private let timeIntervals = [15, 20, 25, 30, 40, 60, 90]
-    private let breakTimes = [5, 10, 15, 20, 25, 30]
+    private let timeIntervals = [15, 20, 30, 40, 60, 90, 120]
+    private let breakTimes = [2, 3, 5, 10, 15, 20, 30]
     
     @State private var isBreakNow = false
     @State private var remainingMins: Int = 0
