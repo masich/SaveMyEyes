@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B64FE6492404375B00A73816 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64FE6482404375B00A73816 /* AppNotification.swift */; };
+		B67D297E2405B8EC00A256A1 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67D297D2405B8EC00A256A1 /* Extentions.swift */; };
+		B67D29802405CAB500A256A1 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67D297F2405CAB500A256A1 /* Preferences.swift */; };
 		B69F2EBD24047AE1003F7BD0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B69F2EBF24047AE1003F7BD0 /* Localizable.strings */; };
 		B6FC9FAA2403F088003FFC58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC9FA92403F088003FFC58 /* AppDelegate.swift */; };
 		B6FC9FAC2403F088003FFC58 /* PopoverContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC9FAB2403F088003FFC58 /* PopoverContent.swift */; };
@@ -18,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		B64FE6482404375B00A73816 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
+		B67D297D2405B8EC00A256A1 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		B67D297F2405CAB500A256A1 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		B69F2EBE24047AE1003F7BD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B69F2EC024047AE5003F7BD0 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B6FC9FA62403F088003FFC58 /* SaveMyEyes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveMyEyes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +59,7 @@
 			children = (
 				B6FC9FAB2403F088003FFC58 /* PopoverContent.swift */,
 				B64FE6482404375B00A73816 /* AppNotification.swift */,
+				B67D297F2405CAB500A256A1 /* Preferences.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -101,6 +106,7 @@
 			children = (
 				B69F2EC2240487DD003F7BD0 /* Main */,
 				B69F2EC1240487C1003F7BD0 /* Startup */,
+				B67D297D2405B8EC00A256A1 /* Extentions.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -178,6 +184,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B67D29802405CAB500A256A1 /* Preferences.swift in Sources */,
+				B67D297E2405B8EC00A256A1 /* Extentions.swift in Sources */,
 				B6FC9FAC2403F088003FFC58 /* PopoverContent.swift in Sources */,
 				B6FC9FAA2403F088003FFC58 /* AppDelegate.swift in Sources */,
 				B64FE6492404375B00A73816 /* AppNotification.swift in Sources */,
@@ -330,7 +338,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				DEVELOPMENT_TEAM = 5PYHR2J538;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -341,7 +349,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -356,7 +364,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				DEVELOPMENT_TEAM = 5PYHR2J538;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -367,7 +375,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
