@@ -1,16 +1,17 @@
 # SaveMyEyes
 
-## MenuBar macOS application that helps to make breaks while using computer.
+## MenuBar macOS application that helps to take breaks while using the computer.
 
-You can choose specific time interval and break time which are perfect for you. For now there are only limited number of choises but the app will support direct time input in the future. 
+You can choose a specific time interval and break time which perfects for you. For now, there are only a limited number of options, but the app will support direct time input in the future. 
 
-Time interval - time in minutes to work on computer before notifiction about break will be genereated.
+Time interval - time in minutes to work on the computer before notification about break will be generated.
 
 Break time - time in minutes to rest your eyes.
 
+The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
 
 ### MenuBar app
-![MenuBar app](images/MenuAppScreenshot.png)
+![MenuBar app](Images/Readme/MenuAppScreenshot.png)
 
 ### Notifications
-![Notifications](images/NotificationsScreenshot.png)
+![Notifications](Images/Readme/NotificationsScreenshot.png)
