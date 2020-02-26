@@ -36,6 +36,14 @@ class AppNotification {
         UNUserNotificationCenter.current().add(request)
     }
     
+    /**
+     Removes all SaveMyEyes notifications from the NotificationCenter and sends a new one
+     */
+    func sendSingle() {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        send()
+    }
+    
     static func makeNotificationRequest() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {

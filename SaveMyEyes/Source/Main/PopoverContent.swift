@@ -124,6 +124,6 @@ struct PopoverContent: View {
         } else {
             notification = AppNotification(title: "It's time to work".localized, subtitle: "Let's continue to do amazing things!".localized)
         }
-        notification.send()
+        notification.sendSingle()
     }
 }
