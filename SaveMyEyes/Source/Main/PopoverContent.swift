@@ -8,11 +8,7 @@
 
 import SwiftUI
 
-struct PopoverContent: View {
-    // TODO: make it possible to take these values from user
-    private let timeIntervals = [15, 20, 30, 40, 60, 90, 120]
-    private let breakTimes = [2, 3, 5, 10, 15, 20, 30]
-    
+struct PopoverContent: View {    
     @State private var isBreakNow = false
     @State private var remainingMins: Int = 0
     @State private var timer: Timer?
@@ -42,7 +38,7 @@ struct PopoverContent: View {
                 Spacer()
                 Picker("Time interval picker", selection: $selectedTimeInterval.onChange(applyTimeIntervalValue)) {
                     ForEach(timeIntervals.indices, id: \.self) { index in
-                        Text(String(self.timeIntervals[index])).tag(index)
+                        Text(String(timeIntervals[index])).tag(index)
                     }
                 }.labelsHidden().scaledToFit().fixedSize()
             }
@@ -51,7 +47,7 @@ struct PopoverContent: View {
                 Spacer()
                 Picker("Break time picker", selection: $selectedBreakTime.onChange(applyBreakTimeValue)) {
                     ForEach(breakTimes.indices, id: \.self) { index in
-                        Text(String(self.breakTimes[index])).tag(index)
+                        Text(String(breakTimes[index])).tag(index)
                     }
                 }.labelsHidden().scaledToFit().fixedSize()
             }
@@ -65,9 +61,13 @@ struct PopoverContent: View {
             timer = createTimer(timerHandler)
         } else {
             timer?.invalidate()
+            timer = nil
         }
     }
     
+    /**
+     Applyes new selected time interval value index and saves this value into local storage
+     */
     func applyTimeIntervalValue(_ timeIntervalIndex: Int) {
         if !isBreakNow {
             remainingMins = timeIntervals[timeIntervalIndex]
@@ -75,24 +75,36 @@ struct PopoverContent: View {
         setSelectedTimeIntervalValue(timeIntervalIndex)
     }
     
-    // Creates timer which will be invoking handler every 60 seconds
+    /**
+     Creates timer which will be invoking handler every 60 seconds
+     */
     func createTimer(_ handler: @escaping (Timer) -> Void) -> Timer {
-        return Timer.scheduledTimer(withTimeInterval: 60, repeats: true, block: handler)
+        return Timer.scheduledTimer(withTimeInterval: timerInternalInterval, repeats: true, block: handler)
     }
     
+    /**
+     Handles timer ticks
+     
+     Performs time management only if user was active for at least last `allowedUserInactivityInterval` seconds
+     */
     func timerHandler(timer: Timer) {
-        remainingMins -= 1
-        if remainingMins <= 0 {
-            if isBreakNow {
-                remainingMins = timeIntervals[selectedTimeInterval]
-            } else {
-                remainingMins = breakTimes[selectedBreakTime]
+        if !isUserInactive(forTimeInterval: allowedUserInactivityInterval) {
+            remainingMins -= 1
+            if remainingMins <= 0 {
+                if isBreakNow {
+                    remainingMins = timeIntervals[selectedTimeInterval]
+                } else {
+                    remainingMins = breakTimes[selectedBreakTime]
+                }
+                isBreakNow = !isBreakNow
+                sendNotification(isBreakNow)
             }
-            isBreakNow = !isBreakNow
-            sendNotification(isBreakNow)
         }
     }
     
+    /**
+     Applyes new break time value index and saves this value into local storage
+     */
     func applyBreakTimeValue(_ breakTimeIndex: Int) {
         if isBreakNow {
             remainingMins = breakTimes[breakTimeIndex]
@@ -100,6 +112,11 @@ struct PopoverContent: View {
         setSelectedBreakTimeValue(breakTimeIndex)
     }
     
+    /**
+     Sends user notification
+     
+     Notification content depends on the `isNotificationForBreak`
+     */
     func sendNotification(_ isNotificationForBreak: Bool) {
         let notification: AppNotification
         if isNotificationForBreak {
