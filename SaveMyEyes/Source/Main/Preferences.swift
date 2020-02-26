@@ -52,7 +52,7 @@ func getUserInactiveSeconds() -> Double? {
     defer { IOObjectRelease(entry) }
     guard entry != 0 else { return nil }
     
-    var unmanagedDict: Unmanaged<CFMutableDictionary>? = nil
+    var unmanagedDict: Unmanaged<CFMutableDictionary>?
     defer { unmanagedDict?.release() }
     guard IORegistryEntryCreateCFProperties(entry, &unmanagedDict, kCFAllocatorDefault, 0) == KERN_SUCCESS else { return nil }
     guard let dict = unmanagedDict?.takeUnretainedValue() else { return nil }
