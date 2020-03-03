@@ -10,10 +10,12 @@
 		B64FE6492404375B00A73816 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64FE6482404375B00A73816 /* AppNotification.swift */; };
 		B67D297E2405B8EC00A256A1 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67D297D2405B8EC00A256A1 /* Extentions.swift */; };
 		B67D29802405CAB500A256A1 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67D297F2405CAB500A256A1 /* Preferences.swift */; };
+		B694AB04240DAB87009D3368 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B694AB03240DAB87009D3368 /* Observable.swift */; };
+		B694AB06240EB4BA009D3368 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B694AB05240EB4BA009D3368 /* MainViewModel.swift */; };
 		B69F2EBD24047AE1003F7BD0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B69F2EBF24047AE1003F7BD0 /* Localizable.strings */; };
 		B6BFAD352406EF12008E51E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BFAD342406EF12008E51E2 /* Constants.swift */; };
 		B6FC9FAA2403F088003FFC58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC9FA92403F088003FFC58 /* AppDelegate.swift */; };
-		B6FC9FAC2403F088003FFC58 /* PopoverContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC9FAB2403F088003FFC58 /* PopoverContent.swift */; };
+		B6FC9FAC2403F088003FFC58 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC9FAB2403F088003FFC58 /* MainView.swift */; };
 		B6FC9FAE2403F089003FFC58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6FC9FAD2403F089003FFC58 /* Assets.xcassets */; };
 		B6FC9FB12403F089003FFC58 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6FC9FB02403F089003FFC58 /* Preview Assets.xcassets */; };
 		B6FC9FB42403F089003FFC58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6FC9FB22403F089003FFC58 /* Main.storyboard */; };
@@ -23,12 +25,14 @@
 		B64FE6482404375B00A73816 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		B67D297D2405B8EC00A256A1 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		B67D297F2405CAB500A256A1 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		B694AB03240DAB87009D3368 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		B694AB05240EB4BA009D3368 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		B69F2EBE24047AE1003F7BD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B69F2EC024047AE5003F7BD0 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B6BFAD342406EF12008E51E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B6FC9FA62403F088003FFC58 /* SaveMyEyes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveMyEyes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6FC9FA92403F088003FFC58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B6FC9FAB2403F088003FFC58 /* PopoverContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverContent.swift; sourceTree = "<group>"; };
+		B6FC9FAB2403F088003FFC58 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B6FC9FAD2403F089003FFC58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6FC9FB02403F089003FFC58 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B6FC9FB32403F089003FFC58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,12 +63,22 @@
 		B69F2EC2240487DD003F7BD0 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				B6FC9FAB2403F088003FFC58 /* PopoverContent.swift */,
-				B64FE6482404375B00A73816 /* AppNotification.swift */,
-				B67D297F2405CAB500A256A1 /* Preferences.swift */,
-				B6BFAD342406EF12008E51E2 /* Constants.swift */,
+				B6FC9FAB2403F088003FFC58 /* MainView.swift */,
+				B694AB05240EB4BA009D3368 /* MainViewModel.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		B6F306CD240EBB6400060007 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B67D297D2405B8EC00A256A1 /* Extentions.swift */,
+				B694AB03240DAB87009D3368 /* Observable.swift */,
+				B6BFAD342406EF12008E51E2 /* Constants.swift */,
+				B67D297F2405CAB500A256A1 /* Preferences.swift */,
+				B64FE6482404375B00A73816 /* AppNotification.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		B6FC9F9D2403F088003FFC58 = {
@@ -107,9 +121,9 @@
 		B6FC9FBC2403F18D003FFC58 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				B6F306CD240EBB6400060007 /* Common */,
 				B69F2EC2240487DD003F7BD0 /* Main */,
 				B69F2EC1240487C1003F7BD0 /* Startup */,
-				B67D297D2405B8EC00A256A1 /* Extentions.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -189,10 +203,12 @@
 			files = (
 				B67D29802405CAB500A256A1 /* Preferences.swift in Sources */,
 				B67D297E2405B8EC00A256A1 /* Extentions.swift in Sources */,
-				B6FC9FAC2403F088003FFC58 /* PopoverContent.swift in Sources */,
+				B6FC9FAC2403F088003FFC58 /* MainView.swift in Sources */,
+				B694AB04240DAB87009D3368 /* Observable.swift in Sources */,
 				B6FC9FAA2403F088003FFC58 /* AppDelegate.swift in Sources */,
 				B64FE6492404375B00A73816 /* AppNotification.swift in Sources */,
 				B6BFAD352406EF12008E51E2 /* Constants.swift in Sources */,
+				B694AB06240EB4BA009D3368 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +358,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				DEVELOPMENT_TEAM = 5PYHR2J538;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -368,7 +384,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				DEVELOPMENT_TEAM = 5PYHR2J538;
 				ENABLE_HARDENED_RUNTIME = YES;

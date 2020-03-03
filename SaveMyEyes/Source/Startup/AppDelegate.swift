@@ -6,25 +6,24 @@
 //  Copyright © 2020 Max Omelchenko. All rights reserved.
 //
 
-
 import Cocoa
 import SwiftUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
-        let contentView = PopoverContent()
+        let viewModel = MainViewModel(workIntervals: Constants.workIntervals, breakIntervals: Constants.breakIntervals, timerInterval: Constants.timerInterval, allowedUserInactivityInterval: Constants.allowedUserInactivityInterval, terminateApp: AppDelegate.terminateApp)
+        let view = MainView(mainViewModel: viewModel)
         
         // Create the popover
         let popover = NSPopover()
         
         popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: contentView)
+        popover.contentViewController = NSHostingController(rootView: view)
         self.popover = popover
         
         // Create the status item
@@ -32,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if let button = self.statusBarItem.button {
             button.image = NSImage(named: "StatusBarButtonImage")
-            button.action = #selector(togglePopover(_:))
+            button.action = #selector(togglePopover)
         }
         
         NSApp.activate(ignoringOtherApps: true)
