@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         NSApp.activate(ignoringOtherApps: true)
-        AppNotification.makeNotificationRequest()
+        AppDelegate.setupNotifications()
     }
     
     @objc func togglePopover(_ sender: AnyObject?) {
@@ -46,6 +46,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
             }
         }
+    }
+    
+    static func setupNotifications() {
+        AppNotificationManager.requestAuthorization()
+
     }
     
     static func terminateApp() {

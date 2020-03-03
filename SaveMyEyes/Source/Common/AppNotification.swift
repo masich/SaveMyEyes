@@ -12,45 +12,56 @@ import UserNotifications
 class AppNotification {
     private let title: String
     private let subtitle: String
-    private let timeToShow: TimeInterval
     
-    init(title: String, subtitle: String, timeToShow: TimeInterval = 5) {
+    init(title: String, subtitle: String) {
         self.title = title
         self.subtitle = subtitle
-        self.timeToShow = timeToShow
     }
     
-    func send() {
+    func getNotificationContent() -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = title
         content.subtitle = subtitle
         content.sound = UNNotificationSound.default
         
-        // show this notification five seconds from now
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeToShow, repeats: false)
-        
-        // choose a random identifier
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        // add our notification request
-        UNUserNotificationCenter.current().add(request)
+        return content
     }
+}
+
+class AppNotificationManager {
+    private static let notificationCenter = UNUserNotificationCenter.current()
+    public static let defaultTimeToShow: TimeInterval = 5
     
-    /**
-     Removes all SaveMyEyes notifications from the NotificationCenter and sends a new one
-     */
-    func sendSingle() {
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        send()
-    }
-    
-    static func makeNotificationRequest() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+    static func requestAuthorization() {
+        notificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
                 print("Notifications are allowed")
             } else if let error = error {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    static func send(_ notification: AppNotification,_ timeToShow: TimeInterval = defaultTimeToShow) {
+        // Show this notification five seconds from now
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeToShow, repeats: false)
+        let content = notification.getNotificationContent()
+        // Choose a random identifier
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        // Add a request for this notification
+        UNUserNotificationCenter.current().add(request)
+    }
+    
+    /**
+     Removes all AppNotifications from the NotificationCenter and sends a new one
+     */
+    static func sendSingle(_ notification: AppNotification,_ timeToShow: TimeInterval = defaultTimeToShow) {
+        removeAllNotifications()
+        send(notification, timeToShow)
+    }
+    
+    static func removeAllNotifications() {
+        notificationCenter.removeAllDeliveredNotifications()
     }
 }
