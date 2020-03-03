@@ -10,8 +10,14 @@ Time interval - time in minutes to work on the computer before notification abou
 
 Break time - time in minutes to rest your eyes.
 
+Features:
+* Some general predefined work and break time interval sets.
+* Time settings selected by the user into local storage.
+* Automatically pauses and resumes timer by tracking user activity. 
+
 The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
 
+## Screenshots
 ### MenuBar app
 ![MenuBar app](Images/Readme/MenuAppScreenshot.png)
 
