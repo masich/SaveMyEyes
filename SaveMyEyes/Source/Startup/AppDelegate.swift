@@ -8,16 +8,18 @@
 
 import Cocoa
 import SwiftUI
+import UserNotifications
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
+    var mainViewModel: MainViewModel?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
-        let viewModel = MainViewModel(workIntervals: Constants.workIntervals, breakIntervals: Constants.breakIntervals, timerInterval: Constants.timerInterval, allowedUserInactivityInterval: Constants.allowedUserInactivityInterval, terminateApp: AppDelegate.terminateApp)
-        let view = MainView(mainViewModel: viewModel)
+        mainViewModel = MainViewModel(workIntervals: Constants.workIntervals, breakIntervals: Constants.breakIntervals, timerInterval: Constants.timerInterval, allowedUserInactivityInterval: Constants.allowedUserInactivityInterval, terminateApp: AppDelegate.terminateApp)
+        let view = MainView(mainViewModel: mainViewModel!)
         
         // Create the popover
         let popover = NSPopover()
@@ -35,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         NSApp.activate(ignoringOtherApps: true)
-        AppDelegate.setupNotifications()
+        setupNotifications()
     }
     
     @objc func togglePopover(_ sender: AnyObject?) {
@@ -48,9 +50,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    static func setupNotifications() {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        //TODO: Pause timer
+        
+        completionHandler()
+    }
+    
+    func setupNotifications() {
+        AppNotificationManager.removeAllNotifications()
         AppNotificationManager.requestAuthorization()
-
+        AppNotificationManager.registerDelegate(self)
+        AppNotificationManager.registerCategories()
     }
     
     static func terminateApp() {

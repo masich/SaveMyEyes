@@ -18,4 +18,7 @@ struct Constants {
     
     // If user is inactive for more than `allowedUserInactivityInterval` seconds -> internal timer will be paused
     public static let allowedUserInactivityInterval: TimeInterval = 5 * 60
+    
+    public static let pauseActionIdentifier = "PAUSE_ACTION"
+    public static let reminderCategoryIdentifier = "saveMyEyesReminder"
 }
