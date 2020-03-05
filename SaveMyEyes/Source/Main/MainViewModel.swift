@@ -141,4 +141,12 @@ class MainViewModel: ObservableObject {
         }
         AppNotificationManager.sendSingle(notification)
     }
+    
+    public func pauseTimer() {
+        shouldTimerRun.value = false
+        
+        // A temporary crutch to update view content:)
+        // TODO: Remove it
+        remainingMins -= 0
+    }
 }

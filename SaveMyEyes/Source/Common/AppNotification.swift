@@ -13,6 +13,14 @@ class AppNotification {
     private let title: String
     private let subtitle: String
     
+    struct Action {
+        static let pause = "pause.action"
+    }
+    
+    struct Category {
+        static let reminder = "sme.reminder"
+    }
+    
     init(title: String, subtitle: String) {
         self.title = title
         self.subtitle = subtitle
@@ -23,7 +31,7 @@ class AppNotification {
         content.title = title
         content.subtitle = subtitle
         content.sound = UNNotificationSound.default
-        content.categoryIdentifier = Constants.reminderCategoryIdentifier
+        content.categoryIdentifier = Category.reminder
         
         return content
     }
@@ -35,9 +43,11 @@ class AppNotificationManager {
     static func requestAuthorization() {
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
-                print("Notifications are allowed")
+                print("Notifications. Permission granted")
             } else if let error = error {
                 print(error.localizedDescription)
+            } else {
+                print("Notifications. Permission not granted")
             }
         }
     }
@@ -64,8 +74,8 @@ class AppNotificationManager {
     }
     
     static func registerCategories() {
-        let pause = UNNotificationAction(identifier: Constants.pauseActionIdentifier, title: "Pause", options: .destructive)
-        let category = UNNotificationCategory(identifier: Constants.reminderCategoryIdentifier, actions: [pause], intentIdentifiers: [])
+        let pause = UNNotificationAction(identifier: AppNotification.Action.pause, title: "Pause".localized, options: [])
+        let category = UNNotificationCategory(identifier: AppNotification.Category.reminder, actions: [pause], intentIdentifiers: [])
         
         notificationCenter.setNotificationCategories([category])
     }
