@@ -113,7 +113,7 @@ class MainViewModel: ObservableObject {
      Performs time management only if user was active for at least last `allowedUserInactivityInterval` seconds
      */
     public func timerHandler(timer: Timer) {
-        if !System.isUserInactive(forTimeInterval: allowedUserInactivityInterval) {
+        if isBreakTimeNow || !System.isUserInactive(forTimeInterval: allowedUserInactivityInterval) {
             remainingMins -= 1
             if remainingMins <= 0 {
                 if isBreakTimeNow {
