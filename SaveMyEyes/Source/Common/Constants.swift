@@ -15,6 +15,7 @@ struct Constants {
     
     public static let minute: TimeInterval = 60 // seconds
     
-    // If user is inactive for more than `allowedUserInactivityInterval` seconds -> internal timer will be paused
-    public static let allowedUserInactivityInterval: TimeInterval = 5 * minute
+    // If user is inactive for more than `allowedUserInactivityMinutes` minutes -> internal timer will be paused
+    public static let allowedUserInactivityMinutes: Int = 5
+    public static let allowedUserInactivityInterval: TimeInterval = TimeInterval(allowedUserInactivityMinutes) * minute
 }
