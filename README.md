@@ -11,18 +11,30 @@ Time interval - time in minutes to work on the computer before notification abou
 Break time - time in minutes to rest your eyes.
 
 Features:
-* Some general predefined work and break time interval sets.
-* Time settings selected by the user into local storage.
-* Automatically pauses and resumes timer by tracking user activity. 
+* Some general predefined work and break time intervals sets.
+* Time settings selected by the user are saved in local storage.
+* Automatically pauses and resumes timer depending on user activity. 
 
 The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
 
 ## Screenshots
 ### MenuBar app
-![MenuBar app](Images/Readme/MenuAppScreenshot.png)
+![MenuBar app](Images/Readme/Screenshots/MenuAppScreenshot.png)
 
 ### Notifications
-![Notifications](Images/Readme/NotificationsScreenshot.png)
+![Notifications](Images/Readme/Screenshots/NotificationsScreenshot.png)
+
+## Installation guide
+* Download the latest [release](https://github.com/masich/SaveMyEyes/releases/) ```.dmg``` image and open it.
+* Drag & Drop SaveMyEyes app to the Application folder.
+* According to the latest Catalina changes the [warning](Images/Readme/Installation/Warning.png) will appear.
+* Go to the System Preferences and open it`s Security & Privacy tab.
+* Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button.
+* Now you can use this app without any restrictions and warnings.
+
+This problem is caused because of the Apple`s new software notarization system (as I correctly understood, it costs 100$ per year).
+[Info](https://support.apple.com/en-us/HT202491) from Apple site about this warning.
+
 
 ## License
 
