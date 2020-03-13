@@ -2,7 +2,7 @@
 
 ## MenuBar macOS application that helps to take breaks while using the computer.
 [![CodeFactor](https://www.codefactor.io/repository/github/masich/savemyeyes/badge)](https://www.codefactor.io/repository/github/masich/savemyeyes)
-[![License](https://poser.pugx.org/ali-irawan/xtra/license.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 You can choose a specific time interval and break time which perfects for you. For now, there are only a limited number of options, but the app will support direct time input in the future. 
 
@@ -38,4 +38,4 @@ This problem is caused because of the Apple`s new software notarization system (
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENSE) file for details.
