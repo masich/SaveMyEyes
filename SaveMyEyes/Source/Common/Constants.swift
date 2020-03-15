@@ -13,9 +13,9 @@ struct Constants {
     public static let workIntervals = [15, 20, 30, 40, 60, 90, 120]
     public static let breakIntervals = [1, 2, 5, 10, 15, 20, 30]
     
-    // Timer will tick every 1 minute
-    public static let timerInterval: TimeInterval = 1 * 60
+    public static let minute: TimeInterval = 60 // seconds
     
-    // If user is inactive for more than `allowedUserInactivityInterval` seconds -> internal timer will be paused
-    public static let allowedUserInactivityInterval: TimeInterval = 5 * 60
+    // If user is inactive for more than `allowedUserInactivityMinutes` minutes -> internal timer will be paused
+    public static let allowedUserInactivityMinutes: Int = 5
+    public static let allowedUserInactivityInterval: TimeInterval = TimeInterval(allowedUserInactivityMinutes) * minute
 }

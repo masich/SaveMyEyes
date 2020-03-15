@@ -13,6 +13,14 @@ class AppNotification {
     private let title: String
     private let subtitle: String
     
+    struct Action {
+        static let pause = "pause.action"
+    }
+    
+    struct Category {
+        static let reminder = "sme.reminder"
+    }
+    
     init(title: String, subtitle: String) {
         self.title = title
         self.subtitle = subtitle
@@ -23,6 +31,7 @@ class AppNotification {
         content.title = title
         content.subtitle = subtitle
         content.sound = UNNotificationSound.default
+        content.categoryIdentifier = Category.reminder
         
         return content
     }
@@ -30,38 +39,52 @@ class AppNotification {
 
 class AppNotificationManager {
     private static let notificationCenter = UNUserNotificationCenter.current()
-    public static let defaultTimeToShow: TimeInterval = 5
     
     static func requestAuthorization() {
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
-                print("Notifications are allowed")
+                print("Notifications. Permission granted")
             } else if let error = error {
                 print(error.localizedDescription)
+            } else {
+                print("Notifications. Permission not granted")
             }
         }
     }
     
-    static func send(_ notification: AppNotification,_ timeToShow: TimeInterval = defaultTimeToShow) {
-        // Show this notification five seconds from now
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeToShow, repeats: false)
+    static func send(_ notification: AppNotification) {
         let content = notification.getNotificationContent()
         // Choose a random identifier
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
         
         // Add a request for this notification
-        UNUserNotificationCenter.current().add(request)
+        notificationCenter.add(request)
     }
     
     /**
      Removes all AppNotifications from the NotificationCenter and sends a new one
      */
-    static func sendSingle(_ notification: AppNotification,_ timeToShow: TimeInterval = defaultTimeToShow) {
+    static func sendSingle(_ notification: AppNotification) {
         removeAllNotifications()
-        send(notification, timeToShow)
+        send(notification)
     }
     
     static func removeAllNotifications() {
         notificationCenter.removeAllDeliveredNotifications()
+    }
+    
+    static func registerCategories() {
+        let pause = UNNotificationAction(identifier: AppNotification.Action.pause, title: "Pause".localized, options: [])
+        let category = UNNotificationCategory(identifier: AppNotification.Category.reminder, actions: [pause], intentIdentifiers: [])
+        
+        notificationCenter.setNotificationCategories([category])
+    }
+    
+    static func registerDelegate(_ delegate: UNUserNotificationCenterDelegate) {
+        notificationCenter.delegate = delegate
+    }
+    
+    static func removeDelegate() {
+        notificationCenter.delegate = nil
     }
 }

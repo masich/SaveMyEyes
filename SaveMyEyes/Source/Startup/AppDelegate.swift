@@ -8,16 +8,18 @@
 
 import Cocoa
 import SwiftUI
+import UserNotifications
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     var popover: NSPopover!
     var statusBarItem: NSStatusItem!
+    var mainViewModel: MainViewModel?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
-        let viewModel = MainViewModel(workIntervals: Constants.workIntervals, breakIntervals: Constants.breakIntervals, timerInterval: Constants.timerInterval, allowedUserInactivityInterval: Constants.allowedUserInactivityInterval, terminateApp: AppDelegate.terminateApp)
-        let view = MainView(mainViewModel: viewModel)
+        mainViewModel = MainViewModel(workIntervals: Constants.workIntervals, breakIntervals: Constants.breakIntervals, timerInterval: Constants.minute, allowedUserInactivityInterval: Constants.allowedUserInactivityInterval, terminateApp: AppDelegate.terminateApp)
+        let view = MainView(mainViewModel: mainViewModel!)
         
         // Create the popover
         let popover = NSPopover()
@@ -35,22 +37,47 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         NSApp.activate(ignoringOtherApps: true)
-        AppDelegate.setupNotifications()
+        setupNotifications()
     }
     
-    @objc func togglePopover(_ sender: AnyObject?) {
-        if let button = self.statusBarItem.button {
-            if self.popover.isShown {
-                self.popover.performClose(sender)
-            } else {
-                self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-            }
+    @objc private func togglePopover(_ sender: AnyObject?) {
+        if self.popover.isShown {
+            closePopover()
+        } else {
+            showPopover()
         }
     }
     
-    static func setupNotifications() {
+    private func showPopover() {
+        if let button = self.statusBarItem.button {
+            self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
+    }
+    
+    private func closePopover() {
+        self.popover.performClose(nil)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let category = response.notification.request.content.categoryIdentifier
+        
+        if category == AppNotification.Category.reminder {
+            switch response.actionIdentifier {
+            case AppNotification.Action.pause:
+                mainViewModel?.pauseTimer()
+                break
+            default:
+                break
+            }
+        }
+        completionHandler()
+    }
+    
+    private func setupNotifications() {
         AppNotificationManager.requestAuthorization()
-
+        AppNotificationManager.removeAllNotifications()
+        AppNotificationManager.registerDelegate(self)
+        AppNotificationManager.registerCategories()
     }
     
     static func terminateApp() {

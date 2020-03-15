@@ -56,6 +56,7 @@ class MainViewModel: ObservableObject {
     
     private var timerWorker: TimerWorker!
     private var cancellables = [AnyCancellable]()
+    private var isUserInactive = false
     
     private let allowedUserInactivityInterval: TimeInterval
     private let timerInterval: TimeInterval
@@ -113,7 +114,13 @@ class MainViewModel: ObservableObject {
      Performs time management only if user was active for at least last `allowedUserInactivityInterval` seconds
      */
     public func timerHandler(timer: Timer) {
-        if !System.isUserInactive(forTimeInterval: allowedUserInactivityInterval) {
+        let isUserIncativeNew = System.isUserInactive(forMinutes: Constants.allowedUserInactivityMinutes)
+        if !isUserInactive && isUserIncativeNew {
+            remainingMins += Constants.allowedUserInactivityMinutes
+        }
+        isUserInactive = isUserIncativeNew
+        
+        if isBreakTimeNow || !isUserInactive {
             remainingMins -= 1
             if remainingMins <= 0 {
                 if isBreakTimeNow {
@@ -140,5 +147,13 @@ class MainViewModel: ObservableObject {
             notification = AppNotification(title: "It's time to work".localized, subtitle: "Let's continue to do amazing things!".localized)
         }
         AppNotificationManager.sendSingle(notification)
+    }
+    
+    public func pauseTimer() {
+        shouldTimerRun.value = false
+        
+        // A temporary crutch to update view content:)
+        // TODO: Remove it
+        remainingMins -= 0
     }
 }

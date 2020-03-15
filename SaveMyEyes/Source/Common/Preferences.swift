@@ -76,4 +76,8 @@ class System {
     public static func isUserInactive(forTimeInterval: TimeInterval) -> Bool {
         return (getUserInactiveSeconds() ?? 0) >= forTimeInterval
     }
+    
+    public static func isUserInactive(forMinutes: Int) -> Bool {
+        return isUserInactive(forTimeInterval: TimeInterval(forMinutes) * Constants.minute)
+    }
 }
