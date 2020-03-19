@@ -17,24 +17,24 @@ Features:
 
 The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
 
+## Installation guide
+* Download the latest [release](https://github.com/masich/SaveMyEyes/releases/) ```.dmg``` image and mount it.
+* Drag & Drop SaveMyEyes app to the Application folder.
+* Open SaveMyEyes.
+* According to the latest Catalina changes the [warning](Images/Readme/Installation/Warning.png) will appear.
+* Go to the System Preferences and open it's Security & Privacy tab.
+* Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button.
+* Now you can use this app without any restrictions and warnings.
+
+This problem is caused because of the Apple's new software notarization system (as I correctly understood, it costs 100$ per year).
+[Info](https://support.apple.com/en-us/HT202491) from Apple site about this warning.
+
 ## Screenshots
 ### MenuBar app
 ![MenuBar app](Images/Readme/Screenshots/MenuAppScreenshot.png)
 
 ### Notifications
 ![Notifications](Images/Readme/Screenshots/NotificationsScreenshot.png)
-
-## Installation guide
-* Download the latest [release](https://github.com/masich/SaveMyEyes/releases/) ```.dmg``` image and open it.
-* Drag & Drop SaveMyEyes app to the Application folder.
-* According to the latest Catalina changes the [warning](Images/Readme/Installation/Warning.png) will appear.
-* Go to the System Preferences and open it`s Security & Privacy tab.
-* Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button.
-* Now you can use this app without any restrictions and warnings.
-
-This problem is caused because of the Apple`s new software notarization system (as I correctly understood, it costs 100$ per year).
-[Info](https://support.apple.com/en-us/HT202491) from Apple site about this warning.
-
 
 ## License
 

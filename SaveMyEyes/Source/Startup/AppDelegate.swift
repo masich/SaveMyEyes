@@ -65,7 +65,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             switch response.actionIdentifier {
             case AppNotification.Action.pause:
                 mainViewModel?.pauseTimer()
-                break
             default:
                 break
             }
