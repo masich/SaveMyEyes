@@ -13,7 +13,8 @@ Break time - time in minutes to rest your eyes.
 Features:
 * Some general predefined work and break time intervals sets.
 * Time settings selected by the user are saved in local storage.
-* Automatically pauses and resumes timer depending on user activity. 
+* Automatically pauses and resumes timer depending on user activity.
+* Sends reminder notifications based on the time presets selected by the user.
 
 The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
 
