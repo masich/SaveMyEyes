@@ -10,8 +10,12 @@ import Foundation
 import UserNotifications
 
 class AppNotification {
+    public static let defaultSound = UNNotificationSound.default
+    public static let withoutSound: UNNotificationSound? = nil
+    
     private let title: String
     private let subtitle: String
+    private let sound: UNNotificationSound?
     
     struct Action {
         static let pause = "pause.action"
@@ -21,16 +25,17 @@ class AppNotification {
         static let reminder = "sme.reminder"
     }
     
-    init(title: String, subtitle: String) {
+    init(title: String, subtitle: String, sound: UNNotificationSound? = defaultSound) {
         self.title = title
         self.subtitle = subtitle
+        self.sound = sound
     }
     
     func getNotificationContent() -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = title
         content.subtitle = subtitle
-        content.sound = UNNotificationSound.default
+        content.sound = sound
         content.categoryIdentifier = Category.reminder
         
         return content
