@@ -51,9 +51,9 @@ class MainViewModel: ObservableObject {
     @Published private(set) var remainingMins: Int = 0
     
     @Published var shouldTimerRun = Observable<Bool>(false)
-    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled())
-    @Published var workIntervalIndex = Observable<Int>(Preferences.getWorkIntervalIndexValue())
-    @Published var breakIntervalIndex = Observable<Int>(Preferences.getBreakIntervalIndexValue())
+    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled(true))
+    @Published var workIntervalIndex = Observable<Int>(Preferences.getWorkIntervalIndexValue(0))
+    @Published var breakIntervalIndex = Observable<Int>(Preferences.getBreakIntervalIndexValue(0))
     
     private var timerWorker: TimerWorker!
     private var cancellables = [AnyCancellable]()

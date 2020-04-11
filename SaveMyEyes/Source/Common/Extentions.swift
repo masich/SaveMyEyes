@@ -19,3 +19,16 @@ extension String {
         return NSString.localizedUserNotificationString(forKey: self, arguments: nil)
     }
 }
+
+extension UserDefaults {
+    /// Returns stored value for provided `key` or `nil` if there is no stored value availble for a `key`.
+    public func optional<T>(forKey key: String) -> T? {
+        return self.value(forKey: key) as? T
+    }
+    
+    /// Returns stored value for provided `key` or `defaultValue` if there is no stored value availble for a `key`.
+    public func value<T>(forKey key: String, defaultValue: T) -> T {
+        let storedValue: T? = optional(forKey: key)
+        return storedValue ?? defaultValue
+    }
+}
