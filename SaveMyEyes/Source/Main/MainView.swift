@@ -26,6 +26,11 @@ struct MainView: View {
                 Toggle("Run timer toggle", isOn: self.$mainViewModel.shouldTimerRun.value).labelsHidden()
             }.scaledToFill()
             HStack(spacing: 20) {
+                Text("Enable sound")
+                Spacer()
+                Toggle("Enable sound toggle", isOn: self.$mainViewModel.isSoundEnabled.value).labelsHidden()
+            }.scaledToFill()
+            HStack(spacing: 20) {
                 Text("Work interval")
                 Spacer()
                 Picker("Work interval picker", selection: self.$mainViewModel.workIntervalIndex.value) {

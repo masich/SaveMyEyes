@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 extension String {
+    /// Returns localized string value.
     var localized: String {
         return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
     }

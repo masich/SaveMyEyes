@@ -9,7 +9,7 @@
 import Foundation
 
 struct Constants {
-    // TODO: make it possible to take these values from user
+    // TODO: make it possible to take these values from the user input
     public static let workIntervals = [15, 20, 30, 40, 60, 90, 120]
     public static let breakIntervals = [1, 2, 5, 10, 15, 20, 30]
     

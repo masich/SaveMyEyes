@@ -51,6 +51,7 @@ class MainViewModel: ObservableObject {
     @Published private(set) var remainingMins: Int = 0
     
     @Published var shouldTimerRun = Observable<Bool>(false)
+    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled())
     @Published var workIntervalIndex = Observable<Int>(Preferences.getWorkIntervalIndexValue())
     @Published var breakIntervalIndex = Observable<Int>(Preferences.getBreakIntervalIndexValue())
     
@@ -83,6 +84,7 @@ class MainViewModel: ObservableObject {
         
         cancellables = [
             shouldTimerRun.subject.sink(receiveValue: timerWorker.toggleInternalTimer),
+            isSoundEnabled.subject.sink(receiveValue: Preferences.setSoundEnabled),
             workIntervalIndex.subject.sink(receiveValue: onWorkIntervalChanged),
             workIntervalIndex.subject.sink(receiveValue: Preferences.setWorkTimeIntervalIndexValue),
             breakIntervalIndex.subject.sink(receiveValue: onBreakIntervalChanged),
@@ -141,10 +143,11 @@ class MainViewModel: ObservableObject {
      */
     public func sendNotification() {
         let notification: AppNotification
+        let notificationSound = isSoundEnabled.value ? AppNotification.defaultSound : AppNotification.withoutSound
         if isBreakTimeNow {
-            notification = AppNotification(title: "It's time for break".localized, subtitle: String(format: "Relax from your computer for %d minutes.".localized, breakIntervals[breakIntervalIndex.value]))
+            notification = AppNotification(title: "It's time for break".localized, subtitle: String(format: "Relax from your computer for %d minutes.".localized, breakIntervals[breakIntervalIndex.value]), sound: notificationSound)
         } else {
-            notification = AppNotification(title: "It's time to work".localized, subtitle: "Let's continue to do amazing things!".localized)
+            notification = AppNotification(title: "It's time to work".localized, subtitle: "Let's continue to do amazing things!".localized, sound: notificationSound)
         }
         AppNotificationManager.sendSingle(notification)
     }
