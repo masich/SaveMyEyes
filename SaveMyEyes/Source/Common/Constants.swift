@@ -8,10 +8,9 @@
 
 import Foundation
 
-struct Constants {
-    // TODO: make it possible to take these values from the user input
-    public static let workIntervals = [15, 20, 30, 40, 60, 90, 120]
-    public static let breakIntervals = [1, 2, 5, 10, 15, 20, 30]
+struct Constants {    
+    public static let workIntervalRange = 1...150 // minutes
+    public static let breakIntervalRange = 1...60 // minutes
     
     public static let minute: TimeInterval = 60 // seconds
     

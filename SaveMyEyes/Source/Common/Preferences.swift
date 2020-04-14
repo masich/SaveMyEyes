@@ -9,53 +9,48 @@
 import Foundation
 
 class Preferences{
-    private static let selectedTimeIntervalKey = "SelectedTimeInterval";
-    private static let selectedBreakTimeKey = "SelectedBreakTime";
-    private static let isSoundEnabledKey = "IsSoundEnabled";
+    private static let workTimeIntervalKey = "WorkTimeInterval"
+    private static let breakTimeIntervalKey = "BreakTimeInterval"
+    private static let isSoundEnabledKey = "IsSoundEnabled"
     
     private static let userDefaults = UserDefaults.standard
     
-    public static func registerDefaults(defaults: [String : Any]) {
-        userDefaults.register(defaults: defaults)
-    }
-    
     /**
-     Returns selected time interval index retrieved from the local storage
+     Returns selected time interval value retrieved from the local storage
      
-     returns `Int`:  Localy saved user selected time interval or `0` when there is no
+     returns `Int`:  Localy saved user selected time interval or `defaultValue` when there is no
      saved time interval
      */
-    public static func getWorkIntervalIndexValue(_ defaultValue: Int) -> Int {
-        return userDefaults.value(forKey: selectedTimeIntervalKey, defaultValue: defaultValue)
-        
+    public static func getWorkIntervalValue(_ defaultValue: Int = 0) -> Int {
+        return userDefaults.value(forKey: workTimeIntervalKey, defaultValue: defaultValue)
     }
     
     /**
-     Returns selected break time index retrieved from the local storage
+     Returns selected break interval value retrieved from the local storage
      
-     returns `Int`:  Localy saved user selected break time index or `0` when there is
-     no saved break time index
+     returns `Int`:  Localy saved user selected break time index or `defaultValue` when there is
+     no saved break time
      */
-    public static func getBreakIntervalIndexValue(_ defaultValue: Int) -> Int {
-        return userDefaults.value(forKey: selectedBreakTimeKey, defaultValue: defaultValue)
+    public static func getBreakIntervalValue(_ defaultValue: Int = 0) -> Int {
+        return userDefaults.value(forKey: breakTimeIntervalKey, defaultValue: defaultValue)
     }
     
     /**
      Returns is sound enabled value retrieved from the local storage
      
-     returns `Bool`:  Localy saved is sound enabled value or `false` when there is
+     returns `Bool`:  Localy saved is sound enabled value or `defaultValue` when there is
      no saved is sound enabled value
      */
-    public static func isSoundEnabled(_ defaultValue: Bool) -> Bool {
+    public static func isSoundEnabled(_ defaultValue: Bool = false) -> Bool {
         return userDefaults.value(forKey: isSoundEnabledKey, defaultValue: defaultValue)
     }
     
-    public static func setWorkTimeIntervalIndexValue(_ value: Int) {
-        userDefaults.set(value, forKey: selectedTimeIntervalKey)
+    public static func setWorkTimeIntervalValue(_ value: Int) {
+        userDefaults.set(value, forKey: workTimeIntervalKey)
     }
     
-    public static func setBreakIntervalIndexValue(_ value: Int) {
-        userDefaults.set(value, forKey: selectedBreakTimeKey)
+    public static func setBreakIntervalValue(_ value: Int) {
+        userDefaults.set(value, forKey: breakTimeIntervalKey)
     }
     
     public static func setSoundEnabled(_ value: Bool) {

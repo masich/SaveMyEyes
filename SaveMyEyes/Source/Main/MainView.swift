@@ -8,45 +8,49 @@
 
 import SwiftUI
 
-
 struct MainView: View {
     @ObservedObject var mainViewModel: MainViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 20) {
+            HStack(spacing: 16) {
                 Text(mainViewModel.isBreakTimeNow ? "Time to work" : "Time to break")
                 Spacer()
-                Text("\(mainViewModel.remainingMins) \("min".localized)")
+                HStack(spacing: 4) {
+                    Text("\(self.mainViewModel.remainingMins)")
+                    Text("min")
+                }
             }.scaledToFill()
             Divider()
-            HStack(spacing: 20) {
+            HStack(spacing: 16) {
                 Text("Run timer")
                 Spacer()
                 Toggle("Run timer toggle", isOn: self.$mainViewModel.shouldTimerRun.value).labelsHidden()
-            }.scaledToFill()
-            HStack(spacing: 20) {
+            }
+            HStack(spacing: 16) {
                 Text("Enable sound")
                 Spacer()
                 Toggle("Enable sound toggle", isOn: self.$mainViewModel.isSoundEnabled.value).labelsHidden()
-            }.scaledToFill()
-            HStack(spacing: 20) {
+            }
+            HStack(spacing: 16) {
                 Text("Work interval")
                 Spacer()
-                Picker("Work interval picker", selection: self.$mainViewModel.workIntervalIndex.value) {
-                    ForEach(mainViewModel.workIntervals.indices, id: \.self) { index in
-                        Text(String(self.mainViewModel.workIntervals[index])).tag(index)
+                Stepper(value: self.$mainViewModel.workInterval.value, in: Constants.workIntervalRange) {
+                    HStack(spacing: 4) {
+                        Text("\(self.mainViewModel.workInterval.value)")
+                        Text("min")
                     }
-                }.labelsHidden().scaledToFit().fixedSize()
+                }
             }
-            HStack(spacing: 20) {
+            HStack(spacing: 16) {
                 Text("Break interval")
                 Spacer()
-                Picker("Break interval picker", selection: self.$mainViewModel.breakIntervalIndex.value) {
-                    ForEach(mainViewModel.breakIntervals.indices, id: \.self) { index in
-                        Text(String(self.mainViewModel.breakIntervals[index])).tag(index)
+                Stepper(value: self.$mainViewModel.breakInterval.value, in: Constants.breakIntervalRange) {
+                    HStack(spacing: 4) {
+                        Text("\(self.mainViewModel.breakInterval.value)")
+                        Text("min")
                     }
-                }.labelsHidden().scaledToFit().fixedSize()
+                }
             }
             Divider()
             Button("Quit", action: mainViewModel.terminateApp).buttonStyle(BorderlessButtonStyle())
