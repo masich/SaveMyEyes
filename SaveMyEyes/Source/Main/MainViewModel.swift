@@ -118,7 +118,8 @@ class MainViewModel: ObservableObject {
     public func timerHandler(timer: Timer) {
         let isUserIncativeNew = System.isUserInactive(forMinutes: Constants.allowedUserInactivityMinutes)
         if !isUserInactive && isUserIncativeNew {
-            remainingMins += Constants.allowedUserInactivityMinutes
+            let maxIncrementValue = workIntervals[workIntervalIndex.value] - remainingMins
+            remainingMins += min(maxIncrementValue, Constants.allowedUserInactivityMinutes)
         }
         isUserInactive = isUserIncativeNew
         
