@@ -51,9 +51,9 @@ class MainViewModel: ObservableObject {
     @Published private(set) var remainingMins: Int = 0
     
     @Published var shouldTimerRun = Observable<Bool>(false)
-    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled(true))
-    @Published var workIntervalIndex = Observable<Int>(Preferences.getWorkIntervalIndexValue(0))
-    @Published var breakIntervalIndex = Observable<Int>(Preferences.getBreakIntervalIndexValue(0))
+    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled(Constants.defaultIsSoundEnabled))
+    @Published var workInterval = Observable<Int>(Preferences.getWorkIntervalValue(Constants.defaultWorkInterval))
+    @Published var breakInterval = Observable<Int>(Preferences.getBreakIntervalValue(Constants.defaultBreakInterval))
     
     private var timerWorker: TimerWorker!
     private var cancellables = [AnyCancellable]()
@@ -62,51 +62,45 @@ class MainViewModel: ObservableObject {
     private let allowedUserInactivityInterval: TimeInterval
     private let timerInterval: TimeInterval
     
-    let breakIntervals: [Int]
-    let workIntervals: [Int]
     let terminateApp: () -> ()
     
     init(
-        workIntervals: [Int],
-        breakIntervals: [Int],
         timerInterval: TimeInterval,
         allowedUserInactivityInterval: TimeInterval,
         terminateApp: @escaping () -> ()
     ) {
-        self.workIntervals = workIntervals
-        self.breakIntervals = breakIntervals
         self.timerInterval = timerInterval
         self.allowedUserInactivityInterval = allowedUserInactivityInterval
         self.terminateApp = terminateApp
         
-        remainingMins = isBreakTimeNow ? breakIntervals[breakIntervalIndex.value] : workIntervals[workIntervalIndex.value]
+        remainingMins = isBreakTimeNow ? breakInterval.value : workInterval.value
         timerWorker = TimerWorker(timerInterval: timerInterval, timerHandler: timerHandler)
         
         cancellables = [
             shouldTimerRun.subject.sink(receiveValue: timerWorker.toggleInternalTimer),
             isSoundEnabled.subject.sink(receiveValue: Preferences.setSoundEnabled),
-            workIntervalIndex.subject.sink(receiveValue: onWorkIntervalChanged),
-            workIntervalIndex.subject.sink(receiveValue: Preferences.setWorkTimeIntervalIndexValue),
-            breakIntervalIndex.subject.sink(receiveValue: onBreakIntervalChanged),
-            breakIntervalIndex.subject.sink(receiveValue: Preferences.setBreakIntervalIndexValue),
+            workInterval.subject.sink(receiveValue: onWorkIntervalChanged),
+            workInterval.subject.sink(receiveValue: Preferences.setWorkTimeIntervalValue),
+            breakInterval.subject.sink(receiveValue: onBreakIntervalChanged),
+            breakInterval.subject.sink(receiveValue: Preferences.setBreakIntervalValue),
         ]
     }
     
     /**
-     Applyes changes on the work time interval value index
+     Applyes changes on the work time interval value
      */
-    private func onWorkIntervalChanged(_ workIntervalIndex: Int) {
+    private func onWorkIntervalChanged(_ workInterval: Int) {
         if !isBreakTimeNow {
-            remainingMins = workIntervals[workIntervalIndex]
+            remainingMins = workInterval
         }
     }
     
     /**
-     Applyes changes on the break time interval value index
+     Applyes changes on the break time interval value
      */
-    private func onBreakIntervalChanged(_ breakIntervalIndex: Int) {
+    private func onBreakIntervalChanged(_ breakInterval: Int) {
         if isBreakTimeNow {
-            remainingMins = breakIntervals[breakIntervalIndex]
+            remainingMins =  breakInterval
         }
     }
     
@@ -118,7 +112,8 @@ class MainViewModel: ObservableObject {
     public func timerHandler(timer: Timer) {
         let isUserIncativeNew = System.isUserInactive(forMinutes: Constants.allowedUserInactivityMinutes)
         if !isUserInactive && isUserIncativeNew {
-            remainingMins += Constants.allowedUserInactivityMinutes
+            let maxIncrementValue = workInterval.value - remainingMins
+            remainingMins += min(maxIncrementValue, Constants.allowedUserInactivityMinutes)
         }
         isUserInactive = isUserIncativeNew
         
@@ -126,9 +121,9 @@ class MainViewModel: ObservableObject {
             remainingMins -= 1
             if remainingMins <= 0 {
                 if isBreakTimeNow {
-                    remainingMins = workIntervals[workIntervalIndex.value]
+                    remainingMins = workInterval.value
                 } else {
-                    remainingMins = breakIntervals[breakIntervalIndex.value]
+                    remainingMins = breakInterval.value
                 }
                 isBreakTimeNow.toggle()
                 sendNotification()
@@ -145,7 +140,7 @@ class MainViewModel: ObservableObject {
         let notification: AppNotification
         let notificationSound = isSoundEnabled.value ? AppNotification.defaultSound : AppNotification.withoutSound
         if isBreakTimeNow {
-            notification = AppNotification(title: "It's time for break".localized, subtitle: String(format: "Relax from your computer for %d minutes.".localized, breakIntervals[breakIntervalIndex.value]), sound: notificationSound)
+            notification = AppNotification(title: "It's time for break".localized, subtitle: String(format: "Relax from your computer for %d minutes.".localized, breakInterval.value), sound: notificationSound)
         } else {
             notification = AppNotification(title: "It's time to work".localized, subtitle: "Let's continue to do amazing things!".localized, sound: notificationSound)
         }
@@ -158,5 +153,11 @@ class MainViewModel: ObservableObject {
         // A temporary crutch to update view content:)
         // TODO: Remove it
         remainingMins -= 0
+    }
+    
+    public func resetToDefaults() {
+        isSoundEnabled.value = Constants.defaultIsSoundEnabled
+        workInterval.value = Constants.defaultWorkInterval
+        breakInterval.value = Constants.defaultBreakInterval
     }
 }
