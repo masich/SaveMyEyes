@@ -13,47 +13,47 @@ struct MainView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
                 Text(mainViewModel.isBreakTimeNow ? "Time to work" : "Time to break")
                 Spacer()
                 HStack(spacing: 4) {
-                    Text("\(self.mainViewModel.remainingMins)")
+                    Text("\(self.mainViewModel.remainingMins)").frame(width: 36, alignment: .trailing)
                     Text("min")
                 }
-            }.scaledToFill()
+            }
             Divider()
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
                 Text("Run timer")
                 Spacer()
                 Toggle("Run timer toggle", isOn: self.$mainViewModel.shouldTimerRun.value).labelsHidden()
             }
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
                 Text("Enable sound")
                 Spacer()
                 Toggle("Enable sound toggle", isOn: self.$mainViewModel.isSoundEnabled.value).labelsHidden()
             }
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
                 Text("Work interval")
                 Spacer()
                 Stepper(value: self.$mainViewModel.workInterval.value, in: Constants.workIntervalRange) {
                     HStack(spacing: 4) {
-                        Text("\(self.mainViewModel.workInterval.value)")
+                        Text("\(self.mainViewModel.workInterval.value)").frame(width: 36, alignment: .trailing)
                         Text("min")
                     }
                 }
             }
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
                 Text("Break interval")
                 Spacer()
                 Stepper(value: self.$mainViewModel.breakInterval.value, in: Constants.breakIntervalRange) {
                     HStack(spacing: 4) {
-                        Text("\(self.mainViewModel.breakInterval.value)")
+                        Text("\(self.mainViewModel.breakInterval.value)").frame(width: 36, alignment: .trailing)
                         Text("min")
                     }
                 }
             }
             Divider()
             Button("Quit", action: mainViewModel.terminateApp).buttonStyle(BorderlessButtonStyle())
-        }.padding().fixedSize()
+        }.padding().fixedSize().scaledToFill()
     }
 }

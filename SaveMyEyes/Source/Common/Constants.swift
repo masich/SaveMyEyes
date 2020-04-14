@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Constants {    
+struct Constants {
     public static let workIntervalRange = 1...150 // minutes
     public static let breakIntervalRange = 1...60 // minutes
     
