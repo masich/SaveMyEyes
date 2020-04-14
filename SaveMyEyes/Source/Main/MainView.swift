@@ -53,7 +53,11 @@ struct MainView: View {
                 }
             }
             Divider()
-            Button("Quit", action: mainViewModel.terminateApp).buttonStyle(BorderlessButtonStyle())
+            HStack(spacing: 8) {
+                Button("Quit", action: mainViewModel.terminateApp).buttonStyle(BorderlessButtonStyle())
+                Spacer()
+                Button("Reset", action: mainViewModel.resetToDefaults).buttonStyle(BorderlessButtonStyle())
+            }
         }.padding().fixedSize().scaledToFill()
     }
 }

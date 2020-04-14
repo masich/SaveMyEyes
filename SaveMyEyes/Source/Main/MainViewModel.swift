@@ -51,9 +51,9 @@ class MainViewModel: ObservableObject {
     @Published private(set) var remainingMins: Int = 0
     
     @Published var shouldTimerRun = Observable<Bool>(false)
-    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled(true))
-    @Published var workInterval = Observable<Int>(Preferences.getWorkIntervalValue(15))
-    @Published var breakInterval = Observable<Int>(Preferences.getBreakIntervalValue(3))
+    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled(Constants.defaultIsSoundEnabled))
+    @Published var workInterval = Observable<Int>(Preferences.getWorkIntervalValue(Constants.defaultWorkInterval))
+    @Published var breakInterval = Observable<Int>(Preferences.getBreakIntervalValue(Constants.defaultBreakInterval))
     
     private var timerWorker: TimerWorker!
     private var cancellables = [AnyCancellable]()
@@ -153,5 +153,11 @@ class MainViewModel: ObservableObject {
         // A temporary crutch to update view content:)
         // TODO: Remove it
         remainingMins -= 0
+    }
+    
+    public func resetToDefaults() {
+        isSoundEnabled.value = Constants.defaultIsSoundEnabled
+        workInterval.value = Constants.defaultWorkInterval
+        breakInterval.value = Constants.defaultBreakInterval
     }
 }
