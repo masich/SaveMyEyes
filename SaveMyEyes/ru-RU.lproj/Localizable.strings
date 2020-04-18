@@ -1,0 +1,22 @@
+/* 
+ Localizable.strings
+ SaveMyEyes
+ 
+ Created by Max Omelchenko on 02/24/20.
+ Copyright © 2020 Max Omelchenko. All rights reserved.
+ */
+
+"Time to work" = "Время до работы";
+"Time to break" = "Время до перерыва";
+"Run timer" = "Запустить таймер";
+"min" = "мин";
+"Work interval" = "Интервал работы";
+"Break interval" = "Интервал перерыва";
+"Quit" = "Выход";
+"It's time for break" = "Время для перерыва";
+"It's time to work" = "Время работать";
+"Relax from your computer for %d minutes." = "Отдохни от компьютера %d минут.";
+"Let's continue to do amazing things!" = "Давай продолжим делать крутые вещи!";
+"Pause" = "Пауза";
+"Enable sound" = "Включить звук";
+"Reset" = "Сбросить";
