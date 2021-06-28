@@ -7,21 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B62BCDCC2689ECB90009EC6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62BCDCB2689ECB90009EC6A /* AppDelegate.swift */; };
+		B62BCDDA2689ED530009EC6A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62BCDD92689ED530009EC6A /* main.swift */; };
+		B62BCDDC2689ED950009EC6A /* SaveMyEyesLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B62BCDDF2689EDC90009EC6A /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62BCDDE2689EDC90009EC6A /* ServiceManagement.framework */; };
 		B64FE6492404375B00A73816 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64FE6482404375B00A73816 /* AppNotification.swift */; };
 		B67D297E2405B8EC00A256A1 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67D297D2405B8EC00A256A1 /* Extentions.swift */; };
 		B67D29802405CAB500A256A1 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67D297F2405CAB500A256A1 /* Preferences.swift */; };
 		B694AB04240DAB87009D3368 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B694AB03240DAB87009D3368 /* Observable.swift */; };
 		B694AB06240EB4BA009D3368 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B694AB05240EB4BA009D3368 /* MainViewModel.swift */; };
 		B69F2EBD24047AE1003F7BD0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B69F2EBF24047AE1003F7BD0 /* Localizable.strings */; };
+		B6AA8806268A393100431BAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6AA8805268A393100431BAC /* Main.storyboard */; };
 		B6BFAD352406EF12008E51E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BFAD342406EF12008E51E2 /* Constants.swift */; };
 		B6FC9FAA2403F088003FFC58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC9FA92403F088003FFC58 /* AppDelegate.swift */; };
 		B6FC9FAC2403F088003FFC58 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC9FAB2403F088003FFC58 /* MainView.swift */; };
 		B6FC9FAE2403F089003FFC58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6FC9FAD2403F089003FFC58 /* Assets.xcassets */; };
 		B6FC9FB12403F089003FFC58 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6FC9FB02403F089003FFC58 /* Preview Assets.xcassets */; };
-		B6FC9FB42403F089003FFC58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6FC9FB22403F089003FFC58 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		B62BCDDB2689ED850009EC6A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				B62BCDDC2689ED950009EC6A /* SaveMyEyesLauncher.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveMyEyesLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B62BCDCB2689ECB90009EC6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B62BCDD42689ECBB0009EC6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B62BCDD52689ECBB0009EC6A /* SaveMyEyesLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SaveMyEyesLauncher.entitlements; sourceTree = "<group>"; };
+		B62BCDD92689ED530009EC6A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		B62BCDDE2689EDC90009EC6A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		B64FE6482404375B00A73816 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		B67D297D2405B8EC00A256A1 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		B67D297F2405CAB500A256A1 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -29,6 +52,7 @@
 		B694AB05240EB4BA009D3368 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		B69F2EBE24047AE1003F7BD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B69F2EC024047AE5003F7BD0 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B6AA8805268A393100431BAC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B6BFAD342406EF12008E51E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B6FC6A72244B944C004C5B25 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B6FC9FA62403F088003FFC58 /* SaveMyEyes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveMyEyes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,27 +60,53 @@
 		B6FC9FAB2403F088003FFC58 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B6FC9FAD2403F089003FFC58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6FC9FB02403F089003FFC58 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B6FC9FB32403F089003FFC58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B6FC9FB52403F089003FFC58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6FC9FB62403F089003FFC58 /* SaveMyEyes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SaveMyEyes.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B6FC9FA32403F088003FFC58 /* Frameworks */ = {
+		B62BCDC62689ECB90009EC6A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B6FC9FA32403F088003FFC58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B62BCDDF2689EDC90009EC6A /* ServiceManagement.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B62BCDCA2689ECB90009EC6A /* SaveMyEyesLauncher */ = {
+			isa = PBXGroup;
+			children = (
+				B62BCDCB2689ECB90009EC6A /* AppDelegate.swift */,
+				B62BCDD42689ECBB0009EC6A /* Info.plist */,
+				B62BCDD52689ECBB0009EC6A /* SaveMyEyesLauncher.entitlements */,
+				B62BCDD92689ED530009EC6A /* main.swift */,
+			);
+			path = SaveMyEyesLauncher;
+			sourceTree = "<group>";
+		};
+		B62BCDDD2689EDC90009EC6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B62BCDDE2689EDC90009EC6A /* ServiceManagement.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B69F2EC1240487C1003F7BD0 /* Startup */ = {
 			isa = PBXGroup;
 			children = (
-				B6FC9FB22403F089003FFC58 /* Main.storyboard */,
 				B6FC9FA92403F088003FFC58 /* AppDelegate.swift */,
+				B6AA8805268A393100431BAC /* Main.storyboard */,
 			);
 			path = Startup;
 			sourceTree = "<group>";
@@ -86,7 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				B6FC9FA82403F088003FFC58 /* SaveMyEyes */,
+				B62BCDCA2689ECB90009EC6A /* SaveMyEyesLauncher */,
 				B6FC9FA72403F088003FFC58 /* Products */,
+				B62BCDDD2689EDC90009EC6A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				B6FC9FA62403F088003FFC58 /* SaveMyEyes.app */,
+				B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,6 +185,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B62BCDC82689ECB90009EC6A /* SaveMyEyesLauncher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B62BCDD82689ECBB0009EC6A /* Build configuration list for PBXNativeTarget "SaveMyEyesLauncher" */;
+			buildPhases = (
+				B62BCDC52689ECB90009EC6A /* Sources */,
+				B62BCDC62689ECB90009EC6A /* Frameworks */,
+				B62BCDC72689ECB90009EC6A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SaveMyEyesLauncher;
+			productName = SaveMyEyesLauncher;
+			productReference = B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */;
+			productType = "com.apple.product-type.application";
+		};
 		B6FC9FA52403F088003FFC58 /* SaveMyEyes */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6FC9FB92403F089003FFC58 /* Build configuration list for PBXNativeTarget "SaveMyEyes" */;
@@ -139,6 +209,7 @@
 				B6FC9FA22403F088003FFC58 /* Sources */,
 				B6FC9FA32403F088003FFC58 /* Frameworks */,
 				B6FC9FA42403F088003FFC58 /* Resources */,
+				B62BCDDB2689ED850009EC6A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -155,10 +226,13 @@
 		B6FC9F9E2403F088003FFC58 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Max Omelchenko";
 				TargetAttributes = {
+					B62BCDC82689ECB90009EC6A = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
 					B6FC9FA52403F088003FFC58 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -180,25 +254,42 @@
 			projectRoot = "";
 			targets = (
 				B6FC9FA52403F088003FFC58 /* SaveMyEyes */,
+				B62BCDC82689ECB90009EC6A /* SaveMyEyesLauncher */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B62BCDC72689ECB90009EC6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6FC9FA42403F088003FFC58 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6FC9FB42403F089003FFC58 /* Main.storyboard in Resources */,
 				B69F2EBD24047AE1003F7BD0 /* Localizable.strings in Resources */,
 				B6FC9FB12403F089003FFC58 /* Preview Assets.xcassets in Resources */,
 				B6FC9FAE2403F089003FFC58 /* Assets.xcassets in Resources */,
+				B6AA8806268A393100431BAC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B62BCDC52689ECB90009EC6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B62BCDDA2689ED530009EC6A /* main.swift in Sources */,
+				B62BCDCC2689ECB90009EC6A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6FC9FA22403F088003FFC58 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -227,17 +318,55 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		B6FC9FB22403F089003FFC58 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B6FC9FB32403F089003FFC58 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B62BCDD62689ECBB0009EC6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SaveMyEyesLauncher/SaveMyEyesLauncher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5PYHR2J538;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = SaveMyEyesLauncher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyesLauncher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B62BCDD72689ECBB0009EC6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SaveMyEyesLauncher/SaveMyEyesLauncher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5PYHR2J538;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = SaveMyEyesLauncher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyesLauncher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		B6FC9FB72403F089003FFC58 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -364,7 +493,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				DEVELOPMENT_TEAM = 5PYHR2J538;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -375,7 +504,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 0.61;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -390,7 +519,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				DEVELOPMENT_TEAM = 5PYHR2J538;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -401,7 +530,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 0.61;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -411,6 +540,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B62BCDD82689ECBB0009EC6A /* Build configuration list for PBXNativeTarget "SaveMyEyesLauncher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B62BCDD62689ECBB0009EC6A /* Debug */,
+				B62BCDD72689ECBB0009EC6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B6FC9FA12403F088003FFC58 /* Build configuration list for PBXProject "SaveMyEyes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
