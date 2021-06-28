@@ -9,9 +9,11 @@
 import Foundation
 
 class Preferences{
+    private static let shouldTimerRunKey = "ShouldTimerRun"
     private static let workTimeIntervalKey = "WorkTimeInterval"
     private static let breakTimeIntervalKey = "BreakTimeInterval"
     private static let isSoundEnabledKey = "IsSoundEnabled"
+    private static let launchAtLoginKey = "LaunchAtLogin"
     
     private static let userDefaults = UserDefaults.standard
     
@@ -45,6 +47,14 @@ class Preferences{
         return userDefaults.value(forKey: isSoundEnabledKey, defaultValue: defaultValue)
     }
     
+    public static func shouldTimerRun(_ defaultValue: Bool = false) -> Bool {
+        return userDefaults.value(forKey: shouldTimerRunKey, defaultValue: defaultValue)
+    }
+    
+    public static func launchAtLogin(_ defaultValue: Bool = false) -> Bool {
+        return userDefaults.value(forKey: launchAtLoginKey, defaultValue: defaultValue)
+    }
+    
     public static func setWorkTimeIntervalValue(_ value: Int) {
         userDefaults.set(value, forKey: workTimeIntervalKey)
     }
@@ -55,6 +65,14 @@ class Preferences{
     
     public static func setSoundEnabled(_ value: Bool) {
         userDefaults.set(value, forKey: isSoundEnabledKey)
+    }
+    
+    public static func setTimerRun(_ value: Bool) {
+        userDefaults.set(value, forKey: shouldTimerRunKey)
+    }
+    
+    public static func setLaunchAtLogin(_ value: Bool) {
+        userDefaults.set(value, forKey: launchAtLoginKey)
     }
 }
 

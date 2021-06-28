@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ServiceManagement
 import Combine
 
 class TimerWorker {
@@ -50,10 +51,11 @@ class MainViewModel: ObservableObject {
     @Published private(set) var isBreakTimeNow = false
     @Published private(set) var remainingMins: Int = 0
     
-    @Published var shouldTimerRun = Observable<Bool>(false)
-    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled(Constants.defaultIsSoundEnabled))
-    @Published var workInterval = Observable<Int>(Preferences.getWorkIntervalValue(Constants.defaultWorkInterval))
-    @Published var breakInterval = Observable<Int>(Preferences.getBreakIntervalValue(Constants.defaultBreakInterval))
+    @Published var shouldTimerRun = Observable<Bool>(Preferences.shouldTimerRun(Defaults.shouldTimerRun))
+    @Published var isSoundEnabled = Observable<Bool>(Preferences.isSoundEnabled(Defaults.isSoundEnabled))
+    @Published var workInterval = Observable<Int>(Preferences.getWorkIntervalValue(Defaults.workInterval))
+    @Published var breakInterval = Observable<Int>(Preferences.getBreakIntervalValue(Defaults.breakInterval))
+    @Published var launchAtLogin = Observable<Bool>(Preferences.launchAtLogin(Defaults.launchAtLogin))
     
     private var timerWorker: TimerWorker!
     private var cancellables = [AnyCancellable]()
@@ -78,12 +80,23 @@ class MainViewModel: ObservableObject {
         
         cancellables = [
             shouldTimerRun.subject.sink(receiveValue: timerWorker.toggleInternalTimer),
-            isSoundEnabled.subject.sink(receiveValue: Preferences.setSoundEnabled),
+            shouldTimerRun.subject.sink(receiveValue: Preferences.setTimerRun),
+            
             workInterval.subject.sink(receiveValue: onWorkIntervalChanged),
             workInterval.subject.sink(receiveValue: Preferences.setWorkTimeIntervalValue),
+            
             breakInterval.subject.sink(receiveValue: onBreakIntervalChanged),
             breakInterval.subject.sink(receiveValue: Preferences.setBreakIntervalValue),
+            
+            launchAtLogin.subject.sink(receiveValue: onLaunchAtLoginChanged),
+            launchAtLogin.subject.sink(receiveValue: Preferences.setLaunchAtLogin),
+            
+            isSoundEnabled.subject.sink(receiveValue: Preferences.setSoundEnabled),
         ]
+        
+        if shouldTimerRun.value {
+            timerWorker.resumeInternalTimer()
+        }
     }
     
     /**
@@ -100,8 +113,12 @@ class MainViewModel: ObservableObject {
      */
     private func onBreakIntervalChanged(_ breakInterval: Int) {
         if isBreakTimeNow {
-            remainingMins =  breakInterval
+            remainingMins = breakInterval
         }
+    }
+    
+    private func onLaunchAtLoginChanged(_ launchAtLogin: Bool) {
+        SMLoginItemSetEnabled(Constants.helperBundleID as CFString, launchAtLogin)
     }
     
     /**
@@ -156,8 +173,9 @@ class MainViewModel: ObservableObject {
     }
     
     public func resetToDefaults() {
-        isSoundEnabled.value = Constants.defaultIsSoundEnabled
-        workInterval.value = Constants.defaultWorkInterval
-        breakInterval.value = Constants.defaultBreakInterval
+        isSoundEnabled.value = Defaults.isSoundEnabled
+        workInterval.value = Defaults.workInterval
+        breakInterval.value = Defaults.breakInterval
+        shouldTimerRun.value = Defaults.shouldTimerRun
     }
 }
