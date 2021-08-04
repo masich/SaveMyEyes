@@ -1,3 +1,4 @@
+Нюхай Бебру
 # SaveMyEyes
 
 ## MenuBar macOS application that helps to take breaks while using the computer.
