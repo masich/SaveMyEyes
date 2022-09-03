@@ -157,7 +157,7 @@ class MainViewModel: ObservableObject {
         let notification: AppNotification
         let notificationSound = isSoundEnabled.value ? AppNotification.defaultSound : AppNotification.withoutSound
         if isBreakTimeNow {
-            notification = AppNotification(title: "It's time for break".localized, subtitle: String(format: "Relax from your computer for %d minutes.".localized, breakInterval.value), sound: notificationSound)
+            notification = AppNotification(title: "It's time for break".localized, subtitle: String(format: "Relax from your computer for %d min.".localized, breakInterval.value), sound: notificationSound)
         } else {
             notification = AppNotification(title: "It's time to work".localized, subtitle: "Let's continue to do amazing things!".localized, sound: notificationSound)
         }
