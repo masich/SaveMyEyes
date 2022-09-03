@@ -13,10 +13,10 @@
 "Work interval" = "Інтервал роботи";
 "Break interval" = "Інтервал перерви";
 "Quit" = "Вихід";
-"It's time for break" = "Час на перерву";
-"It's time to work" = "Час для роботи";
-"Relax from your computer for %d minutes." = "Відпочинь від компьютера %d хвилин.";
-"Let's continue to do amazing things!" = "Давай продовжимо робити круті речі!";
+"It's time for break" = "Час зробити перерву";
+"It's time to work" = "Час повертатися до роботи";
+"Relax from your computer for %d min." = "Відпочинь від комп'ютера %d хв.";
+"Let's continue to do amazing things!" = "Ну що, продовжуємо робити круті речі!";
 "Pause" = "Пауза";
 "Enable sound" = "Увімкнути звук";
 "Reset" = "Скинути";
