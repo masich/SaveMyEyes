@@ -22,12 +22,12 @@ The app is built using ```SwiftUI``` and requires at least macOS 10.15.
 1. Download the latest [release](https://github.com/masich/SaveMyEyes/releases/) ```.dmg``` image and mount it.
 2. [Drag & Drop](Images/Readme/Installation/Drag&Drop.png) SaveMyEyes app to the Application folder.
 3. Open SaveMyEyes.
-4. According to the latest Catalina changes the [warning](Images/Readme/Installation/Warning.png) will appear.
+4. The [warning](Images/Readme/Installation/Warning.png) will appear according to the latest Catalina changes.
 5. Go to the System Preferences and open its Security & Privacy tab.
 6. Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button.
 7. Now, you can use this app without any restrictions and warnings.
 
-This problem is caused by Apple's new software notarization system (as I correctly understood, it costs 100$ per year).
+This problem is caused by Apple's new software notarization system (as I correctly understood, it costs 100$ per year to publish "trusted" applications and fix this problem).
 [Info](https://support.apple.com/en-us/HT202491) from the Apple site about this warning.
 
 ## Screenshots
@@ -38,5 +38,4 @@ This problem is caused by Apple's new software notarization system (as I correct
 ![Notifications](Images/Readme/Screenshots/NotificationsScreenshot.png)
 
 ## License
-
 This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENSE) file for details.
