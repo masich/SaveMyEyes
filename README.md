@@ -4,11 +4,11 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/masich/savemyeyes/badge)](https://www.codefactor.io/repository/github/masich/savemyeyes)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-You can choose specific work and break time intervals which perfect for you.
+You can choose specific work and break time intervals that are perfect for you.
 
-There are two types of time intervals the user has to select:
-* *Work time*. It is a time interval in minutes to work on the computer before a notification about a break is generated.
-* *Break time*. It is a time interval in minutes to rest your eyes.
+Work time is a time interval in minutes to work on the computer before a notification about a break is generated.
+
+Break time is a time interval in minutes to rest your eyes.
 
 Features:
 * Minimalistic application design.
@@ -16,18 +16,28 @@ Features:
 * Automatically pauses and resumes timer depending on user activity.
 * Sends reminder notifications based on the time presets selected by the user.
 
-The app is built using ```SwiftUI``` and requires at least macOS 10.15.
+The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
 
 ## Installation guide
-1. Download the latest [release](https://github.com/masich/SaveMyEyes/releases/) ```.dmg``` image and mount it.
-2. [Drag & Drop](Images/Readme/Installation/Drag&Drop.png) SaveMyEyes app to the Application folder.
-3. Open SaveMyEyes.
-4. The [warning](Images/Readme/Installation/Warning.png) will appear according to the latest Catalina changes.
-5. Go to the System Preferences and open its Security & Privacy tab.
-6. Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button.
-7. Now, you can use this app without any restrictions and warnings.
+SaveMyEyes can be installed using `brew` or manually through `.dmg` image.
 
-This problem is caused by Apple's new software notarization system (as I correctly understood, it costs 100$ per year to publish "trusted" applications and fix this problem).
+### Using `brew` 
+* Run `brew tap masich/brew` to pull `masich/brew` Tap on your local machine
+* Run `brew install --cask savemyeyes`
+
+### Manually through `.dmg` image
+* Download the latest [release](https://github.com/masich/SaveMyEyes/releases/) `.dmg` image and mount it
+* [Drag & Drop](Images/Readme/Installation/Drag&Drop.png) SaveMyEyes app to the Application folder
+* Open SaveMyEyes
+
+
+### No matter how you install the app, the rest steps are the same
+* According to the latest Catalina changes, the following [warning](Images/Readme/Installation/Warning.png) will appear
+* Go to the System Preferences and open its Security & Privacy tab
+* Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button
+* Now, you can use this app without any restrictions and warnings
+
+This problem is caused by Apple's new software notarization system (as I correctly understood, it costs 100$ per year).
 [Info](https://support.apple.com/en-us/HT202491) from the Apple site about this warning.
 
 ## Screenshots
@@ -38,4 +48,5 @@ This problem is caused by Apple's new software notarization system (as I correct
 ![Notifications](Images/Readme/Screenshots/NotificationsScreenshot.png)
 
 ## License
+
 This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENSE) file for details.
