@@ -31,10 +31,10 @@ SaveMyEyes can be installed using `brew` or manually through `.dmg` image.
 * Open SaveMyEyes
 
 ### No matter how you install the app, the rest steps are the same
-* According to the latest Catalina changes, the following [warning](Images/Readme/Installation/Warning.png) will appear.
-* Go to the System Preferences and open its Security & Privacy tab.
-* Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button.
-* Now, you can use this app without any restrictions and warnings.
+* According to the latest Catalina changes, the following [warning](Images/Readme/Installation/Warning.png) will appear
+* Go to the System Preferences and open its Security & Privacy tab
+* Click your ["Open Anyway"](Images/Readme/Installation/Security.png) button
+* Now, you can use this app without any restrictions and warnings
 
 This problem is caused by Apple's new software notarization system (as I correctly understood, it costs 100$ per year).
 [Info](https://support.apple.com/en-us/HT202491) from the Apple site about this warning.
