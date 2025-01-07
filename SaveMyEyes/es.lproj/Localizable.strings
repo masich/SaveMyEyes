@@ -1,0 +1,23 @@
+/* 
+ Localizable.strings
+ SaveMyEyes
+ 
+ Created by Max Omelchenko on 02/24/20.
+ Copyright © 2020 Max Omelchenko. All rights reserved. 
+*/
+
+"Time to work"  = “Hora de trabajar”;
+"Time to break" = “Hora de pausa”;
+"Run timer" = "Temporizador de ejecución";
+"min" = “min”;
+"Work interval" = “Intervalo de trabajo”;
+“Break interval” = “Intervalo de pausa”;
+"Quit" = “Salir”;
+"It's time for break" = “Es hora del descanso”;
+"It's time for work" = “Es hora de trabajar”;
+"Relax from your computer for %d min." = “Relájate de tu ordenador durante %d min.”;
+"Let's continue to do amazing things!" = “¡Sigamos haciendo cosas increíbles!”;
+"Pause" = “Pausa”;
+"Enable sound" = “Activar sonido”;
+"Reset" = “Reiniciar”;
+"Launch at login" = “Lanzar al iniciar sesión”;
