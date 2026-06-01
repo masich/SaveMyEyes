@@ -1,5 +1,5 @@
 //
-//  Notification.swift
+//  AppNotification.swift
 //  SaveMyEyes
 //
 //  Created by Max Omelchenko on 02/24/20.
@@ -9,87 +9,98 @@
 import Foundation
 import UserNotifications
 
-class AppNotification {
-    public static let defaultSound = UNNotificationSound.default
-    public static let withoutSound: UNNotificationSound? = nil
-    
+final class AppNotification {
+    static let defaultSound = UNNotificationSound.default
+    static let withoutSound: UNNotificationSound? = nil
+
     private let title: String
     private let subtitle: String
     private let sound: UNNotificationSound?
-    
+
     struct Action {
         static let pause = "pause.action"
     }
-    
+
     struct Category {
         static let reminder = "sme.reminder"
     }
-    
+
     init(title: String, subtitle: String, sound: UNNotificationSound? = defaultSound) {
         self.title = title
         self.subtitle = subtitle
         self.sound = sound
     }
-    
-    func getNotificationContent() -> UNMutableNotificationContent {
+
+    func content() -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = title
         content.subtitle = subtitle
         content.sound = sound
         content.categoryIdentifier = Category.reminder
-        
         return content
     }
 }
 
-class AppNotificationManager {
-    private static let notificationCenter = UNUserNotificationCenter.current()
-    
-    static func requestAuthorization() {
-        notificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-            if success {
-                print("Notifications. Permission granted")
-            } else if let error = error {
-                print(error.localizedDescription)
+final class AppNotificationManager {
+    private static let center = UNUserNotificationCenter.current()
+
+    static func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if let error {
+                Log.notificationError("Authorization failed: \(error.localizedDescription)")
+                completion(false, error)
+            } else if !success {
+                Log.notificationError("Permission denied by user")
+                let deniedError = NSError(
+                    domain: "AppNotificationManager",
+                    code: 1,
+                    userInfo: [NSLocalizedDescriptionKey: "Notification permission denied"]
+                )
+                completion(false, deniedError)
             } else {
-                print("Notifications. Permission not granted")
+                Log.notificationInfo("Permission granted")
+                completion(true, nil)
             }
         }
     }
-    
+
     static func send(_ notification: AppNotification) {
-        let content = notification.getNotificationContent()
-        // Choose a random identifier
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
-        
-        // Add a request for this notification
-        notificationCenter.add(request)
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: notification.content(),
+            trigger: nil
+        )
+        center.add(request)
     }
-    
-    /**
-     Removes all AppNotifications from the NotificationCenter and sends a new one
-     */
+
     static func sendSingle(_ notification: AppNotification) {
-        removeAllNotifications()
+        center.removeAllDeliveredNotifications()
         send(notification)
     }
-    
+
     static func removeAllNotifications() {
-        notificationCenter.removeAllDeliveredNotifications()
+        center.removeAllDeliveredNotifications()
     }
-    
+
     static func registerCategories() {
-        let pause = UNNotificationAction(identifier: AppNotification.Action.pause, title: "Pause".localized, options: [])
-        let category = UNNotificationCategory(identifier: AppNotification.Category.reminder, actions: [pause], intentIdentifiers: [])
-        
-        notificationCenter.setNotificationCategories([category])
+        let pause = UNNotificationAction(
+            identifier: AppNotification.Action.pause,
+            title: "Pause".localized,
+            options: []
+        )
+        let category = UNNotificationCategory(
+            identifier: AppNotification.Category.reminder,
+            actions: [pause],
+            intentIdentifiers: []
+        )
+        center.setNotificationCategories([category])
     }
-    
+
     static func registerDelegate(_ delegate: UNUserNotificationCenterDelegate) {
-        notificationCenter.delegate = delegate
+        center.delegate = delegate
     }
-    
+
     static func removeDelegate() {
-        notificationCenter.delegate = nil
+        center.delegate = nil
     }
 }

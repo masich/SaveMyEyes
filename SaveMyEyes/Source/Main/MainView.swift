@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  SaveMyEyes
 //
 //  Created by Max Omelchenko on 02/24/20.
@@ -7,76 +7,136 @@
 //
 
 import SwiftUI
-import Combine
 
 struct MainView: View {
-    @ObservedObject var mainViewModel: MainViewModel
-    
+    @ObservedObject var viewModel: MainViewModel
+    @ObservedObject var settings: SettingsStore
+
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(spacing: 8) {
-                Text(mainViewModel.isBreakTimeNow ? "Time to work" : "Time to break")
+        VStack(alignment: .leading, spacing: 0) {
+            statusSection
+            Divider().padding(.vertical, 8)
+            timerSection
+            Divider().padding(.vertical, 8)
+            intervalSection
+            Divider().padding(.vertical, 8)
+            generalSection
+            Divider().padding(.vertical, 8)
+            actionsSection
+        }
+        .padding(16)
+        .frame(width: 280)
+    }
+
+    // MARK: - Sections
+
+    private var statusSection: some View {
+        HStack {
+            Image(nsImage: NSImage(named: NSImage.touchBarQuickLookTemplateName) ?? NSImage())
+
+            Text(viewModel.isBreakTimeNow ? "On break" : "Focusing")
+                .font(.headline.weight(.semibold))
+
+            Spacer()
+
+            Text(viewModel.remainingSeconds.asDurationString)
+                .font(.system(size: 18, weight: .semibold, design: .monospaced))
+                .foregroundColor(viewModel.isBreakTimeNow ? .blue : .primary)
+        }
+    }
+
+    private var timerSection: some View {
+        HStack {
+            Text("Run timer")
+            Spacer()
+            Toggle("Run timer", isOn: $settings.shouldTimerRun)
+                .labelsHidden()
+        }
+    }
+
+    private var intervalSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Intervals")
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.secondary)
+
+            HStack {
+                Text("Work")
+                    .frame(width: 60, alignment: .leading)
                 Spacer()
-                HStack(spacing: 4) {
-                    Text("\(self.mainViewModel.remainingMins)").frame(width: 36, alignment: .trailing)
-                    Text("min")
+                Stepper(value: $settings.workInterval, in: Constants.workIntervalRange) {
+                    Text("\(settings.workInterval) min")
+                        .frame(width: 60, alignment: .trailing)
+                        .font(.system(.body, design: .monospaced))
                 }
-            }.font(Font.headline.weight(.semibold))
-            Divider()
-            HStack(spacing: 8) {
-                Text("Run timer")
-                Spacer()
-                Toggle("Run timer toggle", isOn: self.$mainViewModel.shouldTimerRun.value).labelsHidden()
             }
-            HStack(spacing: 8) {
-                Text("Work interval")
+
+            HStack {
+                Text("Break")
+                    .frame(width: 60, alignment: .leading)
                 Spacer()
-                Stepper(value: self.$mainViewModel.workInterval.value, in: Constants.workIntervalRange) {
-                    HStack(spacing: 4) {
-                        Text("\(self.mainViewModel.workInterval.value)").frame(width: 36, alignment: .trailing)
-                        Text("min")
-                    }
+                Stepper(value: $settings.breakInterval, in: Constants.breakIntervalRange) {
+                    Text("\(settings.breakInterval) min")
+                        .frame(width: 60, alignment: .trailing)
+                        .font(.system(.body, design: .monospaced))
                 }
             }
-            HStack(spacing: 8) {
-                Text("Break interval")
+        }
+    }
+
+    private var generalSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("General")
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.secondary)
+
+            HStack {
+                Text("Sound")
                 Spacer()
-                Stepper(value: self.$mainViewModel.breakInterval.value, in: Constants.breakIntervalRange) {
-                    HStack(spacing: 4) {
-                        Text("\(self.mainViewModel.breakInterval.value)").frame(width: 36, alignment: .trailing)
-                        Text("min")
-                    }
-                }
+                Toggle("Sound", isOn: $settings.isSoundEnabled)
+                    .labelsHidden()
             }
-            Divider()
-            HStack(spacing: 8) {
-                Text("Enable sound")
-                Spacer()
-                Toggle("Enable sound toggle", isOn: self.$mainViewModel.isSoundEnabled.value).labelsHidden()
-            }
-            HStack(spacing: 8) {
+
+            HStack {
                 Text("Launch at login")
                 Spacer()
-                Toggle("Launch at login toggle", isOn: self.$mainViewModel.launchAtLogin.value).labelsHidden()
+                Toggle("Launch at login", isOn: $settings.launchAtLogin)
+                    .labelsHidden()
             }
-            Divider()
-            HStack(spacing: 8) {
-                Button("Quit", action: mainViewModel.terminateApp).buttonStyle(BorderlessButtonStyle())
-                Spacer()
-                Button("Reset", action: mainViewModel.resetToDefaults).buttonStyle(BorderlessButtonStyle())
-            }
-        }.padding().fixedSize().scaledToFill()
+        }
+    }
+
+    private var actionsSection: some View {
+        HStack {
+            Button("Reset", action: viewModel.resetToDefaults)
+                .buttonStyle(BorderlessButtonStyle())
+
+            Spacer()
+
+            Button("Quit", action: viewModel.quit)
+                .buttonStyle(BorderlessButtonStyle())
+        }
     }
 }
 
+// MARK: - Preview
+
+#if DEBUG
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainViewModel(
-            timerInterval: Constants.minute,
-            allowedUserInactivityInterval: Constants.allowedUserInactivityInterval,
-            terminateApp: AppDelegate.terminateApp
-        )
-        
-        MainView(mainViewModel: viewModel)
+        let vm = PreviewFactory.makeViewModel()
+        MainView(viewModel: vm, settings: vm.settings)
     }
 }
+
+@MainActor
+enum PreviewFactory {
+    static func makeViewModel() -> MainViewModel {
+        MainViewModel(
+            timerInterval: Constants.minute,
+            allowedUserInactivityInterval: Constants.allowedUserInactivityInterval,
+            terminateApp: { print("Preview quit") }
+        )
+    }
+}
+#endif

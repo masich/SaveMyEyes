@@ -12,7 +12,7 @@ class AutoLauncherAppDelegate: NSObject, NSApplicationDelegate {
     struct Constants {
         static let mainAppBundleID = "com.masich.SaveMyEyes"
     }
-    
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let runningApps = NSWorkspace.shared.runningApplications
         let isRunning = runningApps.contains {
@@ -25,7 +25,15 @@ class AutoLauncherAppDelegate: NSObject, NSApplicationDelegate {
             }
             let applicationPathString = path as String
             let pathURL = URL(fileURLWithPath: applicationPathString, isDirectory: true)
-            NSWorkspace.shared.openApplication(at: pathURL, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
+            NSWorkspace.shared.openApplication(
+                at: pathURL,
+                configuration: NSWorkspace.OpenConfiguration()
+            ) { _, error in
+                if let error = error {
+                    NSLog("Failed to launch SaveMyEyes: \(error.localizedDescription)")
+                }
+            }
         }
+        NSApp.terminate(nil)
     }
 }

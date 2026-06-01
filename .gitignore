@@ -129,4 +129,8 @@ iOSInjectionProject/
 ### Xcode Patch ###
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+# Claude Code (local AI assistant config)
+.claude/
+CLAUDE.md
+
 # End of https://www.gitignore.io/api/xcode,macos,swift
