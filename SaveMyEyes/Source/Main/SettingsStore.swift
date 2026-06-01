@@ -8,51 +8,55 @@
 
 import Foundation
 import ServiceManagement
-import Combine
+import Observation
 
-@MainActor
-final class SettingsStore: ObservableObject {
-    @Published var shouldTimerRun: Bool = UserDefaults.standard.object(forKey: UserDefaultsKey.shouldTimerRun) as? Bool ?? Defaults.shouldTimerRun {
-        didSet {
-            UserDefaults.standard.set(shouldTimerRun, forKey: UserDefaultsKey.shouldTimerRun)
-        }
+@Observable
+final class SettingsStore {
+    var shouldTimerRun: Bool {
+        didSet { UserDefaults.standard.set(shouldTimerRun, forKey: UserDefaultsKey.shouldTimerRun) }
     }
 
-    @Published var workInterval: Int = UserDefaults.standard.object(forKey: UserDefaultsKey.workInterval) as? Int ?? Defaults.workInterval {
+    var workInterval: Int {
         didSet {
             UserDefaults.standard.set(workInterval, forKey: UserDefaultsKey.workInterval)
-            if !isBreakTimeNow {
-                onWorkIntervalChanged?(workInterval)
-            }
+            if !isBreakTimeNow { onWorkIntervalChanged?(workInterval) }
         }
     }
 
-    @Published var breakInterval: Int = UserDefaults.standard.object(forKey: UserDefaultsKey.breakInterval) as? Int ?? Defaults.breakInterval {
+    var breakInterval: Int {
         didSet {
             UserDefaults.standard.set(breakInterval, forKey: UserDefaultsKey.breakInterval)
-            if isBreakTimeNow {
-                onBreakIntervalChanged?(breakInterval)
-            }
+            if isBreakTimeNow { onBreakIntervalChanged?(breakInterval) }
         }
     }
 
-    @Published var isSoundEnabled: Bool = UserDefaults.standard.object(forKey: UserDefaultsKey.isSoundEnabled) as? Bool ?? Defaults.isSoundEnabled {
-        didSet {
-            UserDefaults.standard.set(isSoundEnabled, forKey: UserDefaultsKey.isSoundEnabled)
-        }
+    var isSoundEnabled: Bool {
+        didSet { UserDefaults.standard.set(isSoundEnabled, forKey: UserDefaultsKey.isSoundEnabled) }
     }
 
-    @Published var launchAtLogin: Bool = UserDefaults.standard.object(forKey: UserDefaultsKey.launchAtLogin) as? Bool ?? Defaults.launchAtLogin {
+    var launchAtLogin: Bool {
         didSet {
             UserDefaults.standard.set(launchAtLogin, forKey: UserDefaultsKey.launchAtLogin)
             updateLaunchAtLogin()
         }
     }
 
-    @Published var isBreakTimeNow = false
+    var isBreakTimeNow: Bool {
+        didSet { UserDefaults.standard.set(isBreakTimeNow, forKey: UserDefaultsKey.isBreakTimeNow) }
+    }
 
     var onWorkIntervalChanged: ((Int) -> Void)?
     var onBreakIntervalChanged: ((Int) -> Void)?
+
+    init() {
+        let defaults = UserDefaults.standard
+        shouldTimerRun = defaults.object(forKey: UserDefaultsKey.shouldTimerRun) as? Bool ?? Defaults.shouldTimerRun
+        workInterval = defaults.object(forKey: UserDefaultsKey.workInterval) as? Int ?? Defaults.workInterval
+        breakInterval = defaults.object(forKey: UserDefaultsKey.breakInterval) as? Int ?? Defaults.breakInterval
+        isSoundEnabled = defaults.object(forKey: UserDefaultsKey.isSoundEnabled) as? Bool ?? Defaults.isSoundEnabled
+        launchAtLogin = defaults.object(forKey: UserDefaultsKey.launchAtLogin) as? Bool ?? Defaults.launchAtLogin
+        isBreakTimeNow = defaults.bool(forKey: UserDefaultsKey.isBreakTimeNow)
+    }
 
     func resetToDefaults() {
         shouldTimerRun = Defaults.shouldTimerRun
@@ -62,6 +66,18 @@ final class SettingsStore: ObservableObject {
     }
 
     private func updateLaunchAtLogin() {
-        SMLoginItemSetEnabled(Constants.helperBundleID as CFString, launchAtLogin)
+        let helperID = Constants.helperBundleID
+        if #available(macOS 13.0, *) {
+            do {
+                let service = SMAppService.loginItem(identifier: helperID)
+                if launchAtLogin {
+                    try service.register()
+                } else {
+                    try service.unregister()
+                }
+            } catch {
+                Log.system.error("Failed to update launch-at-login: \(error.localizedDescription)")
+            }
+        }
     }
 }

@@ -19,11 +19,11 @@ enum SystemIdle {
         defer { IOObjectRelease(iterator) }
 
         guard IOServiceGetMatchingServices(
-            kIOMasterPortDefault,
+            kIOMainPortDefault,
             IOServiceMatching("IOHIDSystem"),
             &iterator
         ) == KERN_SUCCESS else {
-            Log.systemError("Failed to get IOHIDSystem matching services")
+            Log.system.error("Failed to get IOHIDSystem matching services")
             return nil
         }
 
@@ -31,7 +31,7 @@ enum SystemIdle {
         defer { IOObjectRelease(entry) }
 
         guard entry != 0 else {
-            Log.systemError("Failed to get IOHIDSystem registry entry")
+            Log.system.error("Failed to get IOHIDSystem registry entry")
             return nil
         }
 
@@ -44,12 +44,12 @@ enum SystemIdle {
             kCFAllocatorDefault,
             0
         ) == KERN_SUCCESS else {
-            Log.systemError("Failed to get IOHIDSystem properties")
+            Log.system.error("Failed to get IOHIDSystem properties")
             return nil
         }
 
         guard let dict = unmanagedDict?.takeUnretainedValue() else {
-            Log.systemError("Failed to retain IOHIDSystem properties dictionary")
+            Log.system.error("Failed to retain IOHIDSystem properties dictionary")
             return nil
         }
 
@@ -59,7 +59,7 @@ enum SystemIdle {
         var nanoseconds: Int64 = 0
 
         guard CFNumberGetValue(number, .sInt64Type, &nanoseconds) else {
-            Log.systemError("Failed to read HIDIdleTime value")
+            Log.system.error("Failed to read HIDIdleTime value")
             return nil
         }
 

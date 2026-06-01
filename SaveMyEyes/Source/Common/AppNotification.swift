@@ -9,7 +9,7 @@
 import Foundation
 import UserNotifications
 
-final class AppNotification {
+struct AppNotification {
     static let defaultSound = UNNotificationSound.default
     static let withoutSound: UNNotificationSound? = nil
 
@@ -41,16 +41,16 @@ final class AppNotification {
     }
 }
 
-final class AppNotificationManager {
+enum AppNotificationManager {
     private static let center = UNUserNotificationCenter.current()
 
     static func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
         center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if let error {
-                Log.notificationError("Authorization failed: \(error.localizedDescription)")
+                Log.notifications.error("Authorization failed: \(error.localizedDescription)")
                 completion(false, error)
             } else if !success {
-                Log.notificationError("Permission denied by user")
+                Log.notifications.error("Permission denied by user")
                 let deniedError = NSError(
                     domain: "AppNotificationManager",
                     code: 1,
@@ -58,7 +58,7 @@ final class AppNotificationManager {
                 )
                 completion(false, deniedError)
             } else {
-                Log.notificationInfo("Permission granted")
+                Log.notifications.info("Permission granted")
                 completion(true, nil)
             }
         }

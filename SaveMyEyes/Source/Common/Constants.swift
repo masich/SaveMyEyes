@@ -19,7 +19,7 @@ enum Defaults {
 enum Constants {
     static let workIntervalRange = 1...150 // minutes
     static let breakIntervalRange = 1...60 // minutes
-    static let minute: TimeInterval = 60 // minutes to seconds
+    static let minute: TimeInterval = 60 // seconds per minute
 
     // If user is inactive for more than this, the internal timer pauses
     static let allowedUserInactivityMinutes = 5
@@ -27,6 +27,7 @@ enum Constants {
 
     // Bundle ID for helper app to automatically launch SaveMyEyes at startup
     static let helperBundleID = "com.masich.SaveMyEyesLauncher"
+    static let mainBundleID = "com.masich.SaveMyEyes"
 }
 
 // MARK: - UserDefaults Keys
@@ -36,6 +37,6 @@ enum UserDefaultsKey {
     static let breakInterval = "BreakTimeInterval"
     static let isSoundEnabled = "IsSoundEnabled"
     static let launchAtLogin = "LaunchAtLogin"
-    static let remainingMinutes = "RemainingMinutes"
+    static let remainingSeconds = "RemainingSeconds"
     static let isBreakTimeNow = "IsBreakTimeNow"
 }

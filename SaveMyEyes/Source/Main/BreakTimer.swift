@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import Combine
+import Observation
 
-@MainActor
-final class BreakTimer: ObservableObject {
-    @Published private(set) var remainingSeconds: Int = 0
-    @Published private(set) var isBreakTimeNow = false
+@Observable
+final class BreakTimer {
+    private(set) var remainingSeconds: Int = 0
+    private(set) var isBreakTimeNow = false
 
     var remainingMins: Int { remainingSeconds / 60 }
 
@@ -37,7 +37,7 @@ final class BreakTimer: ObservableObject {
 
         // Restore persisted state or use defaults
         let wasBreak = UserDefaults.standard.bool(forKey: UserDefaultsKey.isBreakTimeNow)
-        let savedRemaining = UserDefaults.standard.integer(forKey: UserDefaultsKey.remainingMinutes)
+        let savedRemaining = UserDefaults.standard.integer(forKey: UserDefaultsKey.remainingSeconds)
 
         isBreakTimeNow = wasBreak
         remainingSeconds = savedRemaining > 0
@@ -58,13 +58,13 @@ final class BreakTimer: ObservableObject {
                 self?.tick()
             }
         }
-        Log.timerInfo("Timer started — \(self.isBreakTimeNow ? "break" : "work"), \(self.remainingSeconds)s remaining")
+        Log.timer.info("Timer started — \(self.isBreakTimeNow ? "break" : "work"), \(self.remainingSeconds)s remaining")
     }
 
     func stop() {
         timer?.invalidate()
         timer = nil
-        Log.timerInfo("Timer stopped")
+        Log.timer.info("Timer stopped")
     }
 
     func pause() {
@@ -85,15 +85,15 @@ final class BreakTimer: ObservableObject {
         }
     }
 
-    /// Simulates a single tick of the timer (for testing only).
+    #if DEBUG
     func simulateTick() {
         tick()
     }
 
-    /// Sets the break state directly (for testing only).
     func testSetBreakState(_ isBreak: Bool) {
         isBreakTimeNow = isBreak
     }
+    #endif
 
     // MARK: - Private
 
@@ -105,7 +105,7 @@ final class BreakTimer: ObservableObject {
         if !isUserInactive && isInactiveNow && !isBreakTimeNow {
             let maxIncrement = (settings.workInterval * 60) - remainingSeconds
             let increment = min(maxIncrement, Int(Constants.allowedUserInactivityInterval))
-            remainingSeconds += Int(increment)
+            remainingSeconds += increment
         }
         isUserInactive = isInactiveNow
 
@@ -122,7 +122,7 @@ final class BreakTimer: ObservableObject {
                 isBreakTimeNow.toggle()
                 onBreakStateChanged(isBreakTimeNow)
                 onNotification()
-                Log.timerInfo("State changed — now \(isBreakTimeNow ? "break" : "work")")
+                Log.timer.info("State changed — now \(self.isBreakTimeNow ? "break" : "work")")
             }
         }
 
@@ -130,7 +130,7 @@ final class BreakTimer: ObservableObject {
     }
 
     private func persistState() {
-        UserDefaults.standard.set(remainingSeconds, forKey: UserDefaultsKey.remainingMinutes)
+        UserDefaults.standard.set(remainingSeconds, forKey: UserDefaultsKey.remainingSeconds)
         UserDefaults.standard.set(isBreakTimeNow, forKey: UserDefaultsKey.isBreakTimeNow)
     }
 }

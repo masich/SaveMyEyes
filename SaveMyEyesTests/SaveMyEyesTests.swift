@@ -19,7 +19,7 @@ final class SaveMyEyesTests: XCTestCase {
             UserDefaultsKey.breakInterval,
             UserDefaultsKey.isSoundEnabled,
             UserDefaultsKey.launchAtLogin,
-            UserDefaultsKey.remainingMinutes,
+            UserDefaultsKey.remainingSeconds,
             UserDefaultsKey.isBreakTimeNow,
         ]
         let uniqueKeys = Set(keys)

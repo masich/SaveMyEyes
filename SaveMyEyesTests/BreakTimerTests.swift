@@ -17,7 +17,7 @@ final class BreakTimerTests: XCTestCase {
         if let domain = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: domain)
         }
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.remainingMinutes)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.remainingSeconds)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.isBreakTimeNow)
         UserDefaults.standard.synchronize()
 
@@ -131,7 +131,7 @@ final class BreakTimerTests: XCTestCase {
         let timer = makeTimer()
         timer.updateRemainingForWorkInterval(15)
         XCTAssertEqual(
-            UserDefaults.standard.integer(forKey: UserDefaultsKey.remainingMinutes),
+            UserDefaults.standard.integer(forKey: UserDefaultsKey.remainingSeconds),
             15 * 60
         )
     }

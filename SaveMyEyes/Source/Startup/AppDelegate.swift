@@ -10,9 +10,8 @@ import Cocoa
 import SwiftUI
 import UserNotifications
 
-@MainActor
 @NSApplicationMain
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var popover: NSPopover!
     var statusItem: NSStatusItem!
@@ -25,22 +24,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupStatusItem()
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
-        // Timer state is already persisted via UserDefaults in BreakTimer
-        // No additional cleanup needed
-    }
-
-    // MARK: - Setup
-
     private func setupNotifications() {
         AppNotificationManager.registerCategories()
         AppNotificationManager.registerDelegate(self)
         AppNotificationManager.requestAuthorization { success, error in
             DispatchQueue.main.async {
                 if let error {
-                    Log.notificationError("Authorization error: \(error.localizedDescription)")
+                    Log.notifications.error("Authorization error: \(error.localizedDescription)")
                 } else if !success {
-                    Log.notificationWarning("Notifications not authorized")
+                    Log.notifications.warning("Notifications not authorized")
                 }
             }
         }
@@ -48,7 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setupViewModel() {
         viewModel = MainViewModel(
-            timerInterval: 1, // tick every second for smooth UI updates
+            timerInterval: 1,
             allowedUserInactivityInterval: Constants.allowedUserInactivityInterval,
             terminateApp: { NSApp.terminate(nil) }
         )
@@ -69,8 +61,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.target = self
     }
 
-    // MARK: - Actions
-
     @objc private func togglePopover() {
         if popover.isShown {
             closePopover()
@@ -89,31 +79,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         popover.performClose(nil)
     }
 
-    // MARK: - Helpers
+    // MARK: - UNUserNotificationCenterDelegate
 
-    private func showAlert(title: String, message: String) {
-        let alert = NSAlert()
-        alert.messageText = title
-        alert.informativeText = message
-        alert.alertStyle = .warning
-        alert.runModal()
-    }
-}
-
-// MARK: - UNUserNotificationCenterDelegate
-
-extension AppDelegate: @preconcurrency UNUserNotificationCenterDelegate {
-    func userNotificationCenter(
+    nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let category = response.notification.request.content.categoryIdentifier
-
         if category == AppNotification.Category.reminder {
             switch response.actionIdentifier {
             case AppNotification.Action.pause:
-                viewModel.pauseTimer()
+                Task { @MainActor in
+                    self.viewModel.pauseTimer()
+                }
             default:
                 break
             }
@@ -121,11 +100,11 @@ extension AppDelegate: @preconcurrency UNUserNotificationCenterDelegate {
         completionHandler()
     }
 
-    func userNotificationCenter(
+    nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        completionHandler([.alert, .badge, .sound])
+        completionHandler([.banner, .list, .badge, .sound])
     }
 }

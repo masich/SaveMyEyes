@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct MainView: View {
-    @ObservedObject var viewModel: MainViewModel
-    @ObservedObject var settings: SettingsStore
+    var viewModel: MainViewModel
+    @Bindable var settings: SettingsStore
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -26,13 +26,21 @@ struct MainView: View {
         }
         .padding(16)
         .frame(width: 280)
+        .onAppear {
+            if settings.shouldTimerRun { viewModel.startTimer() }
+        }
+        .onChange(of: settings.shouldTimerRun) { _, shouldRun in
+            if shouldRun { viewModel.startTimer() } else { viewModel.stopTimer() }
+        }
     }
 
     // MARK: - Sections
 
     private var statusSection: some View {
         HStack {
-            Image(nsImage: NSImage(named: NSImage.touchBarQuickLookTemplateName) ?? NSImage())
+            Image(systemName: viewModel.isBreakTimeNow ? "cup.and.saucer.fill" : "deskclock.fill")
+                .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .accentColor)
+                .font(.title3)
 
             Text(viewModel.isBreakTimeNow ? "On break" : "Focusing")
                 .font(.headline.weight(.semibold))
@@ -41,7 +49,7 @@ struct MainView: View {
 
             Text(viewModel.remainingSeconds.asDurationString)
                 .font(.system(size: 18, weight: .semibold, design: .monospaced))
-                .foregroundColor(viewModel.isBreakTimeNow ? .blue : .primary)
+                .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .primary)
         }
     }
 
@@ -58,7 +66,7 @@ struct MainView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Intervals")
                 .font(.subheadline.weight(.medium))
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
 
             HStack {
                 Text("Work")
@@ -88,7 +96,7 @@ struct MainView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("General")
                 .font(.subheadline.weight(.medium))
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
 
             HStack {
                 Text("Sound")
@@ -109,34 +117,32 @@ struct MainView: View {
     private var actionsSection: some View {
         HStack {
             Button("Reset", action: viewModel.resetToDefaults)
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(.borderless)
 
             Spacer()
 
             Button("Quit", action: viewModel.quit)
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(.borderless)
+                .keyboardShortcut("q", modifiers: .command)
         }
     }
 }
 
 // MARK: - Preview
 
-#if DEBUG
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        let vm = PreviewFactory.makeViewModel()
-        MainView(viewModel: vm, settings: vm.settings)
-    }
+#Preview {
+    @MainActor in
+    let vm = PreviewFactory.makeViewModel()
+    MainView(viewModel: vm, settings: vm.settings)
 }
 
 @MainActor
 enum PreviewFactory {
     static func makeViewModel() -> MainViewModel {
         MainViewModel(
-            timerInterval: Constants.minute,
+            timerInterval: 1,
             allowedUserInactivityInterval: Constants.allowedUserInactivityInterval,
             terminateApp: { print("Preview quit") }
         )
     }
 }
-#endif
