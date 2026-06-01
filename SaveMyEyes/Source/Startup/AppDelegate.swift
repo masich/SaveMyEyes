@@ -13,14 +13,14 @@ import UserNotifications
 @NSApplicationMain
 final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    var popover: NSPopover!
+    var panel: NSPanel!
     var statusItem: NSStatusItem!
     var viewModel: MainViewModel!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupNotifications()
         setupViewModel()
-        setupPopover()
+        setupPanel()
         setupStatusItem()
     }
 
@@ -46,37 +46,78 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         )
     }
 
-    private func setupPopover() {
-        popover = NSPopover()
-        popover.behavior = .transient
-        popover.contentViewController = NSHostingController(
+    private func setupPanel() {
+        let panel = NSPanel(
+            contentRect: .zero,
+            styleMask: [.borderless, .nonactivatingPanel],
+            backing: .buffered,
+            defer: false
+        )
+        panel.level = .popUpMenu
+        panel.hidesOnDeactivate = true
+        panel.isReleasedWhenClosed = false
+        panel.backgroundColor = .clear
+        panel.hasShadow = true
+
+        let effectView = NSVisualEffectView()
+        effectView.material = .menu
+        effectView.blendingMode = .behindWindow
+        effectView.state = .active
+        effectView.wantsLayer = true
+        effectView.layer?.cornerRadius = 12
+        effectView.layer?.masksToBounds = true
+        panel.contentView = effectView
+
+        let hostingController = NSHostingController(
             rootView: MainView(viewModel: viewModel, settings: viewModel.settings)
         )
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        effectView.addSubview(hostingController.view)
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: effectView.topAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: effectView.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: effectView.trailingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: effectView.bottomAnchor),
+        ])
+
+        // Size the panel from the hosting view's fitting size
+        hostingController.view.layoutSubtreeIfNeeded()
+        let fittingSize = hostingController.view.fittingSize
+        panel.setContentSize(fittingSize)
+
+        self.panel = panel
     }
 
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusItem.button?.image = NSImage(named: "StatusBarButtonImage")
-        statusItem.button?.action = #selector(togglePopover)
+        statusItem.button?.action = #selector(togglePanel)
         statusItem.button?.target = self
     }
 
-    @objc private func togglePopover() {
-        if popover.isShown {
-            closePopover()
+    @objc private func togglePanel(_ sender: AnyObject?) {
+        if panel.isVisible {
+            closePanel()
         } else {
-            showPopover()
+            showPanel()
         }
     }
 
-    private func showPopover() {
+    private func showPanel() {
         guard let button = statusItem.button else { return }
-        popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        let screenRect = button.window?.frame ?? .zero
+
+        let panelSize = panel.frame.size
+        let x = screenRect.maxX - panelSize.width
+        let y = screenRect.minY - panelSize.height
+
+        panel.setFrameOrigin(NSPoint(x: x, y: y))
         NSApp.activate(ignoringOtherApps: true)
+        panel.orderFrontRegardless()
     }
 
-    private func closePopover() {
-        popover.performClose(nil)
+    private func closePanel() {
+        panel.orderOut(nil)
     }
 
     // MARK: - UNUserNotificationCenterDelegate

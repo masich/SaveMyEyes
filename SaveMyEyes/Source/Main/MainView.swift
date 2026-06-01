@@ -26,6 +26,7 @@ struct MainView: View {
         }
         .padding(16)
         .frame(width: 280)
+        .background(Color.clear)
         .onAppear {
             if settings.shouldTimerRun { viewModel.startTimer() }
         }
