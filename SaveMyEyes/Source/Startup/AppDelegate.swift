@@ -64,7 +64,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         effectView.blendingMode = .behindWindow
         effectView.state = .active
         effectView.wantsLayer = true
-        effectView.layer?.cornerRadius = 12
+        effectView.layer?.cornerRadius = 16
         effectView.layer?.masksToBounds = true
         panel.contentView = effectView
 

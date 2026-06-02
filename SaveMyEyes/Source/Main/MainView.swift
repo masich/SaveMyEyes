@@ -13,19 +13,15 @@ struct MainView: View {
     @Bindable var settings: SettingsStore
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            statusSection
-            Divider().padding(.vertical, 8)
-            timerSection
-            Divider().padding(.vertical, 8)
+        VStack(spacing: 6) {
+            statusCard
+            timerToggleRow
             intervalSection
-            Divider().padding(.vertical, 8)
             generalSection
-            Divider().padding(.vertical, 8)
-            actionsSection
+            actionButtons
         }
-        .padding(16)
-        .frame(width: 280)
+        .padding(14)
+        .frame(width: 300)
         .background(Color.clear)
         .onAppear {
             if settings.shouldTimerRun { viewModel.startTimer() }
@@ -35,97 +31,187 @@ struct MainView: View {
         }
     }
 
-    // MARK: - Sections
+    // MARK: - Status Card
 
-    private var statusSection: some View {
-        HStack {
-            Image(systemName: viewModel.isBreakTimeNow ? "cup.and.saucer.fill" : "deskclock.fill")
-                .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .accentColor)
-                .font(.title3)
+    private var statusCard: some View {
+        VStack(spacing: 4) {
+            HStack(spacing: 6) {
+                Text(viewModel.isBreakTimeNow ? "On break" : "Focusing")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(.primary)
+                Spacer()
+            }
 
-            Text(viewModel.isBreakTimeNow ? "On break" : "Focusing")
-                .font(.headline.weight(.semibold))
-
-            Spacer()
-
-            Text(viewModel.remainingSeconds.asDurationString)
-                .font(.system(size: 18, weight: .semibold, design: .monospaced))
-                .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .primary)
+            HStack {
+                Text(viewModel.remainingSeconds.asDurationString)
+                    .font(.system(size: 32, weight: .bold, design: .monospaced))
+                    .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .primary)
+                    .monospacedDigit()
+                Spacer()
+            }
         }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(.quaternary.opacity(0.4))
+        )
     }
 
-    private var timerSection: some View {
+    // MARK: - Timer Toggle
+
+    private var timerToggleRow: some View {
         HStack {
+            Image(systemName: "timer")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.secondary)
+                .frame(width: 22)
+
             Text("Run timer")
+                .font(.system(size: 13))
+                .foregroundStyle(.primary)
+
             Spacer()
+
             Toggle("Run timer", isOn: $settings.shouldTimerRun)
                 .labelsHidden()
+                .toggleStyle(.switch)
+                .controlSize(.small)
         }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(.quaternary.opacity(0.3))
+        )
     }
+
+    // MARK: - Interval Section
 
     private var intervalSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Intervals")
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.secondary)
+        VStack(spacing: 2) {
+            intervalRow(
+                icon: "briefcase.fill",
+                title: "Work",
+                value: $settings.workInterval,
+                range: Constants.workIntervalRange,
+                unit: "min"
+            )
 
-            HStack {
-                Text("Work")
-                    .frame(width: 60, alignment: .leading)
-                Spacer()
-                Stepper(value: $settings.workInterval, in: Constants.workIntervalRange) {
-                    Text("\(settings.workInterval) min")
-                        .frame(width: 60, alignment: .trailing)
-                        .font(.system(.body, design: .monospaced))
-                }
-            }
-
-            HStack {
-                Text("Break")
-                    .frame(width: 60, alignment: .leading)
-                Spacer()
-                Stepper(value: $settings.breakInterval, in: Constants.breakIntervalRange) {
-                    Text("\(settings.breakInterval) min")
-                        .frame(width: 60, alignment: .trailing)
-                        .font(.system(.body, design: .monospaced))
-                }
-            }
+            intervalRow(
+                icon: "cup.and.saucer.fill",
+                title: "Break",
+                value: $settings.breakInterval,
+                range: Constants.breakIntervalRange,
+                unit: "min"
+            )
         }
+        .padding(4)
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(.quaternary.opacity(0.3))
+        )
     }
+
+    private func intervalRow(
+        icon: String,
+        title: String,
+        value: Binding<Int>,
+        range: ClosedRange<Int>,
+        unit: String
+    ) -> some View {
+        HStack {
+            Image(systemName: icon)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(.secondary)
+                .frame(width: 22)
+
+            Text(title)
+                .font(.system(size: 13))
+                .foregroundStyle(.primary)
+
+            Spacer()
+
+            Stepper(value: value, in: range) {
+                Text("\(value.wrappedValue) \(unit)")
+                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+                    .foregroundStyle(.primary)
+                    .monospacedDigit()
+                    .frame(minWidth: 58, alignment: .trailing)
+            }
+            .controlSize(.small)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 6)
+    }
+
+    // MARK: - General Section
 
     private var generalSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("General")
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.secondary)
+        VStack(spacing: 2) {
+            settingsRow(
+                icon: "speaker.wave.2.fill",
+                title: "Sound",
+                isOn: $settings.isSoundEnabled
+            )
 
-            HStack {
-                Text("Sound")
-                Spacer()
-                Toggle("Sound", isOn: $settings.isSoundEnabled)
-                    .labelsHidden()
-            }
-
-            HStack {
-                Text("Launch at login")
-                Spacer()
-                Toggle("Launch at login", isOn: $settings.launchAtLogin)
-                    .labelsHidden()
-            }
+            settingsRow(
+                icon: "power",
+                title: "Launch at login",
+                isOn: $settings.launchAtLogin
+            )
         }
+        .padding(4)
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(.quaternary.opacity(0.3))
+        )
     }
 
-    private var actionsSection: some View {
+    private func settingsRow(
+        icon: String,
+        title: String,
+        isOn: Binding<Bool>
+    ) -> some View {
         HStack {
+            Image(systemName: icon)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(.secondary)
+                .frame(width: 22)
+
+            Text(title)
+                .font(.system(size: 13))
+                .foregroundStyle(.primary)
+
+            Spacer()
+
+            Toggle(title, isOn: isOn)
+                .labelsHidden()
+                .toggleStyle(.switch)
+                .controlSize(.small)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 6)
+    }
+
+    // MARK: - Action Buttons
+
+    private var actionButtons: some View {
+        HStack(spacing: 8) {
             Button("Reset", action: viewModel.resetToDefaults)
-                .buttonStyle(.borderless)
+                .buttonStyle(.plain)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
 
             Spacer()
 
             Button("Quit", action: viewModel.quit)
-                .buttonStyle(.borderless)
+                .buttonStyle(.plain)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
                 .keyboardShortcut("q", modifiers: .command)
         }
+        .padding(.horizontal, 4)
+        .padding(.top, 2)
     }
 }
 
@@ -135,6 +221,8 @@ struct MainView: View {
     @MainActor in
     let vm = PreviewFactory.makeViewModel()
     MainView(viewModel: vm, settings: vm.settings)
+        .padding()
+        .background(Color.black.opacity(0.3))
 }
 
 @MainActor
