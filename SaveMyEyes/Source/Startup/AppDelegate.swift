@@ -57,6 +57,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         statusItem.button?.image = NSImage(named: "StatusBarButtonImage")
         statusItem.button?.action = #selector(togglePopover(_:))
         statusItem.button?.target = self
+        // Update icon when timer state changes
+        viewModel.settings.onTimerRunStateChanged = { [weak self] _ in
+            self?.updateStatusIcon()
+        }
+        updateStatusIcon()
+    }
+
+    /// Updates the status bar icon appearance based on timer state.
+    /// - Active timer: normal (template) icon
+    /// - Inactive timer: dimmed/transparent icon
+    private func updateStatusIcon() {
+        guard let button = statusItem.button else { return }
+        button.contentTintColor = nil
+        button.alphaValue = viewModel.settings.shouldTimerRun ? 1.0 : 0.35
     }
 
     // MARK: - Popover

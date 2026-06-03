@@ -12,8 +12,13 @@ import Observation
 
 @Observable
 final class SettingsStore {
+    var onTimerRunStateChanged: ((Bool) -> Void)?
+
     var shouldTimerRun: Bool {
-        didSet { UserDefaults.standard.set(shouldTimerRun, forKey: UserDefaultsKey.shouldTimerRun) }
+        didSet {
+            UserDefaults.standard.set(shouldTimerRun, forKey: UserDefaultsKey.shouldTimerRun)
+            onTimerRunStateChanged?(shouldTimerRun)
+        }
     }
 
     var workInterval: Int {
