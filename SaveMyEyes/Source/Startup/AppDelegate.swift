@@ -13,16 +13,18 @@ import UserNotifications
 @NSApplicationMain
 final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    var panel: NSPanel!
     var statusItem: NSStatusItem!
     var viewModel: MainViewModel!
+    var popover: NSPopover!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupNotifications()
         setupViewModel()
-        setupPanel()
         setupStatusItem()
+        createPopover()
     }
+
+    // MARK: - Notifications
 
     private func setupNotifications() {
         AppNotificationManager.registerCategories()
@@ -38,6 +40,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         }
     }
 
+    // MARK: - View Model
+
     private func setupViewModel() {
         viewModel = MainViewModel(
             timerInterval: 1,
@@ -46,78 +50,59 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         )
     }
 
-    private func setupPanel() {
-        let panel = NSPanel(
-            contentRect: .zero,
-            styleMask: [.borderless, .nonactivatingPanel],
-            backing: .buffered,
-            defer: false
-        )
-        panel.level = .popUpMenu
-        panel.hidesOnDeactivate = true
-        panel.isReleasedWhenClosed = false
-        panel.backgroundColor = .clear
-        panel.hasShadow = true
-
-        let effectView = NSVisualEffectView()
-        effectView.material = .menu
-        effectView.blendingMode = .behindWindow
-        effectView.state = .active
-        effectView.wantsLayer = true
-        effectView.layer?.cornerRadius = 16
-        effectView.layer?.masksToBounds = true
-        panel.contentView = effectView
-
-        let hostingController = NSHostingController(
-            rootView: MainView(viewModel: viewModel, settings: viewModel.settings)
-        )
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        effectView.addSubview(hostingController.view)
-        NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: effectView.topAnchor),
-            hostingController.view.leadingAnchor.constraint(equalTo: effectView.leadingAnchor),
-            hostingController.view.trailingAnchor.constraint(equalTo: effectView.trailingAnchor),
-            hostingController.view.bottomAnchor.constraint(equalTo: effectView.bottomAnchor),
-        ])
-
-        // Size the panel from the hosting view's fitting size
-        hostingController.view.layoutSubtreeIfNeeded()
-        let fittingSize = hostingController.view.fittingSize
-        panel.setContentSize(fittingSize)
-
-        self.panel = panel
-    }
+    // MARK: - Status Item
 
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusItem.button?.image = NSImage(named: "StatusBarButtonImage")
-        statusItem.button?.action = #selector(togglePanel)
+        statusItem.button?.action = #selector(togglePopover(_:))
         statusItem.button?.target = self
     }
 
-    @objc private func togglePanel(_ sender: AnyObject?) {
-        if panel.isVisible {
-            closePanel()
+    // MARK: - Popover
+
+    private func createPopover() {
+        let popover = NSPopover()
+        popover.behavior = .transient
+
+        let hostingController = NSHostingController(
+            rootView: MainView(viewModel: viewModel, settings: viewModel.settings)
+        )
+        hostingController.sizingOptions = [.preferredContentSize]
+        popover.contentViewController = hostingController
+        popover.contentSize = hostingController.preferredContentSize
+
+        self.popover = popover
+    }
+
+    // MARK: - Popover Toggle
+
+    @objc private func togglePopover(_ sender: AnyObject?) {
+        if popover.isShown {
+            closePopover(sender)
         } else {
-            showPanel()
+            showPopover(sender)
         }
     }
 
-    private func showPanel() {
+    private func showPopover(_ sender: AnyObject?) {
         guard let button = statusItem.button else { return }
-        let screenRect = button.window?.frame ?? .zero
 
-        let panelSize = panel.frame.size
-        let x = screenRect.maxX - panelSize.width
-        let y = screenRect.minY - panelSize.height
+        createPopover()
 
-        panel.setFrameOrigin(NSPoint(x: x, y: y))
-        NSApp.activate(ignoringOtherApps: true)
-        panel.orderFrontRegardless()
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        CATransaction.commit()
+
+        popover.contentViewController?.view.window?.makeKey()
     }
 
-    private func closePanel() {
-        panel.orderOut(nil)
+    private func closePopover(_ sender: AnyObject?) {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        popover.performClose(sender)
+        CATransaction.commit()
     }
 
     // MARK: - UNUserNotificationCenterDelegate
