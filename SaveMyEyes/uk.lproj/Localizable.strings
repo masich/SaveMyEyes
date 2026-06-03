@@ -1,23 +1,34 @@
-/* 
+/*
  Localizable.strings
  SaveMyEyes
- 
+
  Created by Max Omelchenko on 02/24/20.
  Copyright © 2020 Max Omelchenko. All rights reserved.
  */
 
-"Time to work" = "Час до роботи";
-"Time to break" = "Час до перерви";
+// Status
+"On break" = "На перерві";
+"Focusing" = "Фокусування";
+
+// Timer
 "Run timer" = "Запустити таймер";
+
+// Intervals
+"Work" = "Робота";
+"Break" = "Перерва";
 "min" = "хв";
-"Work interval" = "Інтервал роботи";
-"Break interval" = "Інтервал перерви";
+
+// Settings
+"Sound" = "Звук";
+"Launch at login" = "Відкривати під час\nзапуску системи";
+
+// Actions
+"Reset" = "Скинути";
 "Quit" = "Вихід";
-"It's time for break" = "Час зробити перерву";
+
+// Notifications
+"It's time for a break" = "Час зробити перерву";
 "It's time to work" = "Час повертатися до роботи";
-"Relax from your computer for %d min." = "Відпочинь від комп'ютера %d хв.";
+"Step away for %d min" = "Відпочинь від комп'ютера %d хв.";
 "Let's continue to do amazing things!" = "Ну що, продовжуємо робити круті речі!";
 "Pause" = "Пауза";
-"Enable sound" = "Увімкнути звук";
-"Reset" = "Скинути";
-"Launch at login" = "Відкривати під час\nзапуску системи";

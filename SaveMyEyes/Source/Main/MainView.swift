@@ -35,7 +35,7 @@ struct MainView: View {
     private var statusCard: some View {
         VStack(spacing: 4) {
             HStack(spacing: 6) {
-                Text(viewModel.isBreakTimeNow ? "On break" : "Focusing")
+                Text(viewModel.isBreakTimeNow ? "On break".localized : "Focusing".localized)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(.primary)
                 Spacer()
@@ -65,13 +65,13 @@ struct MainView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 22)
 
-            Text("Run timer")
+            Text("Run timer".localized)
                 .font(.system(size: 13))
                 .foregroundStyle(.primary)
 
             Spacer()
 
-            Toggle("Run timer", isOn: $settings.shouldTimerRun)
+            Toggle("Run timer".localized, isOn: $settings.shouldTimerRun)
                 .labelsHidden()
                 .toggleStyle(.switch)
                 .controlSize(.small)
@@ -90,18 +90,18 @@ struct MainView: View {
         VStack(spacing: 2) {
             intervalRow(
                 icon: "briefcase.fill",
-                title: "Work",
+                title: "Work".localized,
                 value: $settings.workInterval,
                 range: Constants.workIntervalRange,
-                unit: "min"
+                unit: "min".localized
             )
 
             intervalRow(
                 icon: "cup.and.saucer.fill",
-                title: "Break",
+                title: "Break".localized,
                 value: $settings.breakInterval,
                 range: Constants.breakIntervalRange,
-                unit: "min"
+                unit: "min".localized
             )
         }
         .padding(4)
@@ -124,14 +124,14 @@ struct MainView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 22)
 
-            Text(title)
+            Text(title.localized)
                 .font(.system(size: 13))
                 .foregroundStyle(.primary)
 
             Spacer()
 
             Stepper(value: value, in: range) {
-                Text("\(value.wrappedValue) \(unit)")
+                Text("\(value.wrappedValue) \(unit.localized)")
                     .font(.system(size: 13, weight: .medium, design: .monospaced))
                     .foregroundStyle(.primary)
                     .monospacedDigit()
@@ -149,13 +149,13 @@ struct MainView: View {
         VStack(spacing: 2) {
             settingsRow(
                 icon: "speaker.wave.2.fill",
-                title: "Sound",
+                title: "Sound".localized,
                 isOn: $settings.isSoundEnabled
             )
 
             settingsRow(
                 icon: "power",
-                title: "Launch at login",
+                title: "Launch at login".localized,
                 isOn: $settings.launchAtLogin
             )
         }
@@ -177,13 +177,13 @@ struct MainView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 22)
 
-            Text(title)
+            Text(title.localized)
                 .font(.system(size: 13))
                 .foregroundStyle(.primary)
 
             Spacer()
 
-            Toggle(title, isOn: isOn)
+            Toggle(title.localized, isOn: isOn)
                 .labelsHidden()
                 .toggleStyle(.switch)
                 .controlSize(.small)
@@ -196,14 +196,14 @@ struct MainView: View {
 
     private var actionButtons: some View {
         HStack(spacing: 8) {
-            Button("Reset", action: viewModel.resetToDefaults)
+            Button("Reset".localized, action: viewModel.resetToDefaults)
                 .buttonStyle(.plain)
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
 
             Spacer()
 
-            Button("Quit", action: viewModel.quit)
+            Button("Quit".localized, action: viewModel.quit)
                 .buttonStyle(.plain)
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
