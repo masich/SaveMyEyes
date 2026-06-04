@@ -66,6 +66,12 @@
 		B6AA8805268A393100431BAC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B6BFAD342406EF12008E51E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B6FC6A72244B944C004C5B25 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D0E1F2A3B4C5D6E7F8A9B0C1 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D0E1F2A3B4C5D6E7F8A9B0C2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D0E1F2A3B4C5D6E7F8A9B0C3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D0E1F2A3B4C5D6E7F8A9B0C4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D0E1F2A3B4C5D6E7F8A9B0C5 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D0E1F2A3B4C5D6E7F8A9B0C6 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B6FC9FA62403F088003FFC58 /* SaveMyEyes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveMyEyes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6FC9FA92403F088003FFC58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6FC9FAB2403F088003FFC58 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -308,6 +314,12 @@
 				Base,
 				uk,
 				"ru-RU",
+				pl,
+				fr,
+				de,
+				es,
+				it,
+				ro,
 			);
 			mainGroup = B6FC9F9D2403F088003FFC58;
 			productRefGroup = B6FC9FA72403F088003FFC58 /* Products */;
@@ -401,6 +413,12 @@
 				B69F2EBE24047AE1003F7BD0 /* en */,
 				B69F2EC024047AE5003F7BD0 /* uk */,
 				B6FC6A72244B944C004C5B25 /* ru-RU */,
+				D0E1F2A3B4C5D6E7F8A9B0C1 /* pl */,
+				D0E1F2A3B4C5D6E7F8A9B0C2 /* fr */,
+				D0E1F2A3B4C5D6E7F8A9B0C3 /* de */,
+				D0E1F2A3B4C5D6E7F8A9B0C4 /* es */,
+				D0E1F2A3B4C5D6E7F8A9B0C5 /* it */,
+				D0E1F2A3B4C5D6E7F8A9B0C6 /* ro */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

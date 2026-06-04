@@ -35,7 +35,7 @@ struct MainView: View {
     private var statusCard: some View {
         VStack(spacing: 4) {
             HStack(spacing: 6) {
-                Text(viewModel.isBreakTimeNow ? "On break".localized : "Focusing".localized)
+                Text(viewModel.isBreakTimeNow ? "On break".localized : "Working".localized)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(.primary)
                 Spacer()
