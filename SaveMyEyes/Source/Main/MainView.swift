@@ -15,7 +15,6 @@ struct MainView: View {
     var body: some View {
         VStack(spacing: 6) {
             statusCard
-            timerToggleRow
             intervalSection
             generalSection
             actionButtons
@@ -46,41 +45,41 @@ struct MainView: View {
                     .font(.system(size: 32, weight: .bold, design: .monospaced))
                     .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .primary)
                     .monospacedDigit()
+
                 Spacer()
+
+                Button(action: {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.6)) {
+                        settings.shouldTimerRun.toggle()
+                    }
+                }) {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: settings.shouldTimerRun
+                                        ? [Color.blue, Color.blue.opacity(0.7)]
+                                        : [Color.gray.opacity(0.5), Color.gray.opacity(0.35)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 40, height: 40)
+
+                        Image(systemName: settings.shouldTimerRun ? "pause.fill" : "play.fill")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                            .scaleEffect(settings.shouldTimerRun ? 1.08 : 1.0)
+                            .symbolEffect(.bounce.down, options: .speed(1.5), value: settings.shouldTimerRun)
+                    }
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(14)
         .background(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(.quaternary.opacity(0.4))
-        )
-    }
-
-    // MARK: - Timer Toggle
-
-    private var timerToggleRow: some View {
-        HStack {
-            Image(systemName: "timer")
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(.secondary)
-                .frame(width: 22)
-
-            Text("Run timer".localized)
-                .font(.system(size: 13))
-                .foregroundStyle(.primary)
-
-            Spacer()
-
-            Toggle("Run timer".localized, isOn: $settings.shouldTimerRun)
-                .labelsHidden()
-                .toggleStyle(.switch)
-                .controlSize(.small)
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(.quaternary.opacity(0.3))
         )
     }
 
