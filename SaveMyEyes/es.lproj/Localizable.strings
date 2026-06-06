@@ -32,3 +32,7 @@
 "Step away for %d min" = "Aléjate de la pantalla durante %d min";
 "Let's continue to do amazing things!" = "¡Sigamos haciendo cosas increíbles!";
 "Pause" = "Pausa";
+
+// Manual switch
+"Switch to work" = "Cambiar a trabajo";
+"Switch to break" = "Cambiar a descanso";

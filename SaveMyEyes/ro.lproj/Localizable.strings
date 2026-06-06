@@ -32,3 +32,7 @@
 "Step away for %d min" = "Depărtează-te de la ecran %d min";
 "Let's continue to do amazing things!" = "Hai să continuăm să facem lucruri uimitoare!";
 "Pause" = "Pauză";
+
+// Manual switch
+"Switch to work" = "Treci la muncă";
+"Switch to break" = "Treci la pauză";

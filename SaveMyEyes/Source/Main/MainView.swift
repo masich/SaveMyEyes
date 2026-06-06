@@ -31,22 +31,41 @@ struct MainView: View {
 
     // MARK: - Status Card
 
+    @State private var switchRotation: Double = 0
+
     private var statusCard: some View {
-        VStack(spacing: 4) {
-            HStack(spacing: 6) {
+        HStack(alignment: .center, spacing: 12) {
+            // Left side: status text + timer countdown
+            VStack(alignment: .leading, spacing: 4) {
                 Text(viewModel.isBreakTimeNow ? "On break".localized : "Working".localized)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(.primary)
-                Spacer()
-            }
 
-            HStack {
                 Text(viewModel.remainingSeconds.asDurationString)
                     .font(.system(size: 32, weight: .bold, design: .monospaced))
                     .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .primary)
                     .monospacedDigit()
+            }
 
-                Spacer()
+            Spacer()
+
+            // Right side: switch button to the left, play/pause to the right
+            HStack(spacing: 8) {
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.4)) {
+                        switchRotation += 180
+                        viewModel.toggleBreakState()
+                    }
+                }) {
+                    Image(systemName: "arrow.triangle.2.circlepath")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.white)
+                        .frame(width: 24, height: 24)
+                        .rotationEffect(.degrees(switchRotation))
+                        .background(Circle().fill(.quaternary.opacity(0.6)))
+                }
+                .buttonStyle(.plain)
+                .help(viewModel.isBreakTimeNow ? "Switch to work".localized : "Switch to break".localized)
 
                 Button(action: {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.6)) {
@@ -55,15 +74,9 @@ struct MainView: View {
                 }) {
                     ZStack {
                         Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: settings.shouldTimerRun
-                                        ? [Color.blue, Color.blue.opacity(0.7)]
-                                        : [Color.gray.opacity(0.5), Color.gray.opacity(0.35)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
+                            .fill(settings.shouldTimerRun
+                                ? Color.blue
+                                : Color(nsColor: .quaternaryLabelColor).opacity(0.6))
                             .frame(width: 40, height: 40)
 
                         Image(systemName: settings.shouldTimerRun ? "pause.fill" : "play.fill")

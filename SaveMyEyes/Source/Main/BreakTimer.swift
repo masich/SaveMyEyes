@@ -71,6 +71,15 @@ final class BreakTimer {
         settings.shouldTimerRun = false
     }
 
+    /// Manually toggle between work and break state.
+    func toggleBreakState() {
+        isBreakTimeNow.toggle()
+        remainingSeconds = (isBreakTimeNow ? settings.breakInterval : settings.workInterval) * 60
+        onBreakStateChanged(isBreakTimeNow)
+        persistState()
+        Log.timer.info("State manually toggled — now \(self.isBreakTimeNow ? "break" : "work")")
+    }
+
     func updateRemainingForWorkInterval(_ interval: Int) {
         if !isBreakTimeNow {
             remainingSeconds = interval * 60

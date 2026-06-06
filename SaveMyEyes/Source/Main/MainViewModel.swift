@@ -65,6 +65,8 @@ final class MainViewModel {
 
     func pauseTimer() { timer.pause() }
 
+    func toggleBreakState() { timer.toggleBreakState() }
+
     func resetToDefaults() { settings.resetToDefaults() }
 
     func quit() { terminateApp() }

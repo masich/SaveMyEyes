@@ -32,3 +32,7 @@
 "Step away for %d min" = "Отдохни от компьютера %d мин.";
 "Let's continue to do amazing things!" = "Ну что, продолжаем делать крутые вещи!";
 "Pause" = "Пауза";
+
+// Manual switch
+"Switch to work" = "Перейти к работе";
+"Switch to break" = "Перейти к перерыву";

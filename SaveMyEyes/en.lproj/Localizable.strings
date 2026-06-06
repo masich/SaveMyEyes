@@ -32,3 +32,7 @@
 "Step away for %d min" = "Step away for %d min";
 "Let's continue to do amazing things!" = "Let's continue to do amazing things!";
 "Pause" = "Pause";
+
+// Manual switch
+"Switch to work" = "Switch to work";
+"Switch to break" = "Switch to break";
