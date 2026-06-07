@@ -17,8 +17,8 @@ enum Defaults {
 }
 
 enum Constants {
-    static let workIntervalRange = 1...150 // minutes
-    static let breakIntervalRange = 1...60 // minutes
+    static let workIntervalRange = 1...180 // minutes
+    static let breakIntervalRange = 1...180 // minutes
     static let minute: TimeInterval = 60 // seconds per minute
 
     // If user is inactive for more than this, the internal timer pauses
