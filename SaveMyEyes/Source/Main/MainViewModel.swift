@@ -14,6 +14,8 @@ final class MainViewModel {
     let settings: SettingsStore
     private(set) var timer: BreakTimer!
 
+    var launchAtLoginError: String?
+
     private let terminateApp: () -> Void
 
     var isBreakTimeNow: Bool { timer.isBreakTimeNow }
@@ -40,6 +42,9 @@ final class MainViewModel {
         }
         settings.onBreakIntervalChanged = { [weak self] interval in
             self?.timer.updateRemainingForBreakInterval(interval)
+        }
+        settings.onLaunchAtLoginError = { [weak self] message in
+            self?.launchAtLoginError = message
         }
     }
 

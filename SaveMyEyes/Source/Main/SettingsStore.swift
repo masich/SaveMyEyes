@@ -39,12 +39,9 @@ final class SettingsStore {
         didSet { UserDefaults.standard.set(isSoundEnabled, forKey: UserDefaultsKey.isSoundEnabled) }
     }
 
-    var launchAtLogin: Bool {
-        didSet {
-            UserDefaults.standard.set(launchAtLogin, forKey: UserDefaultsKey.launchAtLogin)
-            updateLaunchAtLogin()
-        }
-    }
+    /// Launch-at-login state. The source of truth is SMAppService.mainApp.status;
+    /// this property reflects the user's desired state and is synced on change.
+    var launchAtLogin: Bool = false
 
     var isBreakTimeNow: Bool {
         didSet { UserDefaults.standard.set(isBreakTimeNow, forKey: UserDefaultsKey.isBreakTimeNow) }
@@ -52,6 +49,7 @@ final class SettingsStore {
 
     var onWorkIntervalChanged: ((Int) -> Void)?
     var onBreakIntervalChanged: ((Int) -> Void)?
+    var onLaunchAtLoginError: ((String) -> Void)?
 
     init() {
         let defaults = UserDefaults.standard
@@ -59,8 +57,10 @@ final class SettingsStore {
         workInterval = defaults.object(forKey: UserDefaultsKey.workInterval) as? Int ?? Defaults.workInterval
         breakInterval = defaults.object(forKey: UserDefaultsKey.breakInterval) as? Int ?? Defaults.breakInterval
         isSoundEnabled = defaults.object(forKey: UserDefaultsKey.isSoundEnabled) as? Bool ?? Defaults.isSoundEnabled
-        launchAtLogin = defaults.object(forKey: UserDefaultsKey.launchAtLogin) as? Bool ?? Defaults.launchAtLogin
         isBreakTimeNow = defaults.bool(forKey: UserDefaultsKey.isBreakTimeNow)
+
+        // Read the actual system state on launch
+        launchAtLogin = SMAppService.mainApp.status == .enabled
     }
 
     func resetToDefaults() {
@@ -70,19 +70,22 @@ final class SettingsStore {
         isSoundEnabled = Defaults.isSoundEnabled
     }
 
-    private func updateLaunchAtLogin() {
-        let helperID = Constants.helperBundleID
-        if #available(macOS 13.0, *) {
-            do {
-                let service = SMAppService.loginItem(identifier: helperID)
-                if launchAtLogin {
-                    try service.register()
-                } else {
-                    try service.unregister()
-                }
-            } catch {
-                Log.system.error("Failed to update launch-at-login: \(error.localizedDescription)")
+    /// Syncs the system registration to match the user's desired state.
+    /// Call this when the user toggles the launch-at-login setting.
+    func syncLaunchAtLogin() {
+        do {
+            let service = SMAppService.mainApp
+            if launchAtLogin {
+                try service.register()
+            } else {
+                try service.unregister()
             }
+        } catch {
+            // Revert to match actual system state
+            launchAtLogin = SMAppService.mainApp.status == .enabled
+
+            Log.system.error("Failed to update launch-at-login: \(error.localizedDescription)")
+            onLaunchAtLoginError?(error.localizedDescription)
         }
     }
 }

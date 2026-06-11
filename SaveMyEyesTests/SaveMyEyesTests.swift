@@ -18,7 +18,6 @@ final class SaveMyEyesTests: XCTestCase {
             UserDefaultsKey.workInterval,
             UserDefaultsKey.breakInterval,
             UserDefaultsKey.isSoundEnabled,
-            UserDefaultsKey.launchAtLogin,
             UserDefaultsKey.remainingSeconds,
             UserDefaultsKey.isBreakTimeNow,
         ]

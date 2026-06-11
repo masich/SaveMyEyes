@@ -14,6 +14,13 @@ struct MainView: View {
 
     var body: some View {
         VStack(spacing: 6) {
+            if let error = viewModel.launchAtLoginError {
+                errorBanner(message: error)
+                    .transition(.asymmetric(
+                        insertion: .scale(scale: 0.8, anchor: .top).combined(with: .opacity).animation(.spring(response: 0.4, dampingFraction: 0.8)),
+                        removal: .scale(scale: 0.8, anchor: .top).combined(with: .opacity).animation(.easeIn(duration: 0.15))
+                    ))
+            }
             statusCard
             intervalSection
             generalSection
@@ -21,12 +28,49 @@ struct MainView: View {
         }
         .padding(14)
         .frame(width: 300)
+        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: viewModel.launchAtLoginError)
         .onAppear {
             if settings.shouldTimerRun { viewModel.startTimer() }
         }
         .onChange(of: settings.shouldTimerRun) { _, shouldRun in
             if shouldRun { viewModel.startTimer() } else { viewModel.stopTimer() }
         }
+        .onChange(of: settings.launchAtLogin) { _, _ in
+            viewModel.settings.syncLaunchAtLogin()
+        }
+    }
+
+    private func errorBanner(message: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+                .font(.system(size: 12))
+
+            Text(message)
+                .font(.system(size: 11))
+                .foregroundStyle(.primary)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+
+            Spacer()
+
+            Button(action: { viewModel.launchAtLoginError = nil }) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(.orange.opacity(0.12))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(.orange.opacity(0.3), lineWidth: 0.5)
+        )
     }
 
     // MARK: - Status Card

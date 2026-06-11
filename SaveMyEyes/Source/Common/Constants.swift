@@ -13,7 +13,6 @@ enum Defaults {
     static let workInterval = 25 // minutes
     static let breakInterval = 5 // minutes
     static let isSoundEnabled = true
-    static let launchAtLogin = false
 }
 
 enum Constants {
@@ -36,7 +35,6 @@ enum UserDefaultsKey {
     static let workInterval = "WorkTimeInterval"
     static let breakInterval = "BreakTimeInterval"
     static let isSoundEnabled = "IsSoundEnabled"
-    static let launchAtLogin = "LaunchAtLogin"
     static let remainingSeconds = "RemainingSeconds"
     static let isBreakTimeNow = "IsBreakTimeNow"
 }

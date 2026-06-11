@@ -21,7 +21,6 @@ final class SettingsStoreTests: XCTestCase {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.workInterval)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.breakInterval)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.isSoundEnabled)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.launchAtLogin)
         UserDefaults.standard.synchronize()
         store = SettingsStore()
     }
@@ -38,7 +37,6 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertEqual(store.isSoundEnabled, Defaults.isSoundEnabled)
         XCTAssertEqual(store.workInterval, Defaults.workInterval)
         XCTAssertEqual(store.breakInterval, Defaults.breakInterval)
-        XCTAssertEqual(store.launchAtLogin, Defaults.launchAtLogin)
         XCTAssertFalse(store.isBreakTimeNow)
     }
 
@@ -64,9 +62,11 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertTrue(UserDefaults.standard.bool(forKey: UserDefaultsKey.shouldTimerRun))
     }
 
-    func testLaunchAtLoginPersists() {
+    func testLaunchAtLoginToggle() {
         store.launchAtLogin = true
-        XCTAssertTrue(UserDefaults.standard.bool(forKey: UserDefaultsKey.launchAtLogin))
+        XCTAssertTrue(store.launchAtLogin)
+        store.launchAtLogin = false
+        XCTAssertFalse(store.launchAtLogin)
     }
 
     // MARK: - Reset to defaults
