@@ -72,7 +72,10 @@ final class MainViewModel {
 
     func toggleBreakState() { timer.toggleBreakState() }
 
-    func resetToDefaults() { settings.resetToDefaults() }
+    func resetToDefaults() {
+        settings.resetToDefaults()
+        timer.resetToDefaults(workInterval: settings.workInterval, breakInterval: settings.breakInterval)
+    }
 
     func quit() { terminateApp() }
 }

@@ -44,7 +44,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
     private func setupViewModel() {
         viewModel = MainViewModel(
-            timerInterval: 1,
+            timerInterval: 1.0,
             allowedUserInactivityInterval: Constants.allowedUserInactivityInterval,
             terminateApp: { NSApp.terminate(nil) }
         )

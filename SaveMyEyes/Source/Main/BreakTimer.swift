@@ -20,7 +20,7 @@ final class BreakTimer {
     private var isUserInactive = false
 
     private let tickInterval: TimeInterval
-    private let settings: SettingsStore
+    private weak var settings: SettingsStore?
     private let onNotification: () -> Void
     private let onBreakStateChanged: (Bool) -> Void
 
@@ -68,30 +68,35 @@ final class BreakTimer {
     }
 
     func pause() {
-        settings.shouldTimerRun = false
+        settings?.shouldTimerRun = false
+    }
+
+    func resetToDefaults(workInterval: Int, breakInterval: Int) {
+        isBreakTimeNow = false
+        remainingSeconds = workInterval * 60
+        persistState()
     }
 
     /// Manually toggle between work and break state.
     func toggleBreakState() {
         isBreakTimeNow.toggle()
-        remainingSeconds = (isBreakTimeNow ? settings.breakInterval : settings.workInterval) * 60
+        let interval = (isBreakTimeNow ? settings?.breakInterval : settings?.workInterval) ?? Defaults.workInterval
+        remainingSeconds = interval * 60
         onBreakStateChanged(isBreakTimeNow)
         persistState()
         Log.timer.info("State manually toggled — now \(self.isBreakTimeNow ? "break" : "work")")
     }
 
     func updateRemainingForWorkInterval(_ interval: Int) {
-        if !isBreakTimeNow {
-            remainingSeconds = interval * 60
-            persistState()
-        }
+        guard !isBreakTimeNow else { return }
+        remainingSeconds = interval * 60
+        persistState()
     }
 
     func updateRemainingForBreakInterval(_ interval: Int) {
-        if isBreakTimeNow {
-            remainingSeconds = interval * 60
-            persistState()
-        }
+        guard isBreakTimeNow else { return }
+        remainingSeconds = interval * 60
+        persistState()
     }
 
     #if DEBUG
@@ -112,7 +117,8 @@ final class BreakTimer {
 
         // If user just went idle, extend work time
         if !isUserInactive && isInactiveNow && !isBreakTimeNow {
-            let maxIncrement = (settings.workInterval * 60) - remainingSeconds
+            let workInterval = settings?.workInterval ?? Defaults.workInterval
+            let maxIncrement = (workInterval * 60) - remainingSeconds
             let increment = min(maxIncrement, Int(Constants.allowedUserInactivityInterval))
             remainingSeconds += increment
         }
@@ -123,11 +129,10 @@ final class BreakTimer {
             remainingSeconds -= 1
 
             if remainingSeconds <= 0 {
-                if isBreakTimeNow {
-                    remainingSeconds = settings.workInterval * 60
-                } else {
-                    remainingSeconds = settings.breakInterval * 60
-                }
+                let interval = isBreakTimeNow
+                    ? (settings?.workInterval ?? Defaults.workInterval)
+                    : (settings?.breakInterval ?? Defaults.breakInterval)
+                remainingSeconds = interval * 60
                 isBreakTimeNow.toggle()
                 onBreakStateChanged(isBreakTimeNow)
                 onNotification()

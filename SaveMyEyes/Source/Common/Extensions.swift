@@ -33,7 +33,7 @@ extension UserDefaults {
 }
 
 extension Int {
-    /// Formats minutes as "mm:ss" duration string (e.g., "25:00", "04:59").
+    /// Formats seconds as "mm:ss" duration string (e.g., 1500 -> "25:00", 299 -> "04:59").
     var asDurationString: String {
         let minutes = self / 60
         let seconds = self % 60

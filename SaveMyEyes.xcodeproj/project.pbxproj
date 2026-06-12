@@ -12,7 +12,6 @@
 		B62BCDDC2689ED950009EC6A /* SaveMyEyesLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B62BCDDF2689EDC90009EC6A /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62BCDDE2689EDC90009EC6A /* ServiceManagement.framework */; };
 		B64FE6492404375B00A73816 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64FE6482404375B00A73816 /* AppNotification.swift */; };
-		B694AB04240DAB87009D3368 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B694AB03240DAB87009D3368 /* Observable.swift */; };
 		B694AB06240EB4BA009D3368 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B694AB05240EB4BA009D3368 /* MainViewModel.swift */; };
 		B69F2EBD24047AE1003F7BD0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B69F2EBF24047AE1003F7BD0 /* Localizable.strings */; };
 		B6AA8806268A393100431BAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6AA8805268A393100431BAC /* Main.storyboard */; };
@@ -59,7 +58,6 @@
 		B62BCDD92689ED530009EC6A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B62BCDDE2689EDC90009EC6A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		B64FE6482404375B00A73816 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
-		B694AB03240DAB87009D3368 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		B694AB05240EB4BA009D3368 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		B69F2EBE24047AE1003F7BD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B69F2EC024047AE5003F7BD0 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 				DEC3DFCD2FCB981600622120 /* Extensions.swift */,
 				DEA1B2C3D4E5F6A7B8C9D0E0 /* SystemIdle.swift */,
 				DEC3DFCE2FCB981600622120 /* Logger.swift */,
-				B694AB03240DAB87009D3368 /* Observable.swift */,
 				B6BFAD342406EF12008E51E2 /* Constants.swift */,
 				B64FE6482404375B00A73816 /* AppNotification.swift */,
 			);
@@ -378,7 +375,6 @@
 				DEC3DFCB2FCB97E600622120 /* BreakTimer.swift in Sources */,
 				DEC3DFCC2FCB97E600622120 /* SettingsStore.swift in Sources */,
 				B6FC9FAC2403F088003FFC58 /* MainView.swift in Sources */,
-				B694AB04240DAB87009D3368 /* Observable.swift in Sources */,
 				B6FC9FAA2403F088003FFC58 /* AppDelegate.swift in Sources */,
 				B64FE6492404375B00A73816 /* AppNotification.swift in Sources */,
 				B6BFAD352406EF12008E51E2 /* Constants.swift in Sources */,
