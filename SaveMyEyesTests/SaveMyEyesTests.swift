@@ -2,8 +2,8 @@
 //  SaveMyEyesTests.swift
 //  SaveMyEyesTests
 //
-//  Created by Maksym Omelchenko on 5/30/26.
-//  Copyright © 2026 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko on 2026-05-30.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import XCTest
@@ -60,10 +60,23 @@ final class SaveMyEyesTests: XCTestCase {
         XCTAssertEqual(0.asDurationString, "0:00")
     }
 
-    // MARK: - Helper Bundle ID
+    // MARK: - Localization
 
-    func testHelperBundleIDFormat() {
-        XCTAssertTrue(Constants.helperBundleID.contains("."))
-        XCTAssertFalse(Constants.helperBundleID.isEmpty)
+    func testAllLocalizationsHaveMatchingKeys() throws {
+        let localizations = ["de", "es", "fr", "it", "pl", "ro", "ru-RU", "uk"]
+        let englishURL = try XCTUnwrap(
+            Bundle.main.url(forResource: "Localizable", withExtension: "strings", subdirectory: nil, localization: "en")
+        )
+        let englishDict = try XCTUnwrap(NSDictionary(contentsOf: englishURL) as? [String: String])
+        let expectedKeys = Set(englishDict.keys)
+
+        for locale in localizations {
+            let url = try XCTUnwrap(
+                Bundle.main.url(forResource: "Localizable", withExtension: "strings", subdirectory: nil, localization: locale),
+                "Missing Localizable.strings for locale: \(locale)"
+            )
+            let dict = try XCTUnwrap(NSDictionary(contentsOf: url) as? [String: String])
+            XCTAssertEqual(Set(dict.keys), expectedKeys, "Localization keys mismatch for locale: \(locale)")
+        }
     }
 }

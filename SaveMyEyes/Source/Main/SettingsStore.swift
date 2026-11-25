@@ -2,8 +2,8 @@
 //  SettingsStore.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
@@ -48,7 +48,7 @@ final class SettingsStore {
 
     var onWorkIntervalChanged: ((Int) -> Void)?
     var onBreakIntervalChanged: ((Int) -> Void)?
-    var onLaunchAtLoginError: ((String) -> Void)?
+    var onLaunchAtLoginError: ((String?) -> Void)?
 
     init() {
         let defaults = UserDefaults.standard
@@ -60,6 +60,12 @@ final class SettingsStore {
 
         // Sync with the actual system state on every launch
         syncLaunchAtLoginFromSystem()
+    }
+
+    /// Updates the launch-at-login preference from user interaction and syncs with system registration.
+    func setLaunchAtLogin(_ enabled: Bool) {
+        launchAtLogin = enabled
+        syncLaunchAtLogin()
     }
 
     /// Reads the actual system registration state and updates the property accordingly.
@@ -99,15 +105,18 @@ final class SettingsStore {
 
         // Already in the desired state — nothing to do
         if launchAtLogin && currentStatus == .enabled {
+            onLaunchAtLoginError?(nil)
             return
         }
         if !launchAtLogin && currentStatus == .notRegistered {
+            onLaunchAtLoginError?(nil)
             return
         }
 
         // User wants to register but it requires approval
         if launchAtLogin && currentStatus == .requiresApproval {
-            onLaunchAtLoginError?("Open System Settings → General → Login Items to allow this app to launch at login.")
+            launchAtLogin = false
+            onLaunchAtLoginError?("Open System Settings → General → Login Items to allow this app to launch at login.".localized)
             return
         }
 
@@ -117,6 +126,7 @@ final class SettingsStore {
             } else {
                 try service.unregister()
             }
+            onLaunchAtLoginError?(nil)
         } catch {
             // Revert to match actual system state
             launchAtLogin = service.status == .enabled

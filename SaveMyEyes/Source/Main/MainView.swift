@@ -2,8 +2,8 @@
 //  MainView.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko on 02/24/20.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko on 2020-02-24.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import SwiftUI
@@ -29,15 +29,6 @@ struct MainView: View {
         .padding(14)
         .frame(width: 300)
         .animation(.spring(response: 0.35, dampingFraction: 0.85), value: viewModel.launchAtLoginError)
-        .onAppear {
-            if settings.shouldTimerRun { viewModel.startTimer() }
-        }
-        .onChange(of: settings.shouldTimerRun) { _, shouldRun in
-            if shouldRun { viewModel.startTimer() } else { viewModel.stopTimer() }
-        }
-        .onChange(of: settings.launchAtLogin) { _, _ in
-            viewModel.settings.syncLaunchAtLogin()
-        }
     }
 
     private func errorBanner(message: String) -> some View {
@@ -103,7 +94,7 @@ struct MainView: View {
                 }) {
                     Image(systemName: "arrow.triangle.2.circlepath")
                         .font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .frame(width: 24, height: 24)
                         .rotationEffect(.degrees(switchRotation))
                         .background(Circle().fill(.quaternary.opacity(0.6)))
@@ -180,14 +171,14 @@ struct MainView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 22)
 
-            Text(title.localized)
+            Text(title)
                 .font(.system(size: 13))
                 .foregroundStyle(.primary)
 
             Spacer()
 
             Stepper(value: value, in: range) {
-                Text("\(value.wrappedValue) \(unit.localized)")
+                Text("\(value.wrappedValue) \(unit)")
                     .font(.system(size: 13, weight: .medium, design: .monospaced))
                     .foregroundStyle(.primary)
                     .monospacedDigit()
@@ -212,7 +203,10 @@ struct MainView: View {
             settingsRow(
                 icon: "power",
                 title: "Launch at login".localized,
-                isOn: $settings.launchAtLogin
+                isOn: Binding(
+                    get: { settings.launchAtLogin },
+                    set: { settings.setLaunchAtLogin($0) }
+                )
             )
         }
         .padding(4)
@@ -233,13 +227,13 @@ struct MainView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 22)
 
-            Text(title.localized)
+            Text(title)
                 .font(.system(size: 13))
                 .foregroundStyle(.primary)
 
             Spacer()
 
-            Toggle(title.localized, isOn: isOn)
+            Toggle(title, isOn: isOn)
                 .labelsHidden()
                 .toggleStyle(.switch)
                 .controlSize(.small)

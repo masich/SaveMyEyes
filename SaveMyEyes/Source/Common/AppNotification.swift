@@ -2,8 +2,8 @@
 //  AppNotification.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko on 02/24/20.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko on 2020-02-24.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation

@@ -141,4 +141,15 @@ final class SettingsStoreTests: XCTestCase {
         store.isBreakTimeNow = true
         XCTAssertTrue(store.isBreakTimeNow)
     }
+
+    // MARK: - Timer run state callback
+
+    func testOnTimerRunStateChangedFiresWhenToggled() {
+        var states: [Bool] = []
+        store.onTimerRunStateChanged = { states.append($0) }
+
+        store.shouldTimerRun = true
+        store.shouldTimerRun = false
+        XCTAssertEqual(states, [true, false])
+    }
 }

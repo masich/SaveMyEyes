@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B62BCDCC2689ECB90009EC6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62BCDCB2689ECB90009EC6A /* AppDelegate.swift */; };
-		B62BCDDA2689ED530009EC6A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62BCDD92689ED530009EC6A /* main.swift */; };
-		B62BCDDC2689ED950009EC6A /* SaveMyEyesLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B62BCDDF2689EDC90009EC6A /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62BCDDE2689EDC90009EC6A /* ServiceManagement.framework */; };
 		B64FE6492404375B00A73816 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64FE6482404375B00A73816 /* AppNotification.swift */; };
 		B694AB06240EB4BA009D3368 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B694AB05240EB4BA009D3368 /* MainViewModel.swift */; };
@@ -37,25 +34,7 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		B62BCDDB2689ED850009EC6A /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/LoginItems;
-			dstSubfolderSpec = 1;
-			files = (
-				B62BCDDC2689ED950009EC6A /* SaveMyEyesLauncher.app in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveMyEyesLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B62BCDCB2689ECB90009EC6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B62BCDD42689ECBB0009EC6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B62BCDD52689ECBB0009EC6A /* SaveMyEyesLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SaveMyEyesLauncher.entitlements; sourceTree = "<group>"; };
-		B62BCDD92689ED530009EC6A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B62BCDDE2689EDC90009EC6A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		B64FE6482404375B00A73816 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		B694AB05240EB4BA009D3368 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -90,13 +69,6 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B62BCDC62689ECB90009EC6A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B6FC9FA32403F088003FFC58 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,17 +87,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B62BCDCA2689ECB90009EC6A /* SaveMyEyesLauncher */ = {
-			isa = PBXGroup;
-			children = (
-				B62BCDCB2689ECB90009EC6A /* AppDelegate.swift */,
-				B62BCDD42689ECBB0009EC6A /* Info.plist */,
-				B62BCDD52689ECBB0009EC6A /* SaveMyEyesLauncher.entitlements */,
-				B62BCDD92689ED530009EC6A /* main.swift */,
-			);
-			path = SaveMyEyesLauncher;
-			sourceTree = "<group>";
-		};
 		B62BCDDD2689EDC90009EC6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				B6FC9FA82403F088003FFC58 /* SaveMyEyes */,
-				B62BCDCA2689ECB90009EC6A /* SaveMyEyesLauncher */,
 				DEC3DFBB2FCB95AA00622120 /* SaveMyEyesTests */,
 				B6FC9FA72403F088003FFC58 /* Products */,
 				B62BCDDD2689EDC90009EC6A /* Frameworks */,
@@ -181,7 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				B6FC9FA62403F088003FFC58 /* SaveMyEyes.app */,
-				B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */,
 				DEC3DFBA2FCB95AA00622120 /* SaveMyEyesTests.xctest */,
 			);
 			name = Products;
@@ -221,23 +180,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B62BCDC82689ECB90009EC6A /* SaveMyEyesLauncher */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B62BCDD82689ECBB0009EC6A /* Build configuration list for PBXNativeTarget "SaveMyEyesLauncher" */;
-			buildPhases = (
-				B62BCDC52689ECB90009EC6A /* Sources */,
-				B62BCDC62689ECB90009EC6A /* Frameworks */,
-				B62BCDC72689ECB90009EC6A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SaveMyEyesLauncher;
-			productName = SaveMyEyesLauncher;
-			productReference = B62BCDC92689ECB90009EC6A /* SaveMyEyesLauncher.app */;
-			productType = "com.apple.product-type.application";
-		};
 		B6FC9FA52403F088003FFC58 /* SaveMyEyes */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6FC9FB92403F089003FFC58 /* Build configuration list for PBXNativeTarget "SaveMyEyes" */;
@@ -245,7 +187,6 @@
 				B6FC9FA22403F088003FFC58 /* Sources */,
 				B6FC9FA32403F088003FFC58 /* Frameworks */,
 				B6FC9FA42403F088003FFC58 /* Resources */,
-				B62BCDDB2689ED850009EC6A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -290,9 +231,6 @@
 				LastUpgradeCheck = 2650;
 				ORGANIZATIONNAME = "Max Omelchenko";
 				TargetAttributes = {
-					B62BCDC82689ECB90009EC6A = {
-						CreatedOnToolsVersion = 12.5.1;
-					};
 					B6FC9FA52403F088003FFC58 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -324,20 +262,12 @@
 			projectRoot = "";
 			targets = (
 				B6FC9FA52403F088003FFC58 /* SaveMyEyes */,
-				B62BCDC82689ECB90009EC6A /* SaveMyEyesLauncher */,
 				DEC3DFB92FCB95AA00622120 /* SaveMyEyesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B62BCDC72689ECB90009EC6A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B6FC9FA42403F088003FFC58 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -359,15 +289,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B62BCDC52689ECB90009EC6A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B62BCDDA2689ED530009EC6A /* main.swift in Sources */,
-				B62BCDCC2689ECB90009EC6A /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B6FC9FA22403F088003FFC58 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -422,58 +343,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B62BCDD62689ECBB0009EC6A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SaveMyEyesLauncher/SaveMyEyesLauncher.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
-				DEAD_CODE_STRIPPING = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = SaveMyEyesLauncher/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyesLauncher;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		B62BCDD72689ECBB0009EC6A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SaveMyEyesLauncher/SaveMyEyesLauncher.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
-				DEAD_CODE_STRIPPING = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = SaveMyEyesLauncher/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyesLauncher;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		B6FC9FB72403F089003FFC58 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -607,7 +476,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -619,7 +488,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.63;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -635,7 +504,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"SaveMyEyes/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -647,7 +516,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.63;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masich.SaveMyEyes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -710,15 +579,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B62BCDD82689ECBB0009EC6A /* Build configuration list for PBXNativeTarget "SaveMyEyesLauncher" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B62BCDD62689ECBB0009EC6A /* Debug */,
-				B62BCDD72689ECBB0009EC6A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		B6FC9FA12403F088003FFC58 /* Build configuration list for PBXProject "SaveMyEyes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -16,7 +16,7 @@ Features:
 * Automatically pauses and resumes timer depending on user activity.
 * Sends reminder notifications based on the time presets selected by the user.
 
-The app is built using ```SwiftUI``` and requires macOS 10.15 to run.
+The app is built using ```SwiftUI``` and requires macOS 14.0 (Sonoma) or later to run.
 
 ## Installation guide
 SaveMyEyes can be installed using `brew` or manually through `.dmg` image.

@@ -2,8 +2,8 @@
 //  BreakTimer.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
@@ -20,20 +20,26 @@ final class BreakTimer {
     private var isUserInactive = false
 
     private let tickInterval: TimeInterval
+    private let allowedUserInactivityInterval: TimeInterval
     private weak var settings: SettingsStore?
     private let onNotification: () -> Void
     private let onBreakStateChanged: (Bool) -> Void
+    private let userInactiveSecondsProvider: () -> Double?
 
     init(
         tickInterval: TimeInterval,
+        allowedUserInactivityInterval: TimeInterval = Constants.allowedUserInactivityInterval,
         settings: SettingsStore,
         onNotification: @escaping () -> Void,
-        onBreakStateChanged: @escaping (Bool) -> Void = { _ in }
+        onBreakStateChanged: @escaping (Bool) -> Void = { _ in },
+        userInactiveSecondsProvider: @escaping () -> Double? = { SystemIdle.userInactiveSeconds() }
     ) {
         self.tickInterval = tickInterval
+        self.allowedUserInactivityInterval = allowedUserInactivityInterval
         self.settings = settings
         self.onNotification = onNotification
         self.onBreakStateChanged = onBreakStateChanged
+        self.userInactiveSecondsProvider = userInactiveSecondsProvider
 
         // Restore persisted state or use defaults
         let wasBreak = UserDefaults.standard.bool(forKey: UserDefaultsKey.isBreakTimeNow)
@@ -73,7 +79,9 @@ final class BreakTimer {
 
     func resetToDefaults(workInterval: Int, breakInterval: Int) {
         isBreakTimeNow = false
+        isUserInactive = false
         remainingSeconds = workInterval * 60
+        onBreakStateChanged(false)
         persistState()
     }
 
@@ -112,14 +120,14 @@ final class BreakTimer {
     // MARK: - Private
 
     private func tick() {
-        let inactiveSeconds = SystemIdle.userInactiveSeconds() ?? 0
-        let isInactiveNow = inactiveSeconds >= Constants.allowedUserInactivityInterval
+        let inactiveSeconds = userInactiveSecondsProvider() ?? 0
+        let isInactiveNow = inactiveSeconds >= allowedUserInactivityInterval
 
         // If user just went idle, extend work time
         if !isUserInactive && isInactiveNow && !isBreakTimeNow {
             let workInterval = settings?.workInterval ?? Defaults.workInterval
             let maxIncrement = (workInterval * 60) - remainingSeconds
-            let increment = min(maxIncrement, Int(Constants.allowedUserInactivityInterval))
+            let increment = min(maxIncrement, Int(allowedUserInactivityInterval))
             remainingSeconds += increment
         }
         isUserInactive = isInactiveNow

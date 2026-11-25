@@ -2,8 +2,8 @@
 //  Logger.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import os.log

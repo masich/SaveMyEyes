@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko on 02/24/20.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko on 2020-02-24.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import Cocoa
@@ -48,6 +48,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
             allowedUserInactivityInterval: Constants.allowedUserInactivityInterval,
             terminateApp: { NSApp.terminate(nil) }
         )
+        if viewModel.settings.shouldTimerRun {
+            viewModel.startTimer()
+        }
     }
 
     // MARK: - Status Item
@@ -58,7 +61,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         statusItem.button?.action = #selector(togglePopover(_:))
         statusItem.button?.target = self
         // Update icon when timer state changes
-        viewModel.settings.onTimerRunStateChanged = { [weak self] _ in
+        viewModel.onTimerRunStateChanged = { [weak self] _ in
             self?.updateStatusIcon()
         }
         updateStatusIcon()
@@ -102,6 +105,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
     private func showPopover(_ sender: AnyObject?) {
         guard let button = statusItem.button else { return }
 
+        viewModel.settings.syncLaunchAtLoginFromSystem()
         createPopover()
 
         CATransaction.begin()

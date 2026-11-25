@@ -2,8 +2,8 @@
 //  SystemIdle.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
@@ -54,7 +54,10 @@ enum SystemIdle {
         }
 
         let key = "HIDIdleTime" as CFString
-        let value = CFDictionaryGetValue(dict, Unmanaged.passUnretained(key).toOpaque())
+        guard let value = CFDictionaryGetValue(dict, Unmanaged.passUnretained(key).toOpaque()) else {
+            Log.system.error("HIDIdleTime key missing from IOHIDSystem properties")
+            return nil
+        }
         let number = unsafeBitCast(value, to: CFNumber.self)
         var nanoseconds: Int64 = 0
 

@@ -11,6 +11,7 @@ final class BreakTimerTests: XCTestCase {
 
     var settings: SettingsStore!
     var notificationCount: Int!
+    var simulatedIdleSeconds: Double = 0
 
     override func setUp() {
         super.setUp()
@@ -23,6 +24,7 @@ final class BreakTimerTests: XCTestCase {
 
         settings = SettingsStore()
         notificationCount = 0
+        simulatedIdleSeconds = 0
     }
 
     override func tearDown() {
@@ -30,10 +32,22 @@ final class BreakTimerTests: XCTestCase {
         super.tearDown()
     }
 
-    private func makeTimer() -> BreakTimer {
-        BreakTimer(tickInterval: 1, settings: settings) { [weak self] in
-            self?.notificationCount += 1
-        }
+    private func makeTimer(
+        allowedInactivityInterval: TimeInterval = Constants.allowedUserInactivityInterval,
+        onBreakStateChanged: @escaping (Bool) -> Void = { _ in }
+    ) -> BreakTimer {
+        BreakTimer(
+            tickInterval: 1,
+            allowedUserInactivityInterval: allowedInactivityInterval,
+            settings: settings,
+            onNotification: { [weak self] in
+                self?.notificationCount += 1
+            },
+            onBreakStateChanged: onBreakStateChanged,
+            userInactiveSecondsProvider: { [weak self] in
+                self?.simulatedIdleSeconds
+            }
+        )
     }
 
     // MARK: - Initial state
@@ -159,5 +173,111 @@ final class BreakTimerTests: XCTestCase {
         timer.updateRemainingForWorkInterval(10)
         // remainingSeconds = 600, remainingMins should be 10
         XCTAssertEqual(timer.remainingMins, 10)
+    }
+
+    // MARK: - Manual toggle & reset
+
+    func testToggleBreakStateSwitchesBetweenWorkAndBreak() {
+        var reportedStates: [Bool] = []
+        let timer = makeTimer(onBreakStateChanged: { reportedStates.append($0) })
+        settings.workInterval = 20
+        settings.breakInterval = 5
+
+        timer.toggleBreakState()
+        XCTAssertTrue(timer.isBreakTimeNow)
+        XCTAssertEqual(timer.remainingSeconds, 5 * 60)
+        XCTAssertEqual(reportedStates, [true])
+
+        timer.toggleBreakState()
+        XCTAssertFalse(timer.isBreakTimeNow)
+        XCTAssertEqual(timer.remainingSeconds, 20 * 60)
+        XCTAssertEqual(reportedStates, [true, false])
+    }
+
+    func testResetToDefaultsResetsBreakStateAndRemainingTime() {
+        var reportedStates: [Bool] = []
+        let timer = makeTimer(onBreakStateChanged: { reportedStates.append($0) })
+        timer.toggleBreakState()
+        XCTAssertTrue(timer.isBreakTimeNow)
+
+        timer.resetToDefaults(workInterval: 25, breakInterval: 5)
+        XCTAssertFalse(timer.isBreakTimeNow)
+        XCTAssertEqual(timer.remainingSeconds, 25 * 60)
+        XCTAssertEqual(reportedStates.last, false)
+    }
+
+    // MARK: - Tick & idle detection
+
+    func testTickDecrementsRemainingSecondsWhenActive() {
+        let timer = makeTimer()
+        timer.updateRemainingForWorkInterval(1)
+        let before = timer.remainingSeconds
+
+        timer.simulateTick()
+        XCTAssertEqual(timer.remainingSeconds, before - 1)
+        XCTAssertEqual(notificationCount, 0)
+    }
+
+    func testTickTransitionsFromWorkToBreakAndBackWithNotifications() {
+        var reportedStates: [Bool] = []
+        let timer = makeTimer(onBreakStateChanged: { reportedStates.append($0) })
+        settings.workInterval = 1
+        settings.breakInterval = 1
+        timer.updateRemainingForWorkInterval(1)
+
+        // Drain all 60 seconds of work
+        for _ in 0..<60 {
+            timer.simulateTick()
+        }
+        XCTAssertTrue(timer.isBreakTimeNow)
+        XCTAssertEqual(timer.remainingSeconds, 60)
+        XCTAssertEqual(notificationCount, 1)
+        XCTAssertEqual(reportedStates, [true])
+
+        // Drain all 60 seconds of break
+        for _ in 0..<60 {
+            timer.simulateTick()
+        }
+        XCTAssertFalse(timer.isBreakTimeNow)
+        XCTAssertEqual(timer.remainingSeconds, 60)
+        XCTAssertEqual(notificationCount, 2)
+        XCTAssertEqual(reportedStates, [true, false])
+    }
+
+    func testTickPausesAndExtendsWorkTimeWhenUserBecomesInactive() {
+        let timer = makeTimer(allowedInactivityInterval: 10)
+        settings.workInterval = 5
+        timer.updateRemainingForWorkInterval(5)
+
+        // Tick for 20 active seconds
+        for _ in 0..<20 {
+            timer.simulateTick()
+        }
+        XCTAssertEqual(timer.remainingSeconds, 280)
+
+        // User goes idle (>= 10s): extends remaining by 10s (capped to workInterval * 60) and stops decrementing
+        simulatedIdleSeconds = 12
+        timer.simulateTick()
+        XCTAssertEqual(timer.remainingSeconds, 290)
+
+        // Subsequent idle ticks keep timer paused
+        timer.simulateTick()
+        XCTAssertEqual(timer.remainingSeconds, 290)
+
+        // User becomes active again
+        simulatedIdleSeconds = 0
+        timer.simulateTick()
+        XCTAssertEqual(timer.remainingSeconds, 289)
+    }
+
+    func testTickContinuesCountingDownDuringBreakEvenWhenInactive() {
+        let timer = makeTimer(allowedInactivityInterval: 10)
+        settings.breakInterval = 5
+        timer.toggleBreakState()
+        XCTAssertTrue(timer.isBreakTimeNow)
+
+        simulatedIdleSeconds = 60
+        timer.simulateTick()
+        XCTAssertEqual(timer.remainingSeconds, 299)
     }
 }

@@ -2,8 +2,8 @@
 //  Constants.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko on 02/26/20.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko on 2020-02-26.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
@@ -24,8 +24,7 @@ enum Constants {
     static let allowedUserInactivityMinutes = 5
     static let allowedUserInactivityInterval: TimeInterval = TimeInterval(allowedUserInactivityMinutes) * minute
 
-    // Bundle ID for helper app to automatically launch SaveMyEyes at startup
-    static let helperBundleID = "com.masich.SaveMyEyesLauncher"
+    // Bundle ID for main application
     static let mainBundleID = "com.masich.SaveMyEyes"
 }
 

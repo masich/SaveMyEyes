@@ -2,8 +2,8 @@
 //  MainViewModel.swift
 //  SaveMyEyes
 //
-//  Created by Max Omelchenko on 03/03/20.
-//  Copyright © 2020 Max Omelchenko. All rights reserved.
+//  Created by Maksym Omelchenko on 2020-03-03.
+//  SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
@@ -15,6 +15,7 @@ final class MainViewModel {
     private(set) var timer: BreakTimer!
 
     var launchAtLoginError: String?
+    var onTimerRunStateChanged: ((Bool) -> Void)?
 
     private let terminateApp: () -> Void
 
@@ -32,11 +33,21 @@ final class MainViewModel {
 
         timer = BreakTimer(
             tickInterval: timerInterval,
+            allowedUserInactivityInterval: allowedUserInactivityInterval,
             settings: settings,
             onNotification: { [weak self] in self?.sendNotification() },
             onBreakStateChanged: { [weak self] isBreak in self?.settings.isBreakTimeNow = isBreak }
         )
 
+        settings.onTimerRunStateChanged = { [weak self] shouldRun in
+            guard let self else { return }
+            if shouldRun {
+                self.timer.start()
+            } else {
+                self.timer.stop()
+            }
+            self.onTimerRunStateChanged?(shouldRun)
+        }
         settings.onWorkIntervalChanged = { [weak self] interval in
             self?.timer.updateRemainingForWorkInterval(interval)
         }

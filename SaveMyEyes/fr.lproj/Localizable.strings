@@ -2,16 +2,13 @@
  Localizable.strings
  SaveMyEyes
 
- Created by Max Omelchenko on 02/24/20.
- Copyright © 2020 Max Omelchenko. All rights reserved.
+ Created by Maksym Omelchenko on 2020-02-24.
+ SPDX-License-Identifier: Apache-2.0
  */
 
 // Status
 "On break" = "En pause";
 "Working" = "Concentration";
-
-// Timer
-"Run timer" = "Démarrer le minuteur";
 
 // Intervals
 "Work" = "Travail";
@@ -36,3 +33,6 @@
 // Manual switch
 "Switch to work" = "Passer au travail";
 "Switch to break" = "Passer à la pause";
+
+// Errors
+"Open System Settings → General → Login Items to allow this app to launch at login." = "Ouvrez Réglages Système → Général → Ouverture pour autoriser le lancement de cette app à la connexion.";
