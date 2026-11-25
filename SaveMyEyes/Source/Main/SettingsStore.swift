@@ -24,19 +24,26 @@ final class SettingsStore {
     var workInterval: Int {
         didSet {
             UserDefaults.standard.set(workInterval, forKey: UserDefaultsKey.workInterval)
-            if !isBreakTimeNow { onWorkIntervalChanged?(workInterval) }
+            if !isBreakTimeNow { onWorkIntervalChanged?(oldValue, workInterval) }
         }
     }
 
     var breakInterval: Int {
         didSet {
             UserDefaults.standard.set(breakInterval, forKey: UserDefaultsKey.breakInterval)
-            if isBreakTimeNow { onBreakIntervalChanged?(breakInterval) }
+            if isBreakTimeNow { onBreakIntervalChanged?(oldValue, breakInterval) }
         }
     }
 
     var isSoundEnabled: Bool {
         didSet { UserDefaults.standard.set(isSoundEnabled, forKey: UserDefaultsKey.isSoundEnabled) }
+    }
+
+    var showTimerInMenuBar: Bool {
+        didSet {
+            UserDefaults.standard.set(showTimerInMenuBar, forKey: UserDefaultsKey.showTimerInMenuBar)
+            onShowTimerInMenuBarChanged?(showTimerInMenuBar)
+        }
     }
 
     /// Launch-at-login state. The source of truth is SMAppService.mainApp.status.
@@ -46,8 +53,9 @@ final class SettingsStore {
         didSet { UserDefaults.standard.set(isBreakTimeNow, forKey: UserDefaultsKey.isBreakTimeNow) }
     }
 
-    var onWorkIntervalChanged: ((Int) -> Void)?
-    var onBreakIntervalChanged: ((Int) -> Void)?
+    var onWorkIntervalChanged: ((Int, Int) -> Void)?
+    var onBreakIntervalChanged: ((Int, Int) -> Void)?
+    var onShowTimerInMenuBarChanged: ((Bool) -> Void)?
     var onLaunchAtLoginError: ((String?) -> Void)?
 
     init() {
@@ -56,6 +64,7 @@ final class SettingsStore {
         workInterval = defaults.object(forKey: UserDefaultsKey.workInterval) as? Int ?? Defaults.workInterval
         breakInterval = defaults.object(forKey: UserDefaultsKey.breakInterval) as? Int ?? Defaults.breakInterval
         isSoundEnabled = defaults.object(forKey: UserDefaultsKey.isSoundEnabled) as? Bool ?? Defaults.isSoundEnabled
+        showTimerInMenuBar = defaults.object(forKey: UserDefaultsKey.showTimerInMenuBar) as? Bool ?? Defaults.showTimerInMenuBar
         isBreakTimeNow = defaults.bool(forKey: UserDefaultsKey.isBreakTimeNow)
 
         // Sync with the actual system state on every launch
@@ -90,10 +99,11 @@ final class SettingsStore {
 
     func resetToDefaults() {
         shouldTimerRun = Defaults.shouldTimerRun
+        isBreakTimeNow = false
         workInterval = Defaults.workInterval
         breakInterval = Defaults.breakInterval
         isSoundEnabled = Defaults.isSoundEnabled
-        isBreakTimeNow = false
+        showTimerInMenuBar = Defaults.showTimerInMenuBar
     }
 
     /// Syncs the system registration to match the user's desired state.

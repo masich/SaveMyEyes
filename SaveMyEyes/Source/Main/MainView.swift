@@ -6,20 +6,34 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
+import AppKit
 import SwiftUI
 
 struct MainView: View {
     var viewModel: MainViewModel
     @Bindable var settings: SettingsStore
 
+    private static let bannerTransition = AnyTransition.asymmetric(
+        insertion: .scale(scale: 0.8, anchor: .top).combined(with: .opacity).animation(.spring(response: 0.4, dampingFraction: 0.8)),
+        removal: .scale(scale: 0.8, anchor: .top).combined(with: .opacity).animation(.easeIn(duration: 0.15))
+    )
+
     var body: some View {
         VStack(spacing: 6) {
             if let error = viewModel.launchAtLoginError {
-                errorBanner(message: error)
-                    .transition(.asymmetric(
-                        insertion: .scale(scale: 0.8, anchor: .top).combined(with: .opacity).animation(.spring(response: 0.4, dampingFraction: 0.8)),
-                        removal: .scale(scale: 0.8, anchor: .top).combined(with: .opacity).animation(.easeIn(duration: 0.15))
-                    ))
+                warningBanner(
+                    message: error,
+                    onDismiss: { viewModel.launchAtLoginError = nil }
+                )
+                .transition(Self.bannerTransition)
+            }
+            if viewModel.isNotificationsDenied {
+                warningBanner(
+                    message: "Notifications are disabled. Enable them in System Settings to receive break reminders.".localized,
+                    actionTitle: "Open Settings".localized,
+                    onAction: openNotificationSettings
+                )
+                .transition(Self.bannerTransition)
             }
             statusCard
             intervalSection
@@ -29,28 +43,45 @@ struct MainView: View {
         .padding(14)
         .frame(width: 300)
         .animation(.spring(response: 0.35, dampingFraction: 0.85), value: viewModel.launchAtLoginError)
+        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: viewModel.isNotificationsDenied)
     }
 
-    private func errorBanner(message: String) -> some View {
-        HStack(spacing: 8) {
+    private func warningBanner(
+        message: String,
+        actionTitle: String? = nil,
+        onAction: (() -> Void)? = nil,
+        onDismiss: (() -> Void)? = nil
+    ) -> some View {
+        HStack(alignment: .top, spacing: 8) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .foregroundStyle(.orange)
                 .font(.system(size: 12))
+                .padding(.top, 1)
 
-            Text(message)
-                .font(.system(size: 11))
-                .foregroundStyle(.primary)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(message)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.primary)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
 
-            Spacer()
-
-            Button(action: { viewModel.launchAtLoginError = nil }) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.secondary)
+                if let actionTitle, let onAction {
+                    Button(actionTitle, action: onAction)
+                        .buttonStyle(.link)
+                        .font(.system(size: 11, weight: .medium))
+                }
             }
-            .buttonStyle(.plain)
+
+            Spacer(minLength: 4)
+
+            if let onDismiss {
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 8)
@@ -62,6 +93,20 @@ struct MainView: View {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .stroke(.orange.opacity(0.3), lineWidth: 0.5)
         )
+    }
+
+    private func openNotificationSettings() {
+        let candidates = [
+            "x-apple.systempreferences:com.apple.Notifications-Settings.extension",
+            "x-apple.systempreferences:com.apple.Notifications-Settings",
+            "x-apple.systempreferences:com.apple.preference.notifications"
+        ]
+        for candidate in candidates {
+            if let url = URL(string: candidate), NSWorkspace.shared.open(url) {
+                return
+            }
+        }
+        Log.notifications.error("Failed to open System Settings notifications pane")
     }
 
     // MARK: - Status Card
@@ -78,7 +123,7 @@ struct MainView: View {
 
                 Text(viewModel.remainingSeconds.asDurationString)
                     .font(.system(size: 32, weight: .bold, design: .monospaced))
-                    .foregroundStyle(viewModel.isBreakTimeNow ? .blue : .primary)
+                    .foregroundStyle(.primary)
                     .monospacedDigit()
             }
 
@@ -116,7 +161,8 @@ struct MainView: View {
 
                         Image(systemName: settings.shouldTimerRun ? "pause.fill" : "play.fill")
                             .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundStyle(settings.shouldTimerRun ? .white : .primary)
+                            .offset(x: settings.shouldTimerRun ? 0 : 1)
                             .scaleEffect(settings.shouldTimerRun ? 1.08 : 1.0)
                             .symbolEffect(.bounce.down, options: .speed(1.5), value: settings.shouldTimerRun)
                     }
@@ -201,6 +247,12 @@ struct MainView: View {
             )
 
             settingsRow(
+                icon: "timer",
+                title: "Show timer in menu bar".localized,
+                isOn: $settings.showTimerInMenuBar
+            )
+
+            settingsRow(
                 icon: "power",
                 title: "Launch at login".localized,
                 isOn: Binding(
@@ -250,6 +302,9 @@ struct MainView: View {
                 .buttonStyle(.plain)
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
+                .padding(.vertical, 4)
+                .padding(.horizontal, 6)
+                .contentShape(Rectangle())
 
             Spacer()
 
@@ -257,6 +312,9 @@ struct MainView: View {
                 .buttonStyle(.plain)
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
+                .padding(.vertical, 4)
+                .padding(.horizontal, 6)
+                .contentShape(Rectangle())
                 .keyboardShortcut("q", modifiers: .command)
         }
         .padding(.horizontal, 4)

@@ -16,19 +16,29 @@ struct AppNotification {
     private let title: String
     private let subtitle: String
     private let sound: UNNotificationSound?
+    private let categoryIdentifier: String
 
     struct Action {
         static let pause = "pause.action"
+        static let skip = "skip.action"
+        static let snooze = "snooze.action"
     }
 
     struct Category {
-        static let reminder = "sme.reminder"
+        static let breakReminder = "sme.break.reminder"
+        static let workReminder = "sme.work.reminder"
     }
 
-    init(title: String, subtitle: String, sound: UNNotificationSound? = defaultSound) {
+    init(
+        title: String,
+        subtitle: String,
+        sound: UNNotificationSound? = defaultSound,
+        categoryIdentifier: String = Category.breakReminder
+    ) {
         self.title = title
         self.subtitle = subtitle
         self.sound = sound
+        self.categoryIdentifier = categoryIdentifier
     }
 
     func content() -> UNMutableNotificationContent {
@@ -36,7 +46,7 @@ struct AppNotification {
         content.title = title
         content.subtitle = subtitle
         content.sound = sound
-        content.categoryIdentifier = Category.reminder
+        content.categoryIdentifier = categoryIdentifier
         return content
     }
 }
@@ -64,7 +74,13 @@ enum AppNotificationManager {
         }
     }
 
-    static func send(_ notification: AppNotification) {
+    static func getAuthorizationStatus(completion: @escaping @Sendable (UNAuthorizationStatus) -> Void) {
+        center.getNotificationSettings { settings in
+            completion(settings.authorizationStatus)
+        }
+    }
+
+    private static func send(_ notification: AppNotification) {
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
             content: notification.content(),
@@ -75,32 +91,45 @@ enum AppNotificationManager {
 
     static func sendSingle(_ notification: AppNotification) {
         center.removeAllDeliveredNotifications()
+        center.removeAllPendingNotificationRequests()
         send(notification)
     }
 
     static func removeAllNotifications() {
         center.removeAllDeliveredNotifications()
+        center.removeAllPendingNotificationRequests()
     }
 
     static func registerCategories() {
+        let snooze = UNNotificationAction(
+            identifier: AppNotification.Action.snooze,
+            title: "Snooze 5 min".localized,
+            options: []
+        )
+        let skip = UNNotificationAction(
+            identifier: AppNotification.Action.skip,
+            title: "Skip".localized,
+            options: []
+        )
         let pause = UNNotificationAction(
             identifier: AppNotification.Action.pause,
             title: "Pause".localized,
             options: []
         )
-        let category = UNNotificationCategory(
-            identifier: AppNotification.Category.reminder,
+        let breakCategory = UNNotificationCategory(
+            identifier: AppNotification.Category.breakReminder,
+            actions: [snooze, skip, pause],
+            intentIdentifiers: []
+        )
+        let workCategory = UNNotificationCategory(
+            identifier: AppNotification.Category.workReminder,
             actions: [pause],
             intentIdentifiers: []
         )
-        center.setNotificationCategories([category])
+        center.setNotificationCategories([breakCategory, workCategory])
     }
 
     static func registerDelegate(_ delegate: UNUserNotificationCenterDelegate) {
         center.delegate = delegate
-    }
-
-    static func removeDelegate() {
-        center.delegate = nil
     }
 }

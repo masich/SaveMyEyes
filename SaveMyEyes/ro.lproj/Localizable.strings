@@ -8,7 +8,7 @@
 
 // Status
 "On break" = "În pauză";
-"Working" = "Muncă";
+"Working" = "La muncă";
 
 // Intervals
 "Work" = "Muncă";
@@ -17,11 +17,13 @@
 
 // Settings
 "Sound" = "Sunet";
-"Launch at login" = "Deschide la\nautentificare";
+"Show timer in menu bar" = "Afișează cronometrul în bara de meniu";
+"Launch at login" = "Deschide la autentificare";
 
 // Actions
 "Reset" = "Resetează";
 "Quit" = "Ieșire";
+"Resume" = "Reia";
 
 // Notifications
 "It's time for a break" = "E timpul pentru o pauză";
@@ -29,6 +31,8 @@
 "Step away for %d min" = "Depărtează-te de la ecran %d min";
 "Let's continue to do amazing things!" = "Hai să continuăm să facem lucruri uimitoare!";
 "Pause" = "Pauză";
+"Snooze 5 min" = "Amână 5 min";
+"Skip" = "Omite";
 
 // Manual switch
 "Switch to work" = "Treci la muncă";
@@ -36,3 +40,5 @@
 
 // Errors
 "Open System Settings → General → Login Items to allow this app to launch at login." = "Deschide Configurări sistem → General → Articole de conectare pentru a permite deschiderea acestei aplicații la autentificare.";
+"Notifications are disabled. Enable them in System Settings to receive break reminders." = "Notificările sunt dezactivate. Activează-le în Configurări sistem pentru a primi mementouri de pauză.";
+"Open Settings" = "Deschide Configurări";

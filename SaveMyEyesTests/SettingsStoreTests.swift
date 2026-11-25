@@ -21,6 +21,7 @@ final class SettingsStoreTests: XCTestCase {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.workInterval)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.breakInterval)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.isSoundEnabled)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.showTimerInMenuBar)
         UserDefaults.standard.synchronize()
         store = SettingsStore()
     }
@@ -98,37 +99,39 @@ final class SettingsStoreTests: XCTestCase {
     // MARK: - Interval change callbacks
 
     func testWorkIntervalCallbackFiresWhenNotInBreak() {
-        var callbackValue: Int?
-        store.onWorkIntervalChanged = { callbackValue = $0 }
+        var callbackPair: (Int, Int)?
+        store.onWorkIntervalChanged = { callbackPair = ($0, $1) }
 
         store.workInterval = 30
-        XCTAssertEqual(callbackValue, 30)
+        XCTAssertEqual(callbackPair?.0, Defaults.workInterval)
+        XCTAssertEqual(callbackPair?.1, 30)
     }
 
     func testWorkIntervalCallbackDoesNotFireDuringBreak() {
         store.isBreakTimeNow = true
-        var callbackValue: Int?
-        store.onWorkIntervalChanged = { callbackValue = $0 }
+        var callbackPair: (Int, Int)?
+        store.onWorkIntervalChanged = { callbackPair = ($0, $1) }
 
         store.workInterval = 30
-        XCTAssertNil(callbackValue)
+        XCTAssertNil(callbackPair)
     }
 
     func testBreakIntervalCallbackFiresWhenInBreak() {
         store.isBreakTimeNow = true
-        var callbackValue: Int?
-        store.onBreakIntervalChanged = { callbackValue = $0 }
+        var callbackPair: (Int, Int)?
+        store.onBreakIntervalChanged = { callbackPair = ($0, $1) }
 
         store.breakInterval = 7
-        XCTAssertEqual(callbackValue, 7)
+        XCTAssertEqual(callbackPair?.0, Defaults.breakInterval)
+        XCTAssertEqual(callbackPair?.1, 7)
     }
 
     func testBreakIntervalCallbackDoesNotFireWhenNotInBreak() {
-        var callbackValue: Int?
-        store.onBreakIntervalChanged = { callbackValue = $0 }
+        var callbackPair: (Int, Int)?
+        store.onBreakIntervalChanged = { callbackPair = ($0, $1) }
 
         store.breakInterval = 7
-        XCTAssertNil(callbackValue)
+        XCTAssertNil(callbackPair)
     }
 
     // MARK: - isBreakTimeNow
@@ -151,5 +154,22 @@ final class SettingsStoreTests: XCTestCase {
         store.shouldTimerRun = true
         store.shouldTimerRun = false
         XCTAssertEqual(states, [true, false])
+    }
+
+    // MARK: - Menu bar timer
+
+    func testShowTimerInMenuBarDefaultsFalseAndPersists() {
+        XCTAssertFalse(store.showTimerInMenuBar)
+        store.showTimerInMenuBar = true
+        XCTAssertTrue(UserDefaults.standard.bool(forKey: UserDefaultsKey.showTimerInMenuBar))
+    }
+
+    func testShowTimerInMenuBarCallbackAndResetToDefaults() {
+        var values: [Bool] = []
+        store.onShowTimerInMenuBarChanged = { values.append($0) }
+        store.showTimerInMenuBar = true
+        store.resetToDefaults()
+        XCTAssertFalse(store.showTimerInMenuBar)
+        XCTAssertEqual(values, [true, false])
     }
 }

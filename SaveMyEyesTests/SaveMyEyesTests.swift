@@ -20,6 +20,7 @@ final class SaveMyEyesTests: XCTestCase {
             UserDefaultsKey.isSoundEnabled,
             UserDefaultsKey.remainingSeconds,
             UserDefaultsKey.isBreakTimeNow,
+            UserDefaultsKey.showTimerInMenuBar,
         ]
         let uniqueKeys = Set(keys)
         XCTAssertEqual(keys.count, uniqueKeys.count, "UserDefaults keys must be unique")
@@ -60,15 +61,34 @@ final class SaveMyEyesTests: XCTestCase {
         XCTAssertEqual(0.asDurationString, "0:00")
     }
 
+    func testPaddedDurationStringFormatsWithLeadingZeros() {
+        XCTAssertEqual(540.asPaddedDurationString, "09:00")
+        XCTAssertEqual(125.asPaddedDurationString, "02:05")
+        XCTAssertEqual(60.asPaddedDurationString, "01:00")
+        XCTAssertEqual(59.asPaddedDurationString, "00:59")
+        XCTAssertEqual(1500.asPaddedDurationString, "25:00")
+    }
+
     // MARK: - Localization
 
     func testAllLocalizationsHaveMatchingKeys() throws {
-        let localizations = ["de", "es", "fr", "it", "pl", "ro", "ru-RU", "uk"]
+        let localizations = ["en", "de", "es", "fr", "it", "pl", "ro", "uk"]
         let englishURL = try XCTUnwrap(
             Bundle.main.url(forResource: "Localizable", withExtension: "strings", subdirectory: nil, localization: "en")
         )
         let englishDict = try XCTUnwrap(NSDictionary(contentsOf: englishURL) as? [String: String])
         let expectedKeys = Set(englishDict.keys)
+        let requiredNewKeys = [
+            "Show timer in menu bar",
+            "Notifications are disabled. Enable them in System Settings to receive break reminders.",
+            "Open Settings",
+            "Snooze 5 min",
+            "Skip",
+            "Resume",
+        ]
+        for key in requiredNewKeys {
+            XCTAssertTrue(expectedKeys.contains(key), "Missing required key in English localization: \(key)")
+        }
 
         for locale in localizations {
             let url = try XCTUnwrap(
@@ -77,6 +97,18 @@ final class SaveMyEyesTests: XCTestCase {
             )
             let dict = try XCTUnwrap(NSDictionary(contentsOf: url) as? [String: String])
             XCTAssertEqual(Set(dict.keys), expectedKeys, "Localization keys mismatch for locale: \(locale)")
+
+            for (key, value) in dict {
+                XCTAssertFalse(
+                    value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                    "Empty translation for '\(key)' in locale: \(locale)"
+                )
+            }
+            let launchAtLogin = try XCTUnwrap(dict["Launch at login"])
+            XCTAssertFalse(
+                launchAtLogin.contains("\n"),
+                "'Launch at login' should not contain hard line break in locale: \(locale)"
+            )
         }
     }
 }

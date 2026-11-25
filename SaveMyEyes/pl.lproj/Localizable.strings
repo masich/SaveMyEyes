@@ -17,18 +17,22 @@
 
 // Settings
 "Sound" = "Dźwięk";
-"Launch at login" = "Uruchamiaj przy\nlogowaniu";
+"Show timer in menu bar" = "Pokaż timer na pasku menu";
+"Launch at login" = "Uruchamiaj przy logowaniu";
 
 // Actions
 "Reset" = "Resetuj";
 "Quit" = "Zakończ";
+"Resume" = "Wznów";
 
 // Notifications
 "It's time for a break" = "Czas na przerwę";
 "It's time to work" = "Czas wrócić do pracy";
 "Step away for %d min" = "Odpocznij od komputera przez %d min";
-"Let's continue to do amazing things!" = "Kontynuujmy wspaniałe rzeczy!";
+"Let's continue to do amazing things!" = "Działajmy dalej!";
 "Pause" = "Pauza";
+"Snooze 5 min" = "Odłóż o 5 min";
+"Skip" = "Pomiń";
 
 // Manual switch
 "Switch to work" = "Przejdź do pracy";
@@ -36,3 +40,5 @@
 
 // Errors
 "Open System Settings → General → Login Items to allow this app to launch at login." = "Otwórz Ustawienia systemowe → Ogólne → Elementy logowania, aby zezwolić tej aplikacji na uruchamianie przy logowaniu.";
+"Notifications are disabled. Enable them in System Settings to receive break reminders." = "Powiadomienia są wyłączone. Włącz je w Ustawieniach systemowych, aby otrzymywać przypomnienia o przerwach.";
+"Open Settings" = "Otwórz Ustawienia";

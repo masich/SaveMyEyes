@@ -17,18 +17,22 @@
 
 // Settings
 "Sound" = "Звук";
-"Launch at login" = "Відкривати під час\nзапуску системи";
+"Show timer in menu bar" = "Показувати таймер у смузі меню";
+"Launch at login" = "Відкривати під час входу";
 
 // Actions
 "Reset" = "Скинути";
 "Quit" = "Вихід";
+"Resume" = "Продовжити";
 
 // Notifications
 "It's time for a break" = "Час зробити перерву";
 "It's time to work" = "Час повертатися до роботи";
-"Step away for %d min" = "Відпочинь від комп'ютера %d хв.";
-"Let's continue to do amazing things!" = "Ну що, продовжуємо робити круті речі!";
+"Step away for %d min" = "Відпочиньте від компʼютера %d хв";
+"Let's continue to do amazing things!" = "Продовжуймо робити чудові речі!";
 "Pause" = "Пауза";
+"Snooze 5 min" = "Відкласти на 5 хв";
+"Skip" = "Пропустити";
 
 // Manual switch
 "Switch to work" = "Перейти до роботи";
@@ -36,3 +40,5 @@
 
 // Errors
 "Open System Settings → General → Login Items to allow this app to launch at login." = "Відкрийте Системні параметри → Загальні → Обʼєкти входу, щоб дозволити запуск цієї програми під час входу.";
+"Notifications are disabled. Enable them in System Settings to receive break reminders." = "Сповіщення вимкнено. Увімкніть їх у Системних параметрах, щоб отримувати нагадування про перерви.";
+"Open Settings" = "Відкрити параметри";

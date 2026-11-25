@@ -42,7 +42,6 @@
 		B69F2EC024047AE5003F7BD0 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B6AA8805268A393100431BAC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B6BFAD342406EF12008E51E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		B6FC6A72244B944C004C5B25 /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		D0E1F2A3B4C5D6E7F8A9B0C1 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D0E1F2A3B4C5D6E7F8A9B0C2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D0E1F2A3B4C5D6E7F8A9B0C3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -248,7 +247,6 @@
 				en,
 				Base,
 				uk,
-				"ru-RU",
 				pl,
 				fr,
 				de,
@@ -329,7 +327,6 @@
 			children = (
 				B69F2EBE24047AE1003F7BD0 /* en */,
 				B69F2EC024047AE5003F7BD0 /* uk */,
-				B6FC6A72244B944C004C5B25 /* ru-RU */,
 				D0E1F2A3B4C5D6E7F8A9B0C1 /* pl */,
 				D0E1F2A3B4C5D6E7F8A9B0C2 /* fr */,
 				D0E1F2A3B4C5D6E7F8A9B0C3 /* de */,

@@ -17,11 +17,13 @@
 
 // Settings
 "Sound" = "Sound";
+"Show timer in menu bar" = "Show timer in menu bar";
 "Launch at login" = "Launch at login";
 
 // Actions
 "Reset" = "Reset";
 "Quit" = "Quit";
+"Resume" = "Resume";
 
 // Notifications
 "It's time for a break" = "It's time for a break";
@@ -29,6 +31,8 @@
 "Step away for %d min" = "Step away for %d min";
 "Let's continue to do amazing things!" = "Let's continue to do amazing things!";
 "Pause" = "Pause";
+"Snooze 5 min" = "Snooze 5 min";
+"Skip" = "Skip";
 
 // Manual switch
 "Switch to work" = "Switch to work";
@@ -36,3 +40,5 @@
 
 // Errors
 "Open System Settings → General → Login Items to allow this app to launch at login." = "Open System Settings → General → Login Items to allow this app to launch at login.";
+"Notifications are disabled. Enable them in System Settings to receive break reminders." = "Notifications are disabled. Enable them in System Settings to receive break reminders.";
+"Open Settings" = "Open Settings";

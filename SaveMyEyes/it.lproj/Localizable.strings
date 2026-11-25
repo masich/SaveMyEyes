@@ -8,7 +8,7 @@
 
 // Status
 "On break" = "In pausa";
-"Working" = "Lavoro";
+"Working" = "Al lavoro";
 
 // Intervals
 "Work" = "Lavoro";
@@ -17,11 +17,13 @@
 
 // Settings
 "Sound" = "Suono";
+"Show timer in menu bar" = "Mostra timer nella barra dei menu";
 "Launch at login" = "Avvia all'accesso";
 
 // Actions
 "Reset" = "Ripristina";
 "Quit" = "Esci";
+"Resume" = "Riprendi";
 
 // Notifications
 "It's time for a break" = "È ora di una pausa";
@@ -29,6 +31,8 @@
 "Step away for %d min" = "Allontanati dallo schermo per %d min";
 "Let's continue to do amazing things!" = "Continuiamo a fare cose straordinarie!";
 "Pause" = "Pausa";
+"Snooze 5 min" = "Posticipa 5 min";
+"Skip" = "Salta";
 
 // Manual switch
 "Switch to work" = "Passa al lavoro";
@@ -36,3 +40,5 @@
 
 // Errors
 "Open System Settings → General → Login Items to allow this app to launch at login." = "Apri Impostazioni di Sistema → Generali → Elementi login per consentire l'avvio di questa app all'accesso.";
+"Notifications are disabled. Enable them in System Settings to receive break reminders." = "Le notifiche sono disattivate. Abilitale in Impostazioni di Sistema per ricevere i promemoria di pausa.";
+"Open Settings" = "Apri Impostazioni";
