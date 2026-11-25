@@ -13,7 +13,6 @@ enum Defaults {
     static let workInterval = 25 // minutes
     static let breakInterval = 5 // minutes
     static let isSoundEnabled = true
-    static let showTimerInMenuBar = false
     static let snoozeMinutes = 5
 }
 
@@ -38,5 +37,4 @@ enum UserDefaultsKey {
     static let isSoundEnabled = "IsSoundEnabled"
     static let remainingSeconds = "RemainingSeconds"
     static let isBreakTimeNow = "IsBreakTimeNow"
-    static let showTimerInMenuBar = "ShowTimerInMenuBar"
 }

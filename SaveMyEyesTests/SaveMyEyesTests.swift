@@ -20,7 +20,6 @@ final class SaveMyEyesTests: XCTestCase {
             UserDefaultsKey.isSoundEnabled,
             UserDefaultsKey.remainingSeconds,
             UserDefaultsKey.isBreakTimeNow,
-            UserDefaultsKey.showTimerInMenuBar,
         ]
         let uniqueKeys = Set(keys)
         XCTAssertEqual(keys.count, uniqueKeys.count, "UserDefaults keys must be unique")
@@ -79,7 +78,6 @@ final class SaveMyEyesTests: XCTestCase {
         let englishDict = try XCTUnwrap(NSDictionary(contentsOf: englishURL) as? [String: String])
         let expectedKeys = Set(englishDict.keys)
         let requiredNewKeys = [
-            "Show timer in menu bar",
             "Notifications are disabled. Enable them in System Settings to receive break reminders.",
             "Open Settings",
             "Snooze 5 min",
@@ -110,5 +108,18 @@ final class SaveMyEyesTests: XCTestCase {
                 "'Launch at login' should not contain hard line break in locale: \(locale)"
             )
         }
+    }
+
+    // MARK: - App Delegate & Status Item
+
+    func testAppDelegateStatusItemProperties() {
+        guard let delegate = NSApp.delegate as? AppDelegate,
+              let statusItem = delegate.statusItem else {
+            return
+        }
+
+        XCTAssertEqual(statusItem.length, NSStatusItem.squareLength)
+        XCTAssertEqual(statusItem.button?.imagePosition, .imageOnly)
+        XCTAssertNotNil(statusItem.button?.image)
     }
 }

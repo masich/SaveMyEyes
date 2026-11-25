@@ -17,7 +17,6 @@
 
 // Settings
 "Sound" = "Son";
-"Show timer in menu bar" = "Afficher le minuteur dans la barre des menus";
 "Launch at login" = "Lancer à la connexion";
 
 // Actions

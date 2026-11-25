@@ -17,7 +17,6 @@
 
 // Settings
 "Sound" = "Звук";
-"Show timer in menu bar" = "Показувати таймер у смузі меню";
 "Launch at login" = "Відкривати під час входу";
 
 // Actions

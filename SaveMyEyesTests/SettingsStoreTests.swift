@@ -21,7 +21,6 @@ final class SettingsStoreTests: XCTestCase {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.workInterval)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.breakInterval)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.isSoundEnabled)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.showTimerInMenuBar)
         UserDefaults.standard.synchronize()
         store = SettingsStore()
     }
@@ -154,22 +153,5 @@ final class SettingsStoreTests: XCTestCase {
         store.shouldTimerRun = true
         store.shouldTimerRun = false
         XCTAssertEqual(states, [true, false])
-    }
-
-    // MARK: - Menu bar timer
-
-    func testShowTimerInMenuBarDefaultsFalseAndPersists() {
-        XCTAssertFalse(store.showTimerInMenuBar)
-        store.showTimerInMenuBar = true
-        XCTAssertTrue(UserDefaults.standard.bool(forKey: UserDefaultsKey.showTimerInMenuBar))
-    }
-
-    func testShowTimerInMenuBarCallbackAndResetToDefaults() {
-        var values: [Bool] = []
-        store.onShowTimerInMenuBarChanged = { values.append($0) }
-        store.showTimerInMenuBar = true
-        store.resetToDefaults()
-        XCTAssertFalse(store.showTimerInMenuBar)
-        XCTAssertEqual(values, [true, false])
     }
 }

@@ -17,7 +17,6 @@
 
 // Settings
 "Sound" = "Ton";
-"Show timer in menu bar" = "Timer in Menüleiste anzeigen";
 "Launch at login" = "Beim Anmelden starten";
 
 // Actions

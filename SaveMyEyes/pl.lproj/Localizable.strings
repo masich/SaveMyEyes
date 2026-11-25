@@ -17,7 +17,6 @@
 
 // Settings
 "Sound" = "Dźwięk";
-"Show timer in menu bar" = "Pokaż timer na pasku menu";
 "Launch at login" = "Uruchamiaj przy logowaniu";
 
 // Actions

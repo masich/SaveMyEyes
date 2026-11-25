@@ -247,12 +247,6 @@ struct MainView: View {
             )
 
             settingsRow(
-                icon: "timer",
-                title: "Show timer in menu bar".localized,
-                isOn: $settings.showTimerInMenuBar
-            )
-
-            settingsRow(
                 icon: "power",
                 title: "Launch at login".localized,
                 isOn: Binding(

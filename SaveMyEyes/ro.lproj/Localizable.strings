@@ -17,7 +17,6 @@
 
 // Settings
 "Sound" = "Sunet";
-"Show timer in menu bar" = "Afișează cronometrul în bara de meniu";
 "Launch at login" = "Deschide la autentificare";
 
 // Actions

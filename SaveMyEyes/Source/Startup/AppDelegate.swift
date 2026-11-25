@@ -16,14 +16,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
     var statusItem: NSStatusItem!
     var viewModel: MainViewModel!
-    var popover: NSPopover!
+    var popover: NSPopover?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupViewModel()
         setupNotifications()
+        createPopover()
         setupStatusItem()
         setupWakeObserver()
-        createPopover()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -36,7 +36,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         AppNotificationManager.registerCategories()
         AppNotificationManager.registerDelegate(self)
         AppNotificationManager.requestAuthorization { [weak self] success, error in
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
                 if let error {
                     Log.notifications.error("Authorization error: \(error.localizedDescription)")
                 } else if !success {
@@ -77,7 +77,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
     // MARK: - Status Item
 
     private func setupStatusItem() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = NSImage(named: "StatusBarButtonImage")
         statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
         statusItem.button?.action = #selector(handleStatusItemClick(_:))
@@ -86,43 +86,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         viewModel.onTimerRunStateChanged = { [weak self] _ in
             self?.updateStatusButton()
         }
-        viewModel.onRemainingSecondsChanged = { [weak self] _ in
-            self?.updateStatusButton()
-        }
-        viewModel.onShowTimerInMenuBarChanged = { [weak self] _ in
-            self?.updateStatusButton()
-        }
         updateStatusButton()
     }
 
-    /// Updates the status bar icon opacity and optional monospaced countdown title.
+    /// Updates the status bar icon opacity based on timer run state.
     private func updateStatusButton() {
         guard let button = statusItem.button else { return }
         button.contentTintColor = nil
         button.alphaValue = viewModel.settings.shouldTimerRun ? 1.0 : 0.35
-
-        if viewModel.settings.showTimerInMenuBar {
-            let font = NSFont.monospacedDigitSystemFont(
-                ofSize: NSFont.menuBarFont(ofSize: 0).pointSize,
-                weight: .regular
-            )
-            button.imagePosition = .imageLeading
-            button.attributedTitle = NSAttributedString(
-                string: " \(viewModel.remainingSeconds.asPaddedDurationString)",
-                attributes: [.font: font]
-            )
-        } else {
-            button.imagePosition = .imageOnly
-            button.attributedTitle = NSAttributedString()
-            button.title = ""
-        }
+        button.imagePosition = .imageOnly
     }
 
     @objc private func handleStatusItemClick(_ sender: AnyObject?) {
         let event = NSApp.currentEvent
         let isRightClick = event?.type == .rightMouseUp || event?.modifierFlags.contains(.control) == true
         if isRightClick {
-            if popover.isShown {
+            if popover?.isShown == true {
                 closePopover(sender)
             }
             showContextMenu()
@@ -209,6 +188,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
     // MARK: - Popover Toggle
 
     @objc private func togglePopover(_ sender: AnyObject?) {
+        guard let popover = popover else { return }
         if popover.isShown {
             closePopover(sender)
         } else {
@@ -216,8 +196,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         }
     }
 
-    private func showPopover(_ sender: AnyObject?) {
-        guard let button = statusItem.button else { return }
+    func showPopover(_ sender: AnyObject?) {
+        guard let popover = popover, let button = statusItem.button else { return }
 
         viewModel.settings.syncLaunchAtLoginFromSystem()
         viewModel.refreshNotificationAuthorizationStatus()
@@ -230,10 +210,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         popover.contentViewController?.view.window?.makeKey()
     }
 
-    private func closePopover(_ sender: AnyObject?) {
+    func closePopover(_ sender: AnyObject?) {
         CATransaction.begin()
         CATransaction.setAnimationDuration(0)
-        popover.performClose(sender)
+        popover?.performClose(sender)
         CATransaction.commit()
     }
 

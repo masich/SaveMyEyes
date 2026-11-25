@@ -19,7 +19,6 @@ final class MainViewModel {
     var isNotificationsDenied = false
     var onTimerRunStateChanged: ((Bool) -> Void)?
     var onRemainingSecondsChanged: ((Int) -> Void)?
-    var onShowTimerInMenuBarChanged: ((Bool) -> Void)?
 
     private let terminateApp: () -> Void
 
@@ -60,9 +59,6 @@ final class MainViewModel {
         }
         settings.onBreakIntervalChanged = { [weak self] oldInterval, newInterval in
             self?.timer.updateBreakInterval(from: oldInterval, to: newInterval)
-        }
-        settings.onShowTimerInMenuBarChanged = { [weak self] show in
-            self?.onShowTimerInMenuBarChanged?(show)
         }
         settings.onLaunchAtLoginError = { [weak self] message in
             self?.launchAtLoginError = message

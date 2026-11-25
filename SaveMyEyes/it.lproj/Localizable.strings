@@ -17,7 +17,6 @@
 
 // Settings
 "Sound" = "Suono";
-"Show timer in menu bar" = "Mostra timer nella barra dei menu";
 "Launch at login" = "Avvia all'accesso";
 
 // Actions

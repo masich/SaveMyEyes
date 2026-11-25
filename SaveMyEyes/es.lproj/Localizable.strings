@@ -17,7 +17,6 @@
 
 // Settings
 "Sound" = "Sonido";
-"Show timer in menu bar" = "Mostrar temporizador en la barra de menús";
 "Launch at login" = "Abrir al iniciar sesión";
 
 // Actions
